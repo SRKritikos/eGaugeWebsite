@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+    <ui:composition template="resources/templates/common.xhtml">
+        <ui:define name="maincontent">
+            <div id="graph-wrapper">
+                <div id="graph-holder" border="2px" style="border-color: blue">
+                    <p>Hello From graph div</p>
+                    <svg></svg>                       
+                </div>
+            </div>
+            <div id="date-wrapper">
+                    <h:form id="formDeviceData">
+                        <div class="input-group date" id="startDate">
+                            <input type="text" class="form-control" value="#{devicedatabean.startDate}"/>
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                        <div class="input-group date" id="endDate">
+                            <input type="text" class="form-control" value="#{devicedatabean.endDate}"/>
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                        <h:commandButton id="btnDeviceData" value="Submit"> 
+                            <f:ajax execute="@form" render="@form" onevent="buildGraph(#{devicedatabean.submitRequest()})"/>
+                        </h:commandButton>
+                    </h:form>
+            </div>
+        </ui:define>            
+    </ui:composition>
+</html>
+

@@ -1,0 +1,16 @@
+F:\School\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\dao\UsersDAO.java
+F:\School\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\entities\Userroles_Entity.java
+F:\School\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\dao\exceptions\RollbackFailureException.java
+F:\School\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\entities\Users_Entity.java
+F:\School\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\DeviceDataClient.java
+F:\School\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\dao\exceptions\PreexistingEntityException.java
+F:\School\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\NavigationBean.java
+F:\School\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\UserController.java
+F:\School\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\dao\exceptions\NonexistentEntityException.java
+F:\School\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\utils\DatabaseUtils.java
+F:\School\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\dao\UserrolesDAO.java
+F:\School\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\SignUpBean.java
+F:\School\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\DeviceDataRequestBean.java
+F:\School\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\utils\UserRole.java
+F:\School\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\utils\AuthenticationUtils.java
+F:\School\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\dao\exceptions\IllegalOrphanException.java

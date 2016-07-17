@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+File defines the navigation bar on the top of the website.
+-->
+<!DOCTYPE html>
+<html 
+   xmlns="http://www.w3.org/1999/xhtml" 
+   xmlns:h="http://xmlns.jcp.org/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"   
+   xmlns:f="http://xmlns.jcp.org/jsf/core">
+<body>
+   <ui:composition> 
+        <div id="nav-bar">
+            <nav class="navbar navbar-default">
+              <div class="container-fluid">
+                <div id="nav-wrapper"> 
+                    <h:form>
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <h:commandLink action="#{navigationbean.directToPage()}">
+                                    Home
+                                    <f:param name="pageName" value="index"/>
+                                </h:commandLink>
+                            </li>
+                           <li> 
+                                <h:commandLink action="#{navigationbean.directToPage()}">
+                                    Home
+                                    <f:param name="pageName" value="index"/>
+                                </h:commandLink>
+                           </li>
+                        </ul>
+                    </h:form>
+                </div> 
+              </div>
+                <div id="login-wrapper">
+                    <h:form>
+                        <label>E-mail</label> <h:inputText id="txtEmail"/>
+                        <label>Password</label><h:inputSecret id="txtPassword"/>
+                        <h:commandButton value="submit" action="profile"/>
+                    </h:form>
+                </div>
+                <div id="signupbtn-wrapper">
+                    <h:form id="nav-formSignUp">
+                        <h:commandButton class="btn btn-primary btn-sm" id="btnSignUp" 
+                                         action="#{navigationbean.directToPage()}" value="Sing Up">
+                            <f:param name="pageName" value="signup"/>
+                        </h:commandButton>      
+                    </h:form>
+                </div>  
+            </nav>
+        </div>
+          
+   </ui:composition>	
+</body>
+</html>
