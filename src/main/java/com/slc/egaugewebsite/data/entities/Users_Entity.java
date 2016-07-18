@@ -19,7 +19,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -28,12 +27,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "users")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Users_Entity.findAll", query = "SELECT u FROM Users_Entity u"),
     @NamedQuery(name = "Users_Entity.findByUserId", query = "SELECT u FROM Users_Entity u WHERE u.userId = :userId"),
     @NamedQuery(name = "Users_Entity.findByEmail", query = "SELECT u FROM Users_Entity u WHERE u.email = :email"),
-    @NamedQuery(name = "Users_Entity.findByPrefferedCampus", query = "SELECT u FROM Users_Entity u WHERE u.prefferedCampus = :prefferedCampus")})
+    @NamedQuery(name = "Users_Entity.findByPreferredCampus", query = "SELECT u FROM Users_Entity u WHERE u.preferredCampus = :preferredCampus")})
 public class Users_Entity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,8 +48,8 @@ public class Users_Entity implements Serializable {
     @Column(name = "email")
     private String email;
     @Size(max = 10)
-    @Column(name = "prefferedCampus")
-    private String prefferedCampus;
+    @Column(name = "preferredCampus")
+    private String preferredCampus;
     @Basic(optional = false)
     @NotNull
     @Lob
@@ -96,12 +94,12 @@ public class Users_Entity implements Serializable {
         this.email = email;
     }
 
-    public String getPrefferedCampus() {
-        return prefferedCampus;
+    public String getPreferredCampus() {
+        return preferredCampus;
     }
 
-    public void setPrefferedCampus(String prefferedCampus) {
-        this.prefferedCampus = prefferedCampus;
+    public void setPreferredCampus(String preferredCampus) {
+        this.preferredCampus = preferredCampus;
     }
 
     public byte[] getPassword() {
@@ -150,7 +148,7 @@ public class Users_Entity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.slc.egaugewebsite.data.entites.Users_Entity[ userId=" + userId + " ]";
+        return "com.slc.egaugewebsite.data.entities.Users_Entity[ userId=" + userId + " ]";
     }
 
 }

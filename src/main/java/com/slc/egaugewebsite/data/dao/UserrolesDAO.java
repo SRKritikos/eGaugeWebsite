@@ -15,25 +15,24 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import com.slc.egaugewebsite.data.entities.Users_Entity;
+import com.slc.egaugewebsite.utils.DatabaseUtils;
 import com.slc.egaugewebsite.utils.UserRole;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.transaction.UserTransaction;
 
 /**
  *
  * @author Steven Kritikos
- * email: stevenrktitikos@outlook.com
  */
 public class UserrolesDAO implements Serializable {
 
-    public UserrolesDAO(UserTransaction utx, EntityManagerFactory emf) {
-        this.utx = utx;
-        this.emf = emf;
+    public UserrolesDAO(EntityManagerFactory emf) {
+        this.emf = emf; 
     }
-    private UserTransaction utx = null;
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
@@ -41,6 +40,7 @@ public class UserrolesDAO implements Serializable {
     }
 
     public void create(Userroles_Entity userroles_Entity) throws RollbackFailureException, Exception {
+         EntityTransaction utx = this.getEntityManager().getTransaction();
         if (userroles_Entity.getUsersEntityList() == null) {
             userroles_Entity.setUsersEntityList(new ArrayList<Users_Entity>());
         }
@@ -80,6 +80,7 @@ public class UserrolesDAO implements Serializable {
     }
 
     public void edit(Userroles_Entity userroles_Entity) throws NonexistentEntityException, RollbackFailureException, Exception {
+        EntityTransaction utx = this.getEntityManager().getTransaction();
         EntityManager em = null;
         try {
             utx.begin();
@@ -135,6 +136,7 @@ public class UserrolesDAO implements Serializable {
     }
 
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
+        EntityTransaction utx = this.getEntityManager().getTransaction();
         EntityManager em = null;
         try {
             utx.begin();
@@ -217,7 +219,7 @@ public class UserrolesDAO implements Serializable {
         Userroles_Entity rtVl = null;
         try {
             EntityManager em = getEntityManager();
-            rtVl = em.createNamedQuery("UserRole_Entity.findByRoleName", Userroles_Entity.class)
+            rtVl = em.createNamedQuery("Userroles_Entity.findByRoleName", Userroles_Entity.class)
                     .setParameter("roleName", userRole.name())
                     .getSingleResult();
         } catch (Exception e) {

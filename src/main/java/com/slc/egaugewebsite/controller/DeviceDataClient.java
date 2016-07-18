@@ -39,7 +39,6 @@ public class DeviceDataClient {
     }
 
     public String getData(String startDate, String endDate) throws ClientErrorException {
-        System.out.println("IN THE GET DATA FUNCTION");
         WebTarget resource = webTarget;
         if (endDate != null) {
             resource = resource.queryParam("endDate", endDate);

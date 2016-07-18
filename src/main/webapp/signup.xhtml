@@ -7,19 +7,32 @@
     >
     <ui:composition template="resources/templates/common.xhtml">
         <ui:define name="maincontent">
-            <div id="signup-wrapper" >
-                <h:form id="formSignUp" >
-                    <label for="inputEmail">E-Mail</label>
-                    <h:inputText id="inputEmail" value="#{signupbean.email}"/>
-                    
-                    <label for="inputPassword">Password</label>
-                    <h:inputSecret id="inputPassword" value="#{signupbean.password}"/>
-                    
-                    <label for="inputPrefCampus">Preferred Campus</label>
-                    <h:inputText id="inputPrefCampus" value="#{signupbean.preferredCampus}"/>
-                    
-                    <h:commandButton id="btnSignUp" value="Submit" action="#{signupbean.signUpUser()}"/>
-                </h:form>
+            <div class="container-fluid">
+                <div class="row">
+                <div id="fillergrip" class="col-md-3 col-xs-0"></div>
+                <div class="col-md-6 col-xs-12" id="signup-wrapper" >
+                    <h:form id="formSignUp" >
+                        <div class="form-group">
+                            <label for="inputEmail">E-Mail</label>
+                            <h:inputText class="form-control" id="signUpEmail" value="#{signupbean.email}"/>
+                        </div>
+                        <div class="form-group">
+                        <label for="inputPassword">Password</label>
+                        <h:inputSecret class="form-control" id="signUpPassword" value="#{signupbean.password}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="sel1">Preferred Campus</label>
+                            <h:selectOneMenu class="form-control" id="signUpSelectCampus" value="#{signupbean.preferredCampus}">
+                                <f:selectItem itemValue="Kingston" itemLabel="Kingston"/>
+                                <f:selectItem itemValue="Cornwall" itemLabel="Cornwall"/>
+                                <f:selectItem itemValue="Brockville" itemLabel="Brockville"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <h:commandButton id="btnSignUp" value="Submit" action="#{signupbean.signUpUser()}"/>
+                    </h:form>
+                </div>
+                <div id="fillergrip" class="col-md-3 col-xs-0"></div>
+                </div>
             </div>
         </ui:define>
     </ui:composition>      

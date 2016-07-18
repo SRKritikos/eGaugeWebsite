@@ -12,16 +12,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
+
 
 /**
- *
+ * //TODO: make this class request from application bean for the model it should display
  * @author Steven Kritikos
  */
-@ViewScoped
+@RequestScoped
 @ManagedBean(name = "devicedatabean", eager = true)
 public class DeviceDataRequestBean {
-    
+                       
 private final DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
     private String startDate;
     private String endDate;

@@ -10,6 +10,7 @@
             <div id="graph-wrapper">
                 <div id="graph-holder" border="2px" style="border-color: blue">
                     <p>Hello From graph div</p>
+                    <h:outputText rendered="#{user.username ne null}" value="#{user.username}"></h:outputText>
                     <svg></svg>                       
                 </div>
             </div>

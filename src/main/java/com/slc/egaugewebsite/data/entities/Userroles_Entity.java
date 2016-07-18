@@ -19,8 +19,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,7 +27,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "userroles")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Userroles_Entity.findAll", query = "SELECT u FROM Userroles_Entity u"),
     @NamedQuery(name = "Userroles_Entity.findByRoleId", query = "SELECT u FROM Userroles_Entity u WHERE u.roleId = :roleId"),
@@ -71,7 +68,6 @@ public class Userroles_Entity implements Serializable {
         this.roleName = roleName;
     }
 
-    @XmlTransient
     public List<Users_Entity> getUsersEntityList() {
         return usersEntityList;
     }
@@ -102,7 +98,7 @@ public class Userroles_Entity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.slc.egaugewebsite.data.entites.Userroles_Entity[ roleId=" + roleId + " ]";
+        return "com.slc.egaugewebsite.data.entities.Userroles_Entity[ roleId=" + roleId + " ]";
     }
 
 }

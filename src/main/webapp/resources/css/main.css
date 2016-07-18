@@ -1,0 +1,25 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 17, 2016, 3:03:36 PM
+    Author     : Steven
+*/
+
+#nav-formSignUp\:btnSignUp,
+#btnLogIn{
+    width : 100px;
+    margin-left : 1em;
+    margin-top : 2em;
+}
+
+#formSignup\:signUpEmail,
+#formSignup\:signUpPassword,
+#formSignup\:signUpSelectCampus {
+    width : 450px;
+    padding-bottom: .25em;
+}
+
+

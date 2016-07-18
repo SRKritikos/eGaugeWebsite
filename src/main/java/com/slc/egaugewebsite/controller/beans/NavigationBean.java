@@ -24,11 +24,11 @@ public class NavigationBean {
     public String directToPage() {
         switch (pageName.toUpperCase()) {
             case "INDEX": 
-                return "index";              
+                return "/index.xhtml?faces-redirect=true";              
             case "SIGNUP":
-                return "signup";
+                return "/signup.xhtml?faces-redirect=true";
         }
-        return "index";
+        return "/index.xhtml?faces-redirect=true";
     }
 
     public String getPageName() {

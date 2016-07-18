@@ -12,42 +12,78 @@ File defines the navigation bar on the top of the website.
    <ui:composition> 
         <div id="nav-bar">
             <nav class="navbar navbar-default">
-              <div class="container-fluid">
-                <div id="nav-wrapper"> 
-                    <h:form>
-                        <ul class="nav navbar-nav">
-                            <li class="active">
-                                <h:commandLink action="#{navigationbean.directToPage()}">
-                                    Home
-                                    <f:param name="pageName" value="index"/>
-                                </h:commandLink>
-                            </li>
-                           <li> 
-                                <h:commandLink action="#{navigationbean.directToPage()}">
-                                    Home
-                                    <f:param name="pageName" value="index"/>
-                                </h:commandLink>
-                           </li>
-                        </ul>
-                    </h:form>
-                </div> 
-              </div>
-                <div id="login-wrapper">
-                    <h:form>
-                        <label>E-mail</label> <h:inputText id="txtEmail"/>
-                        <label>Password</label><h:inputSecret id="txtPassword"/>
-                        <h:commandButton value="submit" action="profile"/>
-                    </h:form>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-8">
+                            <h1>SLC Egauge Website</h1>
+                        </div>
+                        <div class="col-xs-12 col-md-4" id="usernav-wrapper">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xs-12" id="userbtnnav-wrapper">
+                                        <button id="btnLogIn" class="btn btn-primary btn-sm col-xs-6" data-toggle="modal" data-target="#loginmodal">Log In</button>
+                                        <h:form id="nav-formSignUp">
+                                            <h:commandButton class="btn btn-primary btn-sm col-xs-6" id="btnSignUp" 
+                                                             action="#{navigationbean.directToPage()}" value="Sign Up" style="width : 100px">
+                                                <f:param name="pageName" value="signup"/>
+                                            </h:commandButton>      
+                                        </h:form>
+                                    </div>
+                                </div>  
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div id="signupbtn-wrapper">
-                    <h:form id="nav-formSignUp">
-                        <h:commandButton class="btn btn-primary btn-sm" id="btnSignUp" 
-                                         action="#{navigationbean.directToPage()}" value="Sing Up">
-                            <f:param name="pageName" value="signup"/>
-                        </h:commandButton>      
-                    </h:form>
-                </div>  
+                <div class="container-fluid">
+                    <div class="row">
+                        <h:form>
+                            <ul class="nav navbar-nav" >
+                                <li class="active">
+                                    <h:commandLink action="#{navigationbean.directToPage()}">
+                                        Home
+                                        <f:param name="pageName" value="index"/>
+                                    </h:commandLink>
+                                </li>
+                               <li> 
+                                    <h:commandLink action="#{navigationbean.directToPage()}">
+                                        Home
+                                        <f:param name="pageName" value="index"/>
+                                    </h:commandLink>
+                               </li>
+                            </ul>
+                        </h:form>
+                    </div>
+                </div>
             </nav>
+        </div>
+       
+        <!-- Login modal-->
+        <div id="loginmodal" class="modal fade" role="dialog"> 
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content" id="login-wrapper">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">X</button>
+                        <h2 clas="modal-title">Log In</h2>
+                    </div>
+                    <div class="modal-body">
+                        <h:form id="formLogIn">
+                            <div class="form-group">
+                                <label for="txtEmail">E-mail</label> 
+                                <h:inputText id="txtEmail" class="form-control" value="#{loginbean.email}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtPassword">Password</label>
+                                <h:inputSecret id="txtPassword" class="form-control" value="#{loginbean.password}"/>
+                            </div>
+                            <h:commandButton class="btn btn-success btn-sm" id="btnLogInSubmit"
+                                value="submit" action="#{loginbean.loginUser()}"/>
+                        </h:form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
           
    </ui:composition>	

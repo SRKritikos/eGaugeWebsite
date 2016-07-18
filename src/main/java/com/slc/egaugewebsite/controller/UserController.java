@@ -6,6 +6,7 @@
 
 package com.slc.egaugewebsite.controller;
 
+import com.slc.egaugewebsite.controller.beans.UserBean;
 import com.slc.egaugewebsite.data.dao.UserrolesDAO;
 import com.slc.egaugewebsite.data.dao.UsersDAO;
 import com.slc.egaugewebsite.data.entities.Userroles_Entity;
@@ -13,51 +14,81 @@ import com.slc.egaugewebsite.data.entities.Users_Entity;
 import com.slc.egaugewebsite.utils.AuthenticationUtils;
 import com.slc.egaugewebsite.utils.UserRole;
 import com.slc.egaugewebsite.utils.DatabaseUtils;
+import com.slc.egaugewebsite.utils.SessionUtils;
 import java.util.UUID;
-import javax.annotation.Resource;
+import javax.ejb.Stateless;
+import javax.faces.bean.ManagedProperty;
 import javax.persistence.EntityManagerFactory;
-import javax.transaction.UserTransaction;
+import javax.servlet.http.HttpSession;
+import javax.validation.ValidationException;
 
 /**
  *
  * @author Steven Kritikos
  */
 public class UserController {
-    private EntityManagerFactory emf = DatabaseUtils.getEntityManager();
-    @Resource
-    private UserTransaction utx;
+    @ManagedProperty("#user")
+    private UserBean user;
+    private final EntityManagerFactory emf;    
+    private final UsersDAO usersdao;
+    private final UserrolesDAO roledao;
+
+    public UserController() {
+       this.emf = DatabaseUtils.getEntityManager();
+       this.usersdao = new UsersDAO(emf);
+       this.roledao = new UserrolesDAO(emf);
+    }
     
-    UsersDAO usersdao = new UsersDAO(utx, emf);
-    UserrolesDAO roledao = new UserrolesDAO(utx, emf);
     
+    /**
+     * Validate and hash password then insert new user into db
+     * @param email
+     * @param password
+     * @param preferredCampus
+     * @param roleId
+     * @return
+     * @throws Exception 
+     */
     public boolean createUser(String email, String password, String preferredCampus, UserRole roleId) throws Exception {
         boolean rtVl = false;
-        //TODO: validate that user doesnt exist
+        
         try {
-            // Generate salt and password to insert into database
-            byte[] salt = AuthenticationUtils.getNextSalt();
-            byte[] hashedPassword = AuthenticationUtils.hash(password.toCharArray(), salt);
-            
-            //build user entity object to insert to db
-            Userroles_Entity roleEntity = roledao.getUserRoleByName(roleId);
-            Users_Entity userEntity = new Users_Entity();
-            userEntity.setUserId(UUID.randomUUID().toString());
-            userEntity.setEmail(email);
-            userEntity.setPassword(hashedPassword);
-            userEntity.setPasswordSalt(salt);
-            userEntity.setPrefferedCampus(preferredCampus);
-            userEntity.setRoleId(roleEntity);
-            //insert
-            usersdao.create(userEntity);
-            rtVl = true;
+            Users_Entity userEntity = usersdao.getUserByEmail(email);
+            if (userEntity == null) {
+                // Generate salt and password to insert into database
+                byte[] salt = AuthenticationUtils.getNextSalt();
+                byte[] hashedPassword = AuthenticationUtils.hash(password.toCharArray(), salt);
+
+                //insert
+                Userroles_Entity roleEntity = roledao.getUserRoleByName(roleId);
+                usersdao.insertUser(email, hashedPassword, salt, preferredCampus, roleEntity);
+                
+                //login the user
+                userEntity = usersdao.getUserByEmail(email);
+                if (userEntity != null) {
+                    this.user.setPreferredCampus(userEntity.getPreferredCampus());
+                    this.user.setUserRole(userEntity.getRoleId().getRoleName());
+                    this.user.setUsername(userEntity.getEmail());
+                    
+                    HttpSession session = SessionUtils.getSession();
+                    session.setAttribute("user", this.user);
+                } else {
+                    throw new ValidationException("Failed to create user");
+                }
+                rtVl = true;
+            } else {
+                throw new ValidationException("E-mail Exists");
+            }
         } catch (Exception e) {
             System.out.println(e.toString());
+            
         }
         return rtVl;
     }
     
-    //TODO: Get user - takes e-mail and password
-    //- uses auth utils to check if the passwords match then returns true or false;
+
     
+    
+
    
 }

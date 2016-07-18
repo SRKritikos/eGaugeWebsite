@@ -14,14 +14,16 @@ Base layout for the website is defined here
     </ui:insert>
 </h:head>
 <h:body> 
-   <ui:insert name="nav" >
-      <ui:include src="nav.xhtml" />
-   </ui:insert> 
-   <ui:insert name="maincontent" >
-      <ui:include src="maincontent.xhtml" />
-   </ui:insert>    
-   <ui:insert name="footer" >
-      <ui:include src="footer.xhtml" />
-   </ui:insert>
+    <div class="container" id="main-wrapper">
+        <ui:insert name="nav" >
+           <ui:include src="nav.xhtml" />
+        </ui:insert> 
+        <ui:insert name="maincontent" >
+           <ui:include src="maincontent.xhtml" />
+        </ui:insert>    
+        <ui:insert name="footer" >
+           <ui:include src="footer.xhtml" />
+        </ui:insert>
+    </div>
 </h:body>
 </html>
