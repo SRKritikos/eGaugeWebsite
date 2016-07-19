@@ -27,6 +27,10 @@ public class NavigationBean {
                 return "/index.xhtml?faces-redirect=true";              
             case "SIGNUP":
                 return "/signup.xhtml?faces-redirect=true";
+            case "USER":
+                return "/user.xhtml?faces-redirect=true";
+            case "ADMIN": 
+                return "/admin.xhtml?faces-redirect=true";
         }
         return "/index.xhtml?faces-redirect=true";
     }

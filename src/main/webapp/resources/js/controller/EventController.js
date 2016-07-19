@@ -5,26 +5,38 @@
  */
 
 $('document').ready(function() { 
-    
+    function loadTheGraph() {
+        console.log("loading the graph");
+        // Build graph on page load.        
+        $("#formDeviceData\\:btnDeviceData").click();
 
-    // Datetime picker setup
-    $('#startDate').datetimepicker({
+    }
+    loadTheGraph();
+    
+    $(function () {
+        $('#startDate').datetimepicker({
+            defaultDate : new Date()
+        });
     });
     
-    $('#endDate').datetimepicker({
-        useCurrent : false,
+    $(function () {
+        $('#endDate').datetimepicker({
+            defaultDate : new Date(new Date().setDate(new Date().getDate()-1))
+        });
     });
-    
+
+    /*
     $("#startDate").on("dp.change", function (e) {
-        $('#endDate').data("DateTimePicker").minDate(e.date);
+        $('#endDate').data("DateTimePicker").maxDate(e.date);
     });
     $("#endDate").on("dp.change", function (e) {
-        $('#startDate').data("DateTimePicker").maxDate(e.date);
+        $('#startDate').data("DateTimePicker").minDate(e.date);
     });
     
-    // Build graph on page load.        
-    $("#formDeviceData\\:btnDeviceData").click();
+   
+
     
-    
+   
+    */
 });
 

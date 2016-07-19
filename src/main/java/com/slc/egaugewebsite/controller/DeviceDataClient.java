@@ -50,6 +50,17 @@ public class DeviceDataClient {
         
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(String.class);
     }
+    
+    public String getInstDate(String[] campus) {
+        WebTarget resource = webTarget;
+        if (campus != null) {
+            resource = resource.queryParam("campus", campus);
+        }
+        
+        resource = resource.path("instdata");
+        
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(String.class);
+    }
 
     public void close() {
         client.close();

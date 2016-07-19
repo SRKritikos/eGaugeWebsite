@@ -44,12 +44,27 @@ File defines the navigation bar on the top of the website.
                                         <f:param name="pageName" value="index"/>
                                     </h:commandLink>
                                 </li>
-                               <li> 
+                                <ui:fragment rendered="#{user.userRole eq 'defaultuser'}">
+                                <li>
                                     <h:commandLink action="#{navigationbean.directToPage()}">
-                                        Home
-                                        <f:param name="pageName" value="index"/>
+                                        User
+                                        <f:param name="pageName" value="user"/>
                                     </h:commandLink>
-                               </li>
+                                </li>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{user.userRole eq 'admin'}">
+                                    <li>
+                                        <h:commandLink action="#{navigationbean.directToPage()}">
+                                            User
+                                            <f:param name="pageName" value="user"/>
+                                        </h:commandLink>
+                                    </li>                              <li>
+                                        <h:commandLink action="#{navigationbean.directToPage()}">
+                                                Admin
+                                                <f:param name="pageName" value="admin"/>
+                                        </h:commandLink>
+                                    </li>
+                                </ui:fragment>
                             </ul>
                         </h:form>
                     </div>

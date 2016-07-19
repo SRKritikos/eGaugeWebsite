@@ -7,33 +7,40 @@
       >
     <ui:composition template="resources/templates/common.xhtml">
         <ui:define name="maincontent">
+            
             <div id="graph-wrapper">
                 <div id="graph-holder" border="2px" style="border-color: blue">
-                    <p>Hello From graph div</p>
-                    <h:outputText rendered="#{user.username ne null}" value="#{user.username}"></h:outputText>
+                    <h:outputText value="#{instantaneousdisplaybean.reading}"></h:outputText>
                     <svg></svg>                       
                 </div>
             </div>
             <div id="date-wrapper">
-                    <h:form id="formDeviceData">
-                        <div class="input-group date" id="startDate">
-                            <input type="text" class="form-control" value="#{devicedatabean.startDate}"/>
-                            <div class="input-group-addon">
-                                <span class="glyphicon glyphicon-th"></span>
-                            </div>
-                        </div>
-                        <div class="input-group date" id="endDate">
-                            <input type="text" class="form-control" value="#{devicedatabean.endDate}"/>
-                            <div class="input-group-addon">
-                                <span class="glyphicon glyphicon-th"></span>
-                            </div>
-                        </div>
-                        <h:commandButton id="btnDeviceData" value="Submit"> 
-                            <f:ajax execute="@form" render="@form" onevent="buildGraph(#{devicedatabean.submitRequest()})"/>
-                        </h:commandButton>
-                    </h:form>
+
             </div>
-        </ui:define>            
+            <div class="input-group date" id="startDate">
+               <input type="text" class="form-control" name="requestStartDate" />
+               <div class="input-group-addon">
+                   <span class="glyphicon glyphicon-calendar"></span>
+               </div>
+            </div>
+            <div class="input-group date" id="endDate">
+               <input type="text" class="form-control" name="requestEndDate"/>
+               <div class="input-group-addon">
+                   <span class="glyphicon glyphicon-calendar"></span>
+               </div>
+            </div>
+            <h:form id="formDeviceData">
+                <div id="datetime-wrapper" class="form-group">
+
+
+                    <h:commandButton class="btn btn-default btn-sm" id="btnDeviceData" value="Submit"> 
+                        <f:ajax execute="@form" render="@form" onevent="buildGraph(${devicedatabean.submitRequest()})"/>
+                    </h:commandButton>
+                </div>
+            </h:form>
+
+        </ui:define> 
     </ui:composition>
+
 </html>
 

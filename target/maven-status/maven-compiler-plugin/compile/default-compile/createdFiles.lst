@@ -1,4 +1,5 @@
 com\slc\egaugewebsite\utils\DatabaseUtils.class
+com\slc\egaugewebsite\controller\beans\InstatntaneousDisplayBean.class
 com\slc\egaugewebsite\controller\beans\NavigationBean.class
 com\slc\egaugewebsite\data\dao\exceptions\IllegalOrphanException.class
 com\slc\egaugewebsite\utils\AuthenticationUtils.class
