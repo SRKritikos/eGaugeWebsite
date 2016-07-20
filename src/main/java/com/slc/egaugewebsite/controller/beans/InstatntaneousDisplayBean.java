@@ -17,7 +17,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ViewScoped
 @ManagedBean(name = "instantaneousdisplaybean", eager = true)
-public class InstatntaneousDisplayBean implements Serializable {
+    public class InstatntaneousDisplayBean implements Serializable {
 
     private String reading;
 

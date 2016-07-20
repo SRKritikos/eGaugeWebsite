@@ -31,8 +31,6 @@
             </div>
             <h:form id="formDeviceData">
                 <div id="datetime-wrapper" class="form-group">
-
-
                     <h:commandButton class="btn btn-default btn-sm" id="btnDeviceData" value="Submit"> 
                         <f:ajax execute="@form" render="@form" onevent="buildGraph(${devicedatabean.submitRequest()})"/>
                     </h:commandButton>

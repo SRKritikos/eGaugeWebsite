@@ -34,7 +34,6 @@ private final DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
     }
 
     public void setStartDate(String startDate) {
-        System.out.println("########WE ARE SETTING THE STARTDATE#######");
         if(startDate == null || startDate.isEmpty() ) {
             this.startDate = df.format(new Date());
         }  else {

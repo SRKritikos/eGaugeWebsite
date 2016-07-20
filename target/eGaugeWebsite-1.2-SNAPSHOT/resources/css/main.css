@@ -9,7 +9,8 @@ and open the template in the editor.
 */
 
 #nav-formSignUp\:btnSignUp,
-#btnLogIn{
+#btnLogIn,
+#nav-formLogout\:btnLogout{
     width : 100px;
     margin-left : 1em;
     margin-top : 2em;

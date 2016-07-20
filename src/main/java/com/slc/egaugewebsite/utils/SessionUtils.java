@@ -39,4 +39,12 @@ public class SessionUtils {
              else
                      return null;
      }
+     
+      public static String getUserRole() {
+             HttpSession session = getSession();
+             if (session != null)
+                     return (String) session.getAttribute("userRole");
+             else
+                     return null;
+     }
 }

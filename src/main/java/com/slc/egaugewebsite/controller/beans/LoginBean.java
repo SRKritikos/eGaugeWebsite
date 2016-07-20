@@ -6,7 +6,6 @@
 
 package com.slc.egaugewebsite.controller.beans;
 
-import com.slc.egaugewebsite.controller.UserController;
 import com.slc.egaugewebsite.data.dao.UserrolesDAO;
 import com.slc.egaugewebsite.data.dao.UsersDAO;
 import com.slc.egaugewebsite.data.entities.Users_Entity;
@@ -81,12 +80,12 @@ public class LoginBean {
             // build user session
             this.user.setPreferredCampus(userEntity.getPreferredCampus());
             this.user.setUserRole(userEntity.getRoleId().getRoleName());
-            this.user.setUsername(userEntity.getEmail());
+            this.user.setUser(userEntity.getUserId());
             
             //add user to session
             HttpSession session = SessionUtils.getSession();
-            session.setAttribute("user", user);
-           
+            session.setAttribute("userRole", this.user.getUserRole());
+            session.setAttribute("userId", this.user.getUser());
         } catch (Exception e) {
             System.out.println(e.toString());
             e.printStackTrace();

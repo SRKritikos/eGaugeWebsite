@@ -6,7 +6,6 @@
 
 package com.slc.egaugewebsite.controller.beans;
 
-import com.slc.egaugewebsite.controller.UserController;
 import com.slc.egaugewebsite.data.dao.UserrolesDAO;
 import com.slc.egaugewebsite.data.dao.UsersDAO;
 import com.slc.egaugewebsite.data.entities.Userroles_Entity;
@@ -96,10 +95,11 @@ public class SignUpBean {
                 if (userEntity != null) {
                     this.user.setPreferredCampus(userEntity.getPreferredCampus());
                     this.user.setUserRole(userEntity.getRoleId().getRoleName());
-                    this.user.setUsername(userEntity.getEmail());
+                    this.user.setUser(userEntity.getUserId());
                     
                     HttpSession session = SessionUtils.getSession();
-                    session.setAttribute("user", this.user);
+                    session.setAttribute("userId", this.user.getUser());
+                    session.setAttribute("userRol", this.user.getUserRole());
                 } else {
                     throw new ValidationException("Failed to create user");
                 }

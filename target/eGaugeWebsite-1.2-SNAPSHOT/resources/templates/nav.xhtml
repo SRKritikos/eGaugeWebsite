@@ -20,15 +20,26 @@ File defines the navigation bar on the top of the website.
                         <div class="col-xs-12 col-md-4" id="usernav-wrapper">
                             <div class="container">
                                 <div class="row">
+                                    
                                     <div class="col-xs-12" id="userbtnnav-wrapper">
-                                        <button id="btnLogIn" class="btn btn-primary btn-sm col-xs-6" data-toggle="modal" data-target="#loginmodal">Log In</button>
-                                        <h:form id="nav-formSignUp">
-                                            <h:commandButton class="btn btn-primary btn-sm col-xs-6" id="btnSignUp" 
-                                                             action="#{navigationbean.directToPage()}" value="Sign Up" style="width : 100px">
+                                        <ui:fragment rendered="#{user.user eq null}">
+                                            <button id="btnLogIn" class="btn btn-primary btn-sm col-xs-6" data-toggle="modal" data-target="#loginmodal">Log In</button>
+                                            <h:form id="nav-formSignUp">
+                                                <h:commandButton class="btn btn-primary btn-sm col-xs-6" id="btnSignUp" 
+                                                                 action="#{navigationbean.directToPage()}" value="Sign Up" style="width : 100px">
+                                                    <f:param name="pageName" value="signup"/>
+                                                </h:commandButton>      
+                                            </h:form>
+                                        </ui:fragment>   
+                                    </div>
+                                    <ui:fragment rendered="#{user.user ne null}">
+                                       <h:form id="nav-formLogout">
+                                            <h:commandButton class="btn btn-primary btn-sm col-xs-12" id="btnLogout" 
+                                                             action="#{user.logoutUser()}" value="Logout" style="width : 100px">
                                                 <f:param name="pageName" value="signup"/>
                                             </h:commandButton>      
                                         </h:form>
-                                    </div>
+                                    </ui:fragment>
                                 </div>  
                             </div>
                         </div>

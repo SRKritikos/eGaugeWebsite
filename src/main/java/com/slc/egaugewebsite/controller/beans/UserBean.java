@@ -20,16 +20,16 @@ import javax.servlet.http.HttpSession;
 @ManagedBean(name="user", eager = true)
 public class UserBean implements Serializable{
     
-    private String username;
+    private String user;
     private String userRole;
     private String preferredCampus;
 
-    public String getUsername() {
-        return username;
+    public String getUser() {
+        return user;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public String getUserRole() {
@@ -49,14 +49,14 @@ public class UserBean implements Serializable{
     }
     
     
-    public void logoutUser() {
+    public String logoutUser() {
         try {
             HttpSession session = SessionUtils.getSession();
             session.invalidate(); 
         } catch (Exception e) {
             System.out.println("Failed to logout");
         }
-       
+       return "/index.xhtml?faces-redirect=true";
     }
     
 }
