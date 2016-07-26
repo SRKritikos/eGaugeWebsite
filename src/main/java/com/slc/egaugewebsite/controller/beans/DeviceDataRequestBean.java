@@ -12,23 +12,49 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 
 
 /**
  * //TODO: make this class request from application bean for the model it should display
  * @author Steven Kritikos
  */
-@RequestScoped
-@ManagedBean(name = "devicedatabean", eager = true)
+@ViewScoped
+@ManagedBean(name = "devicedatabean")
 public class DeviceDataRequestBean implements Serializable {
-                       
-private final DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+    @EJB
+    private DeviceDataModelBean dataModel;
+    
+    private final DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
     private String startDate;
     private String endDate;
+    private String data; 
 
+    public DeviceDataRequestBean() {
+        System.out.println("Device data bean ready");
+    }
+
+    @PostConstruct
+    public void init(){
+        System.out.println("bean injected " + dataModel.getDeviceData());
+    }
+    public String getData() {
+        data = dataModel.getDeviceData();
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+    
     public String getStartDate() {
         return startDate;
     }
@@ -60,6 +86,15 @@ private final DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         }
         System.out.println("end Date is: " + this.endDate );
     }
+
+    public DeviceDataModelBean getDataModel() {
+        return dataModel;
+    }
+
+    public void setDataModel(DeviceDataModelBean dataModel) {
+        this.dataModel = dataModel;
+    }
+
     
     /**
      * submits a form request to the client object then returns the data from the
@@ -67,33 +102,28 @@ private final DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
      * 
      * @return 
      */
-    public String submitRequest() {
+    public void submitRequest() {
         DateFormat requestdf = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
         String rtVl = null;
         try {
-            //Get the 2 request dates from the user
-            String requestedStartDate  = FacesContext.getCurrentInstance().
-		getExternalContext().getRequestParameterMap().get("requestStartDate");
-            String requestedEndDate = FacesContext.getCurrentInstance().
-		getExternalContext().getRequestParameterMap().get("requestEndDate");
-            //validate and set the start and end dates
-            this.setStartDate(requestedStartDate);
-            this.setEndDate(requestedEndDate);
-            //Get client controller to send request for data.
-            DeviceDataClient client = new DeviceDataClient();
-            Date startDateObj = df.parse(this.startDate);
-            Date endDateObj = df.parse(this.endDate); 
-            System.out.println(startDateObj + "    " + endDateObj);
-            String requestStartDate = requestdf.format(startDateObj);
-            String requestEndDate = requestdf.format(endDateObj);
-            
-            rtVl = client.getData(requestStartDate, requestEndDate);
+            if (this.startDate != null  && this.endDate != null) {
+                //Get client controller to send request for data.
+                DeviceDataClient client = new DeviceDataClient();
+                Date startDateObj = df.parse(this.startDate);
+                Date endDateObj = df.parse(this.endDate); 
+                String requestStartDate = requestdf.format(startDateObj);
+                String requestEndDate = requestdf.format(endDateObj);
+                rtVl = client.getData(requestStartDate, requestEndDate);
+                dataModel.setDeviceData(rtVl);
+            }
         } catch(Exception  e) {
             //TODO :  makes this return usefull errors - THIS IS TOP OF CHAIN RIGHT?
             System.out.println(e.toString());
+            e.printStackTrace();
             
         }
-        return rtVl;
+        
+       
     }
-    
+
 }

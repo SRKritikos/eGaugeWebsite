@@ -12,6 +12,7 @@ import com.slc.egaugewebsite.data.entities.Users_Entity;
 import com.slc.egaugewebsite.utils.AuthenticationUtils;
 import com.slc.egaugewebsite.utils.DatabaseUtils;
 import com.slc.egaugewebsite.utils.SessionUtils;
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -22,9 +23,9 @@ import javax.servlet.http.HttpSession;
  *
  * @author Steven Kritikos
  */
-@ManagedBean(name = "loginbean", eager = true)
+@ManagedBean(name = "loginbean")
 @RequestScoped
-public class LoginBean {
+public class LoginBean implements Serializable {
     @ManagedProperty("#{user}")
     private UserBean user;
     private final EntityManagerFactory emf;    

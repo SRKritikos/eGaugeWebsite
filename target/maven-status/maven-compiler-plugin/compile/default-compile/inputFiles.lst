@@ -6,7 +6,9 @@ F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\DeviceDataRequestBean.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\NavigationBean.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\SignUpBean.java
+F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\quartz\DeviceDataScheduler.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\entities\Users_Entity.java
+F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\DeviceDataModelBean.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\dao\exceptions\NonexistentEntityException.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\entities\Userroles_Entity.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\DeviceDataClient.java
@@ -18,4 +20,3 @@ F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\dao\exceptions\IllegalOrphanException.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\utils\UserRole.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\dao\exceptions\RollbackFailureException.java
-F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\UserController.java

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
  * @author Steven Kritikos
  */
 @SessionScoped
-@ManagedBean(name="user", eager = true)
+@ManagedBean(name="user")
 public class UserBean implements Serializable{
     
     private String user;

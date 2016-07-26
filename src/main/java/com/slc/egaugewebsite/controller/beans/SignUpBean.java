@@ -14,6 +14,7 @@ import com.slc.egaugewebsite.utils.AuthenticationUtils;
 import com.slc.egaugewebsite.utils.DatabaseUtils;
 import com.slc.egaugewebsite.utils.SessionUtils;
 import com.slc.egaugewebsite.utils.UserRole;
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -25,11 +26,12 @@ import javax.validation.ValidationException;
  *
  * @author Steven Kritikos
  */
-@ManagedBean(name = "signupbean", eager = true)
+@ManagedBean(name = "signupbean")
 @RequestScoped
-public class SignUpBean {
+public class SignUpBean implements Serializable {
     @ManagedProperty("#{user}")
     private UserBean user;
+    
     private final EntityManagerFactory emf;    
     private final UsersDAO usersdao;
     private final UserrolesDAO roledao;

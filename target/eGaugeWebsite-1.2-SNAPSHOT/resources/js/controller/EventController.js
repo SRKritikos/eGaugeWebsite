@@ -8,7 +8,7 @@ $('document').ready(function() {
     function loadTheGraph() {
         console.log("loading the graph");
         // Build graph on page load.        
-        $("#formDeviceData\\:btnDeviceData").click();
+        //$("#formDeviceData\\:btnDeviceData").click();
 
     }
     loadTheGraph();
@@ -21,10 +21,10 @@ $('document').ready(function() {
     
     $(function () {
         $('#endDate').datetimepicker({
+            // Get the long of a new date object whose date is set to a day before today
             defaultDate : new Date(new Date().setDate(new Date().getDate()-1))
         });
     });
-
     /*
     $("#startDate").on("dp.change", function (e) {
         $('#endDate').data("DateTimePicker").maxDate(e.date);
@@ -33,7 +33,7 @@ $('document').ready(function() {
         $('#startDate').data("DateTimePicker").minDate(e.date);
     });
     
-   
+  
 
     
    

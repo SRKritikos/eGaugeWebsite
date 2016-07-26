@@ -5,6 +5,9 @@ This is the view!
 //       Once we have data we want to create a graph that shows the data interms of watzH / DATE
 
 function buildGraph(data) {
+    console.log("IN BUILD GRAPH");
+    var test = $("#formDeviceData\\:deviceDataField").val();
+    console.log(test);
     console.log(data);
     var  names = data.devices.map(function(obj) {
         return obj.name;

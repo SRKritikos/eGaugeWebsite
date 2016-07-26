@@ -6,6 +6,7 @@
 
 package com.slc.egaugewebsite.controller.beans;
 
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -15,9 +16,9 @@ import javax.faces.bean.RequestScoped;
  * @author Steven Kritikos
  */
 
-@ManagedBean(name = "navigationbean", eager = true)
+@ManagedBean(name = "navigationbean")
 @RequestScoped
-public class NavigationBean {
+public class NavigationBean implements Serializable{
     @ManagedProperty(value="#{param.pageName}")
     private String pageName;
     

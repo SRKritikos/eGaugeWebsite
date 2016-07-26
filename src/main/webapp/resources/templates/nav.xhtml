@@ -20,7 +20,6 @@ File defines the navigation bar on the top of the website.
                         <div class="col-xs-12 col-md-4" id="usernav-wrapper">
                             <div class="container">
                                 <div class="row">
-                                    
                                     <div class="col-xs-12" id="userbtnnav-wrapper">
                                         <ui:fragment rendered="#{user.user eq null}">
                                             <button id="btnLogIn" class="btn btn-primary btn-sm col-xs-6" data-toggle="modal" data-target="#loginmodal">Log In</button>
@@ -71,8 +70,8 @@ File defines the navigation bar on the top of the website.
                                         </h:commandLink>
                                     </li>                              <li>
                                         <h:commandLink action="#{navigationbean.directToPage()}">
-                                                Admin
-                                                <f:param name="pageName" value="admin"/>
+                                            Admin
+                                            <f:param name="pageName" value="admin"/>
                                         </h:commandLink>
                                     </li>
                                 </ui:fragment>
