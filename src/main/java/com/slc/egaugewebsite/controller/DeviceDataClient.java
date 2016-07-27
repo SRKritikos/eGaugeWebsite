@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.faces.bean.ManagedBean;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
@@ -32,6 +33,7 @@ import org.quartz.JobExecutionException;
  *
  * @author Steven
  */
+@Stateless
 public class DeviceDataClient implements Job {
 
     @EJB
@@ -63,7 +65,7 @@ public class DeviceDataClient implements Job {
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(String.class);
     }
     
-    public String getInstDate(String[] campus) {
+    public String getInstData(String[] campus) {
         WebTarget resource = webTarget;
         if (campus != null) {
             resource = resource.queryParam("campus", campus);
@@ -80,13 +82,11 @@ public class DeviceDataClient implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
+        System.out.println("Updating Model Bean");
         this.updateBean();
     }
     
     public void updateBean() {
-        
-        
-        // Get a day back
         Calendar nowCal = Calendar.getInstance();
         nowCal.setTime(new Date());
         Calendar yesterdayCal = Calendar.getInstance();

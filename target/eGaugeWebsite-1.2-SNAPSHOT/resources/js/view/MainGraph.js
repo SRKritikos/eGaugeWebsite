@@ -71,8 +71,6 @@ function generateGraph(graphData) {
                 .showXAxis(true)
                 .height(500)
                 .width(850);
-                
-
 
       chart.xAxis
           .tickFormat( function(date) {
@@ -93,7 +91,6 @@ function generateGraph(graphData) {
 
       d3.select('#graph-holder svg')
           .datum(graphData)
-          .transition().duration(500)
           .call(chart)
           .style({'height': 500 })
 

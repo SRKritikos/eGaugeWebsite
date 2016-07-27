@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.quartz.Job;
@@ -27,7 +28,7 @@ import org.quartz.JobExecutionException;
  * //TODO: make this class request from application bean for the model it should display
  * @author Steven Kritikos
  */
-@ViewScoped
+@RequestScoped
 @ManagedBean(name = "devicedatabean")
 public class DeviceDataRequestBean implements Serializable {
     @EJB
@@ -44,10 +45,11 @@ public class DeviceDataRequestBean implements Serializable {
 
     @PostConstruct
     public void init(){
-        System.out.println("bean injected " + dataModel.getDeviceData());
+        this.submitRequest();
     }
     public String getData() {
-        data = dataModel.getDeviceData();
+        System.out.println("GETTING DATA FROM REQUEST");
+        this.data = dataModel.getDeviceData();
         return data;
     }
 
@@ -69,7 +71,6 @@ public class DeviceDataRequestBean implements Serializable {
     }
 
     public String getEndDate() {
-
         return endDate;
     }
 
@@ -106,21 +107,29 @@ public class DeviceDataRequestBean implements Serializable {
         DateFormat requestdf = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
         String rtVl = null;
         try {
-            if (this.startDate != null  && this.endDate != null) {
-                //Get client controller to send request for data.
-                DeviceDataClient client = new DeviceDataClient();
-                Date startDateObj = df.parse(this.startDate);
-                Date endDateObj = df.parse(this.endDate); 
-                String requestStartDate = requestdf.format(startDateObj);
-                String requestEndDate = requestdf.format(endDateObj);
-                rtVl = client.getData(requestStartDate, requestEndDate);
-                dataModel.setDeviceData(rtVl);
+            if (this.startDate == null) {
+                this.setStartDate(startDate);
             }
+            if (this.endDate == null) {
+                this.setEndDate(endDate);
+            }
+            
+            //Get client controller to send request for data.
+            DeviceDataClient client = new DeviceDataClient();
+            Date startDateObj = df.parse(this.startDate);
+            Date endDateObj = df.parse(this.endDate); 
+            long daysDiff = (startDateObj.getTime() - endDateObj.getTime()) / (24 * 60 * 60 * 1000);
+            
+            String requestStartDate = requestdf.format(startDateObj);
+            String requestEndDate = requestdf.format(endDateObj);
+            rtVl = client.getData(requestStartDate, requestEndDate);
+            dataModel.setDeviceData(rtVl);
+            //setData(dataModel.getDeviceData());
+            
         } catch(Exception  e) {
             //TODO :  makes this return usefull errors - THIS IS TOP OF CHAIN RIGHT?
             System.out.println(e.toString());
             e.printStackTrace();
-            
         }
         
        

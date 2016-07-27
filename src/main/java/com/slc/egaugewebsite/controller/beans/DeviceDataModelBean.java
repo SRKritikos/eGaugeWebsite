@@ -6,18 +6,13 @@
 
 package com.slc.egaugewebsite.controller.beans;
 
-import com.slc.egaugewebsite.controller.DeviceDataClient;
+
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
-import javax.faces.bean.ManagedBean;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import javax.ejb.Startup;
+
 
 /**
  * An application scoped bean to hold a days worth of device data. 
@@ -25,16 +20,17 @@ import org.quartz.JobExecutionException;
  * @author Steven Kritikos
  */
 @Singleton
-@ManagedBean(name="devicedatamodel",  eager=true)
+@Startup
 public class DeviceDataModelBean implements Serializable {
     
     private String deviceData;
-
+    
     public String getDeviceData() {
         return deviceData;
     }
 
     public void setDeviceData(String deviceData) {
+        System.out.println("Updating Device Data Model");
         this.deviceData = deviceData;
     }
 

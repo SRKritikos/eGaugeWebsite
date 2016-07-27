@@ -54,7 +54,7 @@ private Scheduler scheduler = null;
                         .withIntervalInMinutes(1).repeatForever()).build();
               
                
-               scheduler.scheduleJob(job, trigger);
+               //scheduler.scheduleJob(job, trigger);
 
                
             } catch (SchedulerException ex) {
