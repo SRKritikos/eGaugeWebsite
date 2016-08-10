@@ -85,13 +85,13 @@ public class AdminUserControlBean {
 
     public void updateControlGroups() {
         this.adminMap.clear();
-        for(Users_Entity userEntity : usercontroller.getAdminUsers()) {
+        usercontroller.getAdminUsers().stream().forEach((userEntity) -> {
             this.adminMap.put(userEntity.getEmail(), userEntity.getEmail());
-        }
+        });
         this.userMap.clear();
-        for(Users_Entity userEntity : usercontroller.getRegularUsers()) {
+        usercontroller.getRegularUsers().stream().forEach((userEntity) -> {
             this.userMap.put(userEntity.getEmail(), userEntity.getEmail());
-        }
+        });
     }
     
     public void updateUserRole() {
@@ -104,6 +104,8 @@ public class AdminUserControlBean {
     }
     
     public void deleteUser() {
-        
+        this.selectedUser.stream()
+                .forEach(selectUser -> this.usercontroller.deleteUser(selectUser));
+        this.updateControlGroups();
     }
 }

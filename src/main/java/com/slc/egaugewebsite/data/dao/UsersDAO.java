@@ -19,7 +19,6 @@ import com.slc.egaugewebsite.data.entities.Device_Entity;
 import com.slc.egaugewebsite.data.entities.Users_Entity;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
 
 /**

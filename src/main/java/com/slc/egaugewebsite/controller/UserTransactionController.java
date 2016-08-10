@@ -152,6 +152,17 @@ public class UserTransactionController {
         return this.usersdao.getUserByEmail(email);
     }
     
+    public void deleteUser(String email) {
+        try {
+            Users_Entity user = this.usersdao.getUserByEmail(email);
+            this.usersdao.destroy(user.getUserId());
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(UserTransactionController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(UserTransactionController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public List<Users_Entity> getUsers() {
         return usersdao.findUsers_EntityEntities();
     }
