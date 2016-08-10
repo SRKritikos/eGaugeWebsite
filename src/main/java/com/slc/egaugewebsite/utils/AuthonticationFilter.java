@@ -39,13 +39,11 @@ public class AuthonticationFilter implements Filter{
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             HttpSession session = httpRequest.getSession(true);
-
+            UserBean user = (UserBean)session.getAttribute("user");
             String requestURI = httpRequest.getRequestURI();
-            String user = (String)session.getAttribute("userId");
-            String userRole = (String) session.getAttribute("userRole");
             if ((requestURI.indexOf("/user.xhtml") >= 0 || requestURI.indexOf("/admin.xhtml")  >= 0) && (session == null || user == null)) {
                 httpResponse.sendRedirect("/eGaugeWebsite/views/index.xhtml");
-            } else if (requestURI.indexOf("/admin.xhtml") >= 0 && userRole.equals(UserRole.defaultuser.name())) {
+            } else if (requestURI.indexOf("/admin.xhtml") >= 0 && user.getUserRole().equals(UserRole.defaultuser.name())) {
                 httpResponse.sendRedirect("/eGaugeWebsite/views/index.xhtml");
             } else {
                 chain.doFilter(request, response);

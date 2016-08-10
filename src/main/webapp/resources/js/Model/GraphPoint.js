@@ -10,7 +10,7 @@ function GraphPoint(deviceData) {
     var listOfPoints;
     //Map the inst power and timeRecorded into a new x, y values
     listOfPoints = deviceData.map(function(obj){
-           return { x : new Date(obj.timeRecorded), y : obj.instPower };
+           return { x : new Date(obj.timeRecorded), y : (obj.instPower / 1000) };
        });      
     return listOfPoints;
 }

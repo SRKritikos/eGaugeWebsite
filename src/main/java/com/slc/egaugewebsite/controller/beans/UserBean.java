@@ -23,6 +23,11 @@ public class UserBean implements Serializable{
     private String user;
     private String userRole;
     private String preferredCampus;
+    private Boolean inQueue;
+    private Boolean charging;
+    private String firstName;
+    private String lastName;
+    private String userEmail;
 
     public String getUser() {
         return user;
@@ -46,6 +51,46 @@ public class UserBean implements Serializable{
 
     public void setPreferredCampus(String preferredCampus) {
         this.preferredCampus = preferredCampus;
+    }
+
+    public Boolean getCharging() {
+        return charging;
+    }
+
+    public void setCharging(Boolean charging) {
+        this.charging = charging;
+    }
+
+    public Boolean getInQueue() {
+        return inQueue;
+    }
+
+    public void setInQueue(Boolean inQueue) {
+        this.inQueue = inQueue;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
     
     

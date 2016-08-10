@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="resources/templates/common.xhtml" >
+        <ui:define name="maincontent">
+            <div id="userprofile-wrapper" class="container-fluid">
+                <div class="row"> 
+                    <div id="fillergrip" class="col-md-3 col-xs-0"></div>
+                        <h:form class="col-md-6 col-xs-12">
+                            <h4>Change Preferred Campus</h4>
+                            <div class="form-group">
+                                <label for="selectPrefCampus" class="col-form-label">Preferred Campus</label>
+                                <h:selectOneMenu class="form-control" id="updatedPreferredCampus" value="#{userprofilebean.preferredCampus}">
+                                    <f:selectItems value="#{userprofilebean.campusMap}"/>
+                                </h:selectOneMenu>
+                                <h:commandButton class="btn btn-primary" value="Update Campus"
+                                                 action="#{userprofilebean.updatePreferredCampus()}"/>
+                            </div>
+                        </h:form>
+                        <h:form class="col-md-6 col-xs-12">
+                            <h4>Change Password</h4>
+                            <div class="form-group">
+                                <label for="oldPassword" class="col-form-label">Old Password</label>
+                                <h:inputSecret id="oldPassword" class="form-control" value="#{userprofilebean.oldPassword}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword" class="col-form-label">New Password</label>
+                                <h:inputSecret id="newPassword" class="form-control" value="#{userprofilebean.newPassword}"/>
+                            </div>
+                            <h:commandButton class="btn btn-primary" value="Change Password"
+                                             action="#{userprofilebean.updatePassword()}"/>
+                        </h:form>
+                </div>
+                <div id="fillergrip" class="col-md-3 col-xs-0"></div>
+            </div>    
+        </ui:define>
+    </ui:composition>
+</html>

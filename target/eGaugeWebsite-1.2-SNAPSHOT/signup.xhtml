@@ -11,23 +11,32 @@
                 <div class="row">
                 <div id="fillergrip" class="col-md-3 col-xs-0"></div>
                 <div class="col-md-6 col-xs-12" id="signup-wrapper" >
-                    <h:form id="formSignUp" >
+                    <h:form id="formSignUp">
+                        <div class="form-group">
+                            <label for="inputEmail">First Name</label>
+                            <h:inputText class="form-control" id="signUpFirstName" value="#{signupbean.firstName}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail">Last Name</label>
+                            <h:inputText class="form-control" id="signUpLastName" value="#{signupbean.lastName}"/>
+                        </div>
                         <div class="form-group">
                             <label for="inputEmail">E-Mail</label>
                             <h:inputText class="form-control" id="signUpEmail" value="#{signupbean.email}"/>
                         </div>
                         <div class="form-group">
-                        <label for="inputPassword">Password</label>
-                        <h:inputSecret class="form-control" id="signUpPassword" value="#{signupbean.password}"/>
+                            <label for="inputPassword">Password</label>
+                            <h:inputSecret class="form-control" id="signUpPassword" value="#{signupbean.password}"/>
                         </div>
                         <div class="form-group">
-                            <label for="sel1">Preferred Campus</label>
+                            <label for="selectPrefCampus" >Preferred Campus</label>
                             <h:selectOneMenu class="form-control" id="signUpSelectCampus" value="#{signupbean.preferredCampus}">
                                 <f:selectItem itemValue="Kingston" itemLabel="Kingston"/>
                                 <f:selectItem itemValue="Cornwall" itemLabel="Cornwall"/>
                                 <f:selectItem itemValue="Brockville" itemLabel="Brockville"/>
                             </h:selectOneMenu>
                         </div>
+                        <div class="g-recaptcha" data-sitekey="6LfKAycTAAAAADj2JDGf0NQ79CvGXt4NADMGDAOX"></div>
                         <h:commandButton id="btnSignUp" value="Submit" action="#{signupbean.signUpUser()}"/>
                     </h:form>
                 </div>

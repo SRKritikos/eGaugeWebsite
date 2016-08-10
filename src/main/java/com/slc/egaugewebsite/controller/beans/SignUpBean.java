@@ -6,20 +6,13 @@
 
 package com.slc.egaugewebsite.controller.beans;
 
-import com.slc.egaugewebsite.data.dao.UserrolesDAO;
-import com.slc.egaugewebsite.data.dao.UsersDAO;
-import com.slc.egaugewebsite.data.entities.Userroles_Entity;
+import com.slc.egaugewebsite.controller.UserTransactionController;
 import com.slc.egaugewebsite.data.entities.Users_Entity;
-import com.slc.egaugewebsite.utils.AuthenticationUtils;
-import com.slc.egaugewebsite.utils.DatabaseUtils;
-import com.slc.egaugewebsite.utils.SessionUtils;
-import com.slc.egaugewebsite.utils.UserRole;
 import java.io.Serializable;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.persistence.EntityManagerFactory;
-import javax.servlet.http.HttpSession;
 import javax.validation.ValidationException;
 
 /**
@@ -31,20 +24,14 @@ import javax.validation.ValidationException;
 public class SignUpBean implements Serializable {
     @ManagedProperty("#{user}")
     private UserBean user;
-    
-    private final EntityManagerFactory emf;    
-    private final UsersDAO usersdao;
-    private final UserrolesDAO roledao;
-
-    public SignUpBean() {
-       this.emf = DatabaseUtils.getEntityManager();
-       this.usersdao = new UsersDAO(emf);
-       this.roledao = new UserrolesDAO(emf);
-    }
+    @EJB
+    private UserTransactionController usercontroller;
     
     private String email;
     private String password;
     private String preferredCampus;
+    private String firstName;
+    private String lastName;
 
     public String getEmail() {
         return email;
@@ -70,6 +57,32 @@ public class SignUpBean implements Serializable {
         this.preferredCampus = preferredCampus;
     }
 
+    public UserTransactionController getUsercontroller() {
+        return usercontroller;
+    }
+
+    public void setUsercontroller(UserTransactionController usercontroller) {
+        this.usercontroller = usercontroller;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    
+    
+
     public UserBean getUser() {
         return user;
     }
@@ -82,36 +95,23 @@ public class SignUpBean implements Serializable {
     
     public String signUpUser() {
         try {
-            Users_Entity userEntity = usersdao.getUserByEmail(email);
-            if (userEntity == null) {
-                // Generate salt and password to insert into database
-                byte[] salt = AuthenticationUtils.getNextSalt();
-                byte[] hashedPassword = AuthenticationUtils.hash(password.toCharArray(), salt);
+            Users_Entity userEntity = usercontroller.signUpUser(email, password, preferredCampus, firstName, lastName);
+            if (userEntity != null) {
+                this.user.setPreferredCampus(userEntity.getPreferredCampus());
+                this.user.setUserRole(userEntity.getRoleId().getRoleName());
+                this.user.setUser(userEntity.getUserId());
+                this.user.setFirstName(firstName);
+                this.user.setLastName(lastName);
+                this.user.setUserEmail(email);
+                this.user.setInQueue(false);
+                this.user.setCharging(false);
 
-                //insert
-                Userroles_Entity roleEntity = roledao.getUserRoleByName(UserRole.defaultuser);
-                usersdao.insertUser(email, hashedPassword, salt, preferredCampus, roleEntity);
-                
-                //login the user
-                userEntity = usersdao.getUserByEmail(email);
-                if (userEntity != null) {
-                    this.user.setPreferredCampus(userEntity.getPreferredCampus());
-                    this.user.setUserRole(userEntity.getRoleId().getRoleName());
-                    this.user.setUser(userEntity.getUserId());
-                    
-                    HttpSession session = SessionUtils.getSession();
-                    session.setAttribute("userId", this.user.getUser());
-                    session.setAttribute("userRol", this.user.getUserRole());
-                } else {
-                    throw new ValidationException("Failed to create user");
-                }
             } else {
-                throw new ValidationException("E-mail Exists");
-            }
+                throw new ValidationException("Failed to create user");
+            }   
         } catch (Exception e) {
             System.out.println(e.toString());
-            return "signup";
-            
+            return "signup";    
         }
         return "index";
     }

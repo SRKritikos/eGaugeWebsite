@@ -6,6 +6,92 @@
       xmlns:f="http://java.sun.com/jsf/core"
     >
     <ui:composition template="resources/templates/common.xhtml">
+        <ui:define name="maincontent">
+            <h:form>
+                <div class="form-group row">
+                    <label for="kingston1Info" class="col-xs-2 col-form-label">Kingston 1 Station </label>
+                    <h:inputText id="kingston1Info" class="form-control" value="#{deviceinfobean.kingston1Info}"/>
+                </div>
+                <div class="form-group row">
+                    <label for="kingston2Info" class="col-xs-2 col-form-label">Kingston 2 Station </label>
+                    <h:inputText id="kingston2Info" class="form-control" value="#{deviceinfobean.kingston2Info}"/>
+                </div>
+                <div class="form-group row">
+                    <label for="borckvilleInfo" class="col-xs-2 col-form-label">Brockville Station </label>
+                    <h:inputText id="borckvilleInfo" class="form-control" value="#{deviceinfobean.brockvilleInfo}"/>
+                </div>
+                <div class="form-group row">
+                    <label for="cornwallInfo" class="col-xs-2 col-form-label">Cornwall Station </label>
+                    <h:inputText id="cornwallInfo" class="form-control" value="#{deviceinfobean.cornwallInfo}"/>
+                </div>
+                <div class="form-group row">
+                    <label for="mainInfo" class="col-xs-2 col-form-label">All Stations</label>
+                    <h:inputTextarea rows="5" id="mainInfo" class="form-control" value="#{deviceinfobean.mainInfoDiv}"/>
+                </div>
+                <div class="form-group">
+                    <h:commandButton class="btn btn-primary" value="Update "/>
+                </div>
+            </h:form>
+            <h:form>
+                <div class="row">
+                    <div class="col-xs-6 text-center">
+                        <h4>Users</h4>
+                    </div>
+                    <div class="col-xs-6 text-center">
+                        <h4>Admins</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-4 col-xs-offset-2" id="selectUsers">
+                        <h:selectManyListbox size="10" class="form-control" value="#{adminusercontrolbean.selectedUser}" >
+                            <f:selectItems value="#{adminusercontrolbean.userMap}" />
+                        </h:selectManyListbox>
+                    </div>
+                    <div class="form-group col-xs-4" id="selectAdmins">
+                        <h:selectManyListbox size="10" class="form-control" value="#{adminusercontrolbean.selectedAdmin}" >
+                            <f:selectItems value="#{adminusercontrolbean.adminMap}" />
+                        </h:selectManyListbox>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="btn-group" role="group" id="btnUserChanges">
+                            <h:commandLink class="btn btn-primary btn-md" action="#{adminusercontrolbean.updateUserRole()}">
+                                <span>Update Role</span>
+                            </h:commandLink>
+                            <button type="button" style="margin-left: 2em" class="btn btn-danger btn-md"
+                                        data-toggle='modal' data-target="#deleteusermodal">
+                                Delete User
+                            </button>
+                    </div>
+                </div>
+
+                
+                <!--MODAL FOR DELETE USER -->
+                <div id="deleteusermodal" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content" id="deleteuser-wrapper">
+                            <div class="modal-header modal-header-danger">
+                                <button type="button" class="close" data-dismiss="modal">X</button> 
+                                <h1><span class="modal-title glyphicon glyphicon-warning-sign">Warning</span></h1>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-center">
+                                    <span style="color:red">Warning!</span>
+                                    <span>Deleting a user will permanently delete the user's account<br/>
+                                    This change cannot be undone</span>
+                                </p>
+                            </div>
+                            <div class='modal-footer'>
+                                <h:commandLink class="btn btn-danger" action="#{adminusercontrolbean.deleteUser()}"
+                                            value="Delete User">
+                                </h:commandLink>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </h:form> 
+        </ui:define>
     </ui:composition>      
     
 </html>

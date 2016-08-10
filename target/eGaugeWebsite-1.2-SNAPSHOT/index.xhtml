@@ -5,40 +5,79 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       >
-    <ui:composition template="resources/templates/common.xhtml">
+        <ui:composition template="resources/templates/common.xhtml">
         <ui:define name="maincontent">
+            <h:outputScript name="js/controller/LoadIndexController.js" />
+            <h:outputScript name="js/controller/GraphRequestController.js" />
+            <h:outputScript name="js/Model/GraphPoint.js" />
+            <h:outputScript name="js/view/MainGraph.js" />
+            <h:form id="formInstData">
+                <div class="col-xs-12" id="inst-wrapper" >
+                    <div class="col-xs-6 col-md-3 inst-divs text-center" id="kingston1div">
+                        <h3>Kingston 1</h3> 
+                        <h:outputText id="kingston1out" value="#{instbean.kingston1Power}"/>
+                        <p>
+                            <h:outputText value="#{deviceinfobean.kingston1Info}"/>
+                        </p>
+                    </div>
+                    <div class="col-xs-6 col-md-3 inst-divs text-center" id="kingston2div">
+                        <h3>Kingston 2</h3>
+                        <h:outputText id="kingston2out" value="#{instbean.kingston2Power}"/>
+                        <p>
+                             <h:outputText value="#{deviceinfobean.kingston2Info}"/>
+                        </p>
+                    </div>
+                    <div class="col-xs-6 col-md-3 inst-divs text-center" id="brockvillediv">
+                        <h3>Brockville</h3>
+                        <h:outputText id="brockvilleout" value="#{instbean.brockvillePower}"/>
+                        <p>
+                            <h:outputText value="#{deviceinfobean.brockvilleInfo }"/>
+                        </p>  
+                    </div>
+                    <div class="col-xs-6 col-md-3 inst-div text-center" id="cornwalldiv">
+                        <h3>Cornwall</h3>
+                        <h:outputText id="cornwallout" value="#{instbean.cornwallPower}"/>
+                        <p>
+                            <h:outputText value="#{deviceinfobean.cornwallInfo}"/>
+                        </p>
+                    </div>
+                </div>
+                <h:commandButton id="btnUpdateInstData" value="submit" action="#{instbean.updateReadings()}" >
+                    <f:ajax execute="@form" render="@form"/> 
+                </h:commandButton> 
+            </h:form>
+            <div class="text-center" >
+                <h:outputText value="#{deviceinfobean.mainInfoDiv}"/>
+            </div>
             <div id="graph-wrapper">
                 <div id="graph-holder" border="2px" style="border-color: blue">
-                    <h:outputText value="#{instantaneousdisplaybean.reading}"></h:outputText>
                     <svg></svg>                       
                 </div>
             </div>
-
-            <h:form id="formDeviceData">
-                <div id="date-wrapper" class="form-group">
-                    <div class="input-group date" id="startDate">
+            <h:form id="formDeviceData" class="form-horizontal" role="form">
+                <div id="date-wrapper" class="form-group col-xs-12 "> 
+                    <label for="requestStartDate" class="col-xs-offset-3 col-xs-1 lblDates"> Start: </label>
+                    <div class="input-group date col-xs-3" id="startDate">
                         <h:inputText class="form-control"  id="requestStartDate" value="#{devicedatabean.startDate}"  />
                             <div class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </div>
-                        </div>
-                    <div class="input-group date" id="endDate">
+                    </div>
+                    <label for="requestStartDate" class="col-xs-offset-3 col-xs-1 lblDates"> End: </label>
+                    <div class="input-group date col-xs-3" id="endDate"> 
                         <h:inputText class="form-control" id="requestEndDate" value="#{devicedatabean.endDate}"/>    
                             <div class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                        </div>
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                            </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <h:commandButton class="btn btn-default btn-sm" id="btnDeviceData" action="#{devicedatabean.submitRequest()}" value="Submit" > 
-                        <f:ajax execute="requestStartDate requestEndDate"  render="@this" 
-                                onevent="function(data){if(data.status === 'success'){buildGraph(#{devicedatabean.data})};}"/>
-                    </h:commandButton>  
-                </div>
+                <button type="button" class="btn btn-success btn-sm col-xs-offset-5"
+                       id="btnDeviceData" onclick="requestGraph()">
+                        Submit
+                </button>
             </h:form>
              
         </ui:define> 
     </ui:composition>
-
 </html>
 

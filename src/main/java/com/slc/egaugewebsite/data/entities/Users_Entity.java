@@ -7,6 +7,7 @@
 package com.slc.egaugewebsite.data.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,13 +18,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
  * @author Steven Kritikos
- * email: stevenrktitikos@outlook.com
  */
 @Entity
 @Table(name = "users")
@@ -31,8 +33,34 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Users_Entity.findAll", query = "SELECT u FROM Users_Entity u"),
     @NamedQuery(name = "Users_Entity.findByUserId", query = "SELECT u FROM Users_Entity u WHERE u.userId = :userId"),
     @NamedQuery(name = "Users_Entity.findByEmail", query = "SELECT u FROM Users_Entity u WHERE u.email = :email"),
-    @NamedQuery(name = "Users_Entity.findByPreferredCampus", query = "SELECT u FROM Users_Entity u WHERE u.preferredCampus = :preferredCampus")})
+    @NamedQuery(name = "Users_Entity.findByPreferredCampus", query = "SELECT u FROM Users_Entity u WHERE u.preferredCampus = :preferredCampus"),
+    @NamedQuery(name = "Users_Entity.findByTimeEnteredQueue", query = "SELECT u FROM Users_Entity u WHERE u.timeEnteredQueue = :timeEnteredQueue"),
+    @NamedQuery(name = "Users_Entity.findByAvailaleStartTime", query = "SELECT u FROM Users_Entity u WHERE u.availaleStartTime = :availaleStartTime"),
+    @NamedQuery(name = "Users_Entity.findByAvailableEndTime", query = "SELECT u FROM Users_Entity u WHERE u.availableEndTime = :availableEndTime"),
+    @NamedQuery(name = "Users_Entity.findByIsActive", query = "SELECT u FROM Users_Entity u WHERE u.isActive = :isActive"),
+    @NamedQuery(name = "Users_Entity.findByExtendIimeTries", query = "SELECT u FROM Users_Entity u WHERE u.extendIimeTries = :extendIimeTries")})
 public class Users_Entity implements Serializable {
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 64)
+    @Column(name = "firstName")
+    private String firstName;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 64)
+    @Column(name = "lastName")
+    private String lastName;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "password")
+    private byte[] password;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "passwordSalt")
+    private byte[] passwordSalt;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,19 +78,25 @@ public class Users_Entity implements Serializable {
     @Size(max = 10)
     @Column(name = "preferredCampus")
     private String preferredCampus;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "password")
-    private byte[] password;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "passwordSalt")
-    private byte[] passwordSalt;
+    @Column(name = "timeEnteredQueue")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timeEnteredQueue;
+    @Column(name = "availaleStartTime")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date availaleStartTime;
+    @Column(name = "availableEndTime")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date availableEndTime;
+    @Column(name = "isActive")
+    private Boolean isActive;
+    @Column(name = "extendIimeTries")
+    private Integer extendIimeTries;
     @JoinColumn(name = "roleId", referencedColumnName = "roleId")
     @ManyToOne
     private Userroles_Entity roleId;
+    @JoinColumn(name = "deviceId", referencedColumnName = "deviceId")
+    @ManyToOne
+    private Device_Entity deviceId;
 
     public Users_Entity() {
     }
@@ -71,11 +105,12 @@ public class Users_Entity implements Serializable {
         this.userId = userId;
     }
 
-    public Users_Entity(String userId, String email, byte[] password, byte[] passwordSalt) {
+    public Users_Entity(String userId, String email, byte[] password, byte[] passwordSalt, Date timeEnteredQueue) {
         this.userId = userId;
         this.email = email;
         this.password = password;
         this.passwordSalt = passwordSalt;
+        this.timeEnteredQueue = timeEnteredQueue;
     }
 
     public String getUserId() {
@@ -102,20 +137,45 @@ public class Users_Entity implements Serializable {
         this.preferredCampus = preferredCampus;
     }
 
-    public byte[] getPassword() {
-        return password;
+
+    public Date getTimeEnteredQueue() {
+        return timeEnteredQueue;
     }
 
-    public void setPassword(byte[] password) {
-        this.password = password;
+    public void setTimeEnteredQueue(Date timeEnteredQueue) {
+        this.timeEnteredQueue = timeEnteredQueue;
     }
 
-    public byte[] getPasswordSalt() {
-        return passwordSalt;
+    public Date getAvailaleStartTime() {
+        return availaleStartTime;
     }
 
-    public void setPasswordSalt(byte[] passwordSalt) {
-        this.passwordSalt = passwordSalt;
+    public void setAvailaleStartTime(Date availaleStartTime) {
+        this.availaleStartTime = availaleStartTime;
+    }
+
+    public Date getAvailableEndTime() {
+        return availableEndTime;
+    }
+
+    public void setAvailableEndTime(Date availableEndTime) {
+        this.availableEndTime = availableEndTime;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public Integer getExtendIimeTries() {
+        return extendIimeTries;
+    }
+
+    public void setExtendIimeTries(Integer extendIimeTries) {
+        this.extendIimeTries = extendIimeTries;
     }
 
     public Userroles_Entity getRoleId() {
@@ -124,6 +184,14 @@ public class Users_Entity implements Serializable {
 
     public void setRoleId(Userroles_Entity roleId) {
         this.roleId = roleId;
+    }
+
+    public Device_Entity getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(Device_Entity deviceId) {
+        this.deviceId = deviceId;
     }
 
     @Override
@@ -148,7 +216,39 @@ public class Users_Entity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.slc.egaugewebsite.data.entities.Users_Entity[ userId=" + userId + " ]";
+        return "com.slc.egaugewebsite.data.entities.Users[ userId=" + userId + " ]";
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public byte[] getPassword() {
+        return password;
+    }
+
+    public void setPassword(byte[] password) {
+        this.password = password;
+    }
+
+    public byte[] getPasswordSalt() {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt(byte[] passwordSalt) {
+        this.passwordSalt = passwordSalt;
     }
 
 }

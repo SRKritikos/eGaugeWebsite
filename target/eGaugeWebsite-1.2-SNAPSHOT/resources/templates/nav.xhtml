@@ -13,71 +13,69 @@ File defines the navigation bar on the top of the website.
         <div id="nav-bar">
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-xs-12 col-md-8">
-                            <h1>SLC Egauge Website</h1>
-                        </div>
-                        <div class="col-xs-12 col-md-4" id="usernav-wrapper">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-xs-12" id="userbtnnav-wrapper">
-                                        <ui:fragment rendered="#{user.user eq null}">
-                                            <button id="btnLogIn" class="btn btn-primary btn-sm col-xs-6" data-toggle="modal" data-target="#loginmodal">Log In</button>
-                                            <h:form id="nav-formSignUp">
-                                                <h:commandButton class="btn btn-primary btn-sm col-xs-6" id="btnSignUp" 
-                                                                 action="#{navigationbean.directToPage()}" value="Sign Up" style="width : 100px">
-                                                    <f:param name="pageName" value="signup"/>
-                                                </h:commandButton>      
-                                            </h:form>
-                                        </ui:fragment>   
-                                    </div>
-                                    <ui:fragment rendered="#{user.user ne null}">
-                                       <h:form id="nav-formLogout">
-                                            <h:commandButton class="btn btn-primary btn-sm col-xs-12" id="btnLogout" 
-                                                             action="#{user.logoutUser()}" value="Logout" style="width : 100px">
-                                                <f:param name="pageName" value="signup"/>
-                                            </h:commandButton>      
-                                        </h:form>
-                                    </ui:fragment>
-                                </div>  
-                            </div>
-                        </div>
+                    <div class="mavbar-header">
+                        <h1>SLC E.V. Charging Stations</h1>
                     </div>
-                </div>
-                <div class="container-fluid">
-                    <div class="row">
-                        <h:form>
-                            <ul class="nav navbar-nav" >
-                                <li class="active">
-                                    <h:commandLink action="#{navigationbean.directToPage()}">
-                                        Home
-                                        <f:param name="pageName" value="index"/>
-                                    </h:commandLink>
-                                </li>
-                                <ui:fragment rendered="#{user.userRole eq 'defaultuser'}">
+                    <h:form>
+                        <ul class="nav navbar-nav" >
+                            <li class="active">
+                                <h:commandLink action="#{navigationbean.directToPage()}">
+                                    Home
+                                    <f:param name="pageName" value="index"/>
+                                </h:commandLink>
+                            </li>
+                            <ui:fragment rendered="#{user.userRole eq 'defaultuser' or user.userRole eq 'admin'}">
                                 <li>
                                     <h:commandLink action="#{navigationbean.directToPage()}">
-                                        User
-                                        <f:param name="pageName" value="user"/>
+                                        Station Queue
+                                        <f:param name="pageName" value="queue"/>
                                     </h:commandLink>
                                 </li>
-                                </ui:fragment>
-                                <ui:fragment rendered="#{user.userRole eq 'admin'}">
-                                    <li>
-                                        <h:commandLink action="#{navigationbean.directToPage()}">
-                                            User
-                                            <f:param name="pageName" value="user"/>
-                                        </h:commandLink>
-                                    </li>                              <li>
-                                        <h:commandLink action="#{navigationbean.directToPage()}">
-                                            Admin
-                                            <f:param name="pageName" value="admin"/>
-                                        </h:commandLink>
-                                    </li>
-                                </ui:fragment>
-                            </ul>
-                        </h:form>
-                    </div>
+                                <li>
+                                    <h:commandLink action="#{navigationbean.directToPage()}">
+                                        Profile
+                                        <f:param name="pageName" value="profile"/>
+                                    </h:commandLink>
+                                    
+                                </li>
+                            </ui:fragment>
+                            <ui:fragment rendered="#{user.userRole eq 'admin'}"> 
+                                <li>
+                                    <h:commandLink action="#{navigationbean.directToPage()}">
+                                        Admin
+                                        <f:param name="pageName" value="admin"/>
+                                    </h:commandLink>
+                                </li>
+                            </ui:fragment>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right" id="usernav-wrapper">
+                            <ui:fragment rendered="#{user.user eq null}">
+                                <li>
+                                    <a href="#loginmodal" id="btnLogIn" data-toggle="modal" data-target="#loginmodal">
+                                        <span class="glyphicon glyphicon-log-in"></span>
+                                        <span>Log In</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <h:commandLink id="btnSignUp"  action="#{navigationbean.directToPage()}">
+                                        <span class="glyphicon glyphicon-user"></span>
+                                        <span>Sign Up</span>
+                                        <f:param name="pageName" value="signup"/>
+                                    </h:commandLink>      
+                                </li>
+                            </ui:fragment>   
+                            <ui:fragment rendered="#{user.user ne null}">
+                                <li>
+                                    <h:commandLink  id="btnLogout" 
+                                                     action="#{user.logoutUser()}">
+                                        <span class="glyphicon glyphicon-log-out"></span>
+                                        <span>Logout</span>
+                                        <f:param name="pageName" value="signup"/>
+                                    </h:commandLink>      
+                                </li>
+                            </ui:fragment>
+                        </ul>
+                    </h:form>
                 </div>
             </nav>
         </div>
@@ -88,7 +86,7 @@ File defines the navigation bar on the top of the website.
                 <div class="modal-content" id="login-wrapper">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">X</button>
-                        <h2 clas="modal-title">Log In</h2>
+                        <h2 class="modal-title">Log In</h2>
                     </div>
                     <div class="modal-body">
                         <h:form id="formLogIn">

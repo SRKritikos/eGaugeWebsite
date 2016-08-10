@@ -1,0 +1,43 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Aug 2, 2016, 11:41:03 AM
+    Author     : Steven
+*/
+
+#formInstData\:inst-wrapper {
+    height : 350px;
+}
+
+.formInstData\:inst-divs {
+    height : 100%;
+    border : 4px solid green;
+}
+
+#formInstData\:btnUpdateInstData {
+    display : none;
+}
+
+#graph-wrapper,
+#inst-wrapper {
+    margin : 2em;
+}
+
+#startDate,
+#endDate {
+    padding: 2px;
+}
+#formDeviceData\:btnDeviceData {
+    margin-top : .5em; 
+}
+
+.lblDates {
+    margin-top : .5em;
+}
+
+
+
+

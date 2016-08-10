@@ -5,12 +5,9 @@ This is the view!
 //       Once we have data we want to create a graph that shows the data interms of watzH / DATE
 
 function buildGraph(data) {
-    console.log("IN BUILD GRAPH");
-    var test = $("#formDeviceData\\:deviceDataField").val();
-    console.log(test);
     console.log(data);
     var  names = data.devices.map(function(obj) {
-        return obj.name;
+        return obj.deviceName;
     });
     console.log(names);
     var data = data.devices.map(function(obj){
@@ -62,7 +59,7 @@ function buildGraphData(graphPoints, names) {
  * graphData - the data objects to plot the points on the graph
  */
 function generateGraph(graphData) {
-
+  console.log(graphData);
   nv.addGraph(function() {
     var chart = nv.models.lineWithFocusChart()
                 .margin({left: 100})  
@@ -81,12 +78,12 @@ function generateGraph(graphData) {
               return d3.time.format("%x")(new Date(date));
       });
       
-      chart.yDomain([0,10000]);
+      chart.yDomain([0,10]);
       chart.yAxis
-          .tickFormat(d3.format(',.2f'));
+          .tickFormat(d3.format(',.3f'));
 
       chart.y2Axis
-          .tickFormat(d3.format(',.2f'));
+          .tickFormat(d3.format(',.3f'));
 
 
       d3.select('#graph-holder svg')

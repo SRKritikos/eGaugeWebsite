@@ -7,7 +7,7 @@ and open the template in the editor.
     Created on : Jul 17, 2016, 3:03:36 PM
     Author     : Steven
 */
-
+/*
 #nav-formSignUp\:btnSignUp,
 #btnLogIn,
 #nav-formLogout\:btnLogout{
@@ -22,5 +22,40 @@ and open the template in the editor.
     width : 450px;
     padding-bottom: .25em;
 }
+*/
+#main-wrapper {
+    min-height: 550px;
+}
 
+#footer-wrapper {
+    margin: 2.5em;
+}
 
+/*
+    Modal header colors to show danger or warning to users.
+*/
+.modal-header-danger {
+    color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #d9534f;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+
+.modal-header-warning {
+	color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #f0ad4e;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}

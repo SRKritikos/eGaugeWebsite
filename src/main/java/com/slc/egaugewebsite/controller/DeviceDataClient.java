@@ -5,20 +5,19 @@
  */
 package com.slc.egaugewebsite.controller;
 
-import com.slc.egaugewebsite.controller.beans.DeviceDataModelBean;
+
+import com.google.gson.Gson;
+import com.slc.egaugewebsite.data.entities.Device_Entity;
+import com.slc.egaugewebsite.model.InstDeviceList;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.faces.bean.ManagedBean;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+
 
 /**
  * Jersey REST client generated for REST resource:DeviceDataController
@@ -33,11 +32,9 @@ import org.quartz.JobExecutionException;
  *
  * @author Steven
  */
-@Stateless
-public class DeviceDataClient implements Job {
-
-    @EJB
-    private DeviceDataModelBean modelBean;
+@Singleton
+@Startup
+public class DeviceDataClient implements Serializable{;
     private WebTarget webTarget;
     private Client client;
     private static final String BASE_URI = "http://localhost:8080/eGaugeWebService/web";
@@ -65,38 +62,57 @@ public class DeviceDataClient implements Job {
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(String.class);
     }
     
-    public String getInstData(String[] campus) {
+    /**
+     * Get devices' instantaneous reading
+     * 
+     * @param campus
+     * @return 
+     */
+    public InstDeviceList getInstData(String[] campus) {
+        Gson gson = new Gson();
         WebTarget resource = webTarget;
+        InstDeviceList devices = null;
         if (campus != null) {
             resource = resource.queryParam("campus", campus);
         }
-        
+        try {
         resource = resource.path("instdata");
+        String jsonResponse = resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(String.class);
+        System.out.println(jsonResponse);
+        devices = gson.fromJson(jsonResponse, InstDeviceList.class);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return devices;
+    }
+    
+    /**
+     * Get the device information for given campus name
+     * 
+     * @param campusName
+     * @return 
+     */
+    public Device_Entity getDeviceByName(String campusName) {
         
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(String.class);
+        Gson gson = new Gson();
+        WebTarget resource = webTarget;
+        
+        if (campusName == null){
+            campusName = "Kingston";
+        } 
+        
+        resource = resource.queryParam("campus", campusName).path("device");
+        String jsonResponse = resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(String.class);
+        Device_Entity device = gson.fromJson(jsonResponse, Device_Entity.class);
+        
+        return  device;
+        
     }
     
     public void close() {
         client.close();
     }
 
-    @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException {
-        System.out.println("Updating Model Bean");
-        this.updateBean();
-    }
-    
-    public void updateBean() {
-        Calendar nowCal = Calendar.getInstance();
-        nowCal.setTime(new Date());
-        Calendar yesterdayCal = Calendar.getInstance();
-        yesterdayCal.setTime(new Date());
-        yesterdayCal.add(Calendar.DAY_OF_MONTH, -1);
-        
-        String now = requestdf.format(nowCal.getTime());
-        String yesterday = requestdf.format(yesterdayCal.getTime());
-        modelBean.setDeviceData(this.getData(now, yesterday));
-    }
-
+   
     
 }

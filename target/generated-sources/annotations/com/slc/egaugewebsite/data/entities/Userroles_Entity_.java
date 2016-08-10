@@ -6,11 +6,11 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-07-27T06:09:33")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-08-09T18:57:12")
 @StaticMetamodel(Userroles_Entity.class)
 public class Userroles_Entity_ { 
 
-    public static volatile ListAttribute<Userroles_Entity, Users_Entity> usersEntityList;
+    public static volatile ListAttribute<Userroles_Entity, Users_Entity> usersList;
     public static volatile SingularAttribute<Userroles_Entity, Integer> roleId;
     public static volatile SingularAttribute<Userroles_Entity, String> roleName;
 

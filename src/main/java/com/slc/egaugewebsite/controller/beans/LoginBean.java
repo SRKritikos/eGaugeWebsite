@@ -6,18 +6,13 @@
 
 package com.slc.egaugewebsite.controller.beans;
 
-import com.slc.egaugewebsite.data.dao.UserrolesDAO;
-import com.slc.egaugewebsite.data.dao.UsersDAO;
+import com.slc.egaugewebsite.controller.UserTransactionController;
 import com.slc.egaugewebsite.data.entities.Users_Entity;
-import com.slc.egaugewebsite.utils.AuthenticationUtils;
-import com.slc.egaugewebsite.utils.DatabaseUtils;
-import com.slc.egaugewebsite.utils.SessionUtils;
 import java.io.Serializable;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.persistence.EntityManagerFactory;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -28,18 +23,10 @@ import javax.servlet.http.HttpSession;
 public class LoginBean implements Serializable {
     @ManagedProperty("#{user}")
     private UserBean user;
-    private final EntityManagerFactory emf;    
-    private final UsersDAO usersdao;
-    private final UserrolesDAO roledao;
+    @EJB
+    private UserTransactionController usercontroller;
     private String email;
     private String password;
-
-    public LoginBean() {
-       this.emf = DatabaseUtils.getEntityManager();
-       this.usersdao = new UsersDAO(emf);
-       this.roledao = new UserrolesDAO(emf);
-    }
-   
 
     public String getEmail() {
         return email;
@@ -68,31 +55,27 @@ public class LoginBean implements Serializable {
     
     public String loginUser() {
         try {
-            Users_Entity userEntity = usersdao.getUserByEmail(this.email);
-            if (userEntity == null) {
-                throw new Exception("User does not exist");
-            }
-            System.out.println("CHECK IF USER EXISTS");
-            boolean validPassword = AuthenticationUtils.isExpectedPassword(this.password.toCharArray(), userEntity.getPasswordSalt(), userEntity.getPassword());
-            if (!validPassword) {
-                throw new Exception("Password doesn't match");
-            }
-            System.out.println("VALIDATED PASSWORD");
+            Users_Entity userEntity = usercontroller.ValidateUser(this.email, this.password);
             // build user session
             this.user.setPreferredCampus(userEntity.getPreferredCampus());
             this.user.setUserRole(userEntity.getRoleId().getRoleName());
             this.user.setUser(userEntity.getUserId());
+            this.user.setFirstName(userEntity.getFirstName());
+            this.user.setLastName(userEntity.getLastName());
+            this.user.setUserEmail(userEntity.getEmail());
             
-            //add user to session
-            HttpSession session = SessionUtils.getSession();
-            session.setAttribute("userRole", this.user.getUserRole());
-            session.setAttribute("userId", this.user.getUser());
+            if (userEntity.getTimeEnteredQueue() != null) {
+                // check if they are in queue depending on if the time they entered queue is not null 
+                this.user.setInQueue(true);
+                this.user.setCharging(userEntity.getIsActive());
+            } else {
+                this.user.setInQueue(false);
+                this.user.setCharging(false);
+            }
         } catch (Exception e) {
             System.out.println(e.toString());
-            e.printStackTrace();
-            return "signup";
+            return "index";
         }
-        
         return "index";
     }
     

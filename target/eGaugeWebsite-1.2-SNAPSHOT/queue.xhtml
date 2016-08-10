@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+    >
+    <ui:composition template="resources/templates/common.xhtml">             
+        <ui:define name="maincontent">
+        <h:form id="queueForm" class="form-horizontal" role="form">
+            <div class="form-group">
+                <div id="selectqueuecampus-wrapper" class="col-xs-offset-3 col-xs-4 col-sm-3 col-md-2 center">
+                    <h:selectOneMenu class="form-control" id="selectQueueCampus" value="#{queuebean.campus}">
+                        <f:selectItems value="#{queuebean.campusMap}" />
+                        <f:ajax execute="@form" render="@form" listener="#{queuebean.updateTable()}"/>
+                    </h:selectOneMenu>
+                </div>
+            </div>
+            <div id="queuetable-wrapper">
+                <ui:fragment rendered="#{queuebean.tableData.size() gt 0}">
+                    <h:dataTable class="table table-striped" id="queueTable" value="#{queuebean.tableData}"
+                                 var="data">
+                        <h:column class="col-xs-8">
+                            <f:facet name="header">Name</f:facet>
+                            #{data.userName}
+                        </h:column>
+                        <h:column class="col-xs-4 #{user.inQueue}">
+                            <f:facet name="header">Status</f:facet>
+                            #{data.currentStatus}
+                        </h:column>
+                </h:dataTable>  
+                </ui:fragment>
+                <ui:fragment rendered="#{queuebean.tableData.size() eq 0}">
+                    <h1>No one in queue</h1>
+                </ui:fragment>
+            </div>
+            <div class="row col-xs-12">
+                <ui:fragment rendered="#{user.inQueue eq false and user.charging eq false}">
+                    <div class="col-xs-6 col-xs-push-5">
+                        <h:commandButton class="btn btn-success btn-md" id="btnAddToQueue" 
+                                         action="#{queuebean.addToQueue()}" value="Add Me To Queue">
+                            <f:ajax execute="@form"  render="@form"/>                     
+                        </h:commandButton>
+                    </div>
+                </ui:fragment>
+                <ui:fragment rendered="#{user.inQueue eq true and user.charging eq false}">
+                    <div class="text-center">
+                        <div class="btn-group" role="group" id="btnQueueChanges">
+                            <button type="button" class="btn btn-primary btn-md "
+                                    data-toggle='modal' data-target="#removefromqueuemodal">
+                                    Remove Me From Queue
+                            </button>
+                            <button type="button" style="margin-left: 2em" class="btn btn-primary btn-md center-block"
+                                    data-toggle='modal' data-target="#changecampusmodal">
+                                    Change Campus
+                            </button>
+                        </div>
+                    </div>
+                </ui:fragment>
+                <ui:fragment rendered="#{user.charging eq true}">
+                    <div class="text-center">
+                        <!--TODO: need to handle this-->
+                        <h:commandButton class="btn btn-danger btn-md" id="btnNotMe" 
+                                         value="This is not me">
+                            <f:ajax execute="@form"  render="@form"/>                     
+                        </h:commandButton>
+                    </div>
+                </ui:fragment>
+            </div>
+            <!-- MODAL FOR REMOVE FROM QUEUE-->
+            <div id="removefromqueuemodal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content" id="removefromqueue-wrapper">
+                        <div class="modal-header modal-header-warning">
+                            <button type="button" class="close" data-dismiss="modal">X</button> 
+                            <h1><span class="modal-title glyphicon glyphicon-eye-open">Warning</span></h1>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-center">
+                                <span>Removing yourself from queue will not save your position in queue. <br/>
+                                    Entering queue again will place you at the bottom of the queue. <br/>
+                                    Are you sure you want to be removed form queue?</span>
+                            </p>
+                        </div>
+                        <div class='modal-footer'>
+                            <h:commandLink  class="btn btn-warning" id="btnRemoveFromQueue" 
+                                     action="#{queuebean.removeFromQueue()}" value="Remove Me From Queue">
+                            </h:commandLink>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+                        </div>
+                    </div>
+                </div>   
+            </div>
+            <!-- MODAL FOR CHANGE CAMPUS-->
+            <div id="changecampusmodal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content" id="changecampus-wrapper">
+                        <div class="modal-header modal-header-warning">
+                            <button type="button" class="close" data-dismiss="modal">X</button> 
+                            <h1><span class="modal-title glyphicon glyphicon-eye-open">Warning</span></h1>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-center">
+                                <span>By changing campus you will be placed at the bottom of the queue
+                                    for your currently selected campus<br/>
+                                    Are you sure you want to change campus?</span>
+                            </p>
+                        </div>
+                        <div class='modal-footer'>
+                            <h:commandLink  class="btn btn-warning" id="btnChangeCampus" 
+                                     action="#{queuebean.updateCampusForUser()}" value="Change Campus">
+                            </h:commandLink>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+                        </div>
+                    </div>
+                </div>   
+            </div>
+        </h:form>
+        </ui:define>
+    </ui:composition>      
+    
+</html>

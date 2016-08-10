@@ -23,7 +23,6 @@ import javax.validation.constraints.Size;
 /**
  *
  * @author Steven Kritikos
- * email: stevenrktitikos@outlook.com
  */
 @Entity
 @Table(name = "userroles")
@@ -43,7 +42,7 @@ public class Userroles_Entity implements Serializable {
     @Column(name = "roleName")
     private String roleName;
     @OneToMany(mappedBy = "roleId")
-    private List<Users_Entity> usersEntityList;
+    private List<Users_Entity> usersList;
 
     public Userroles_Entity() {
     }
@@ -68,12 +67,12 @@ public class Userroles_Entity implements Serializable {
         this.roleName = roleName;
     }
 
-    public List<Users_Entity> getUsersEntityList() {
-        return usersEntityList;
+    public List<Users_Entity> getUsersList() {
+        return usersList;
     }
 
-    public void setUsersEntityList(List<Users_Entity> usersEntityList) {
-        this.usersEntityList = usersEntityList;
+    public void setUsersList(List<Users_Entity> usersList) {
+        this.usersList = usersList;
     }
 
     @Override
@@ -98,7 +97,7 @@ public class Userroles_Entity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.slc.egaugewebsite.data.entities.Userroles_Entity[ roleId=" + roleId + " ]";
+        return "com.slc.egaugewebsite.data.entities.Userroles[ roleId=" + roleId + " ]";
     }
 
 }
