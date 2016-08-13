@@ -11,10 +11,14 @@ import com.slc.egaugewebsite.data.entities.Users_Entity;
 import com.slc.egaugewebsite.utils.AuthenticationUtils;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -27,7 +31,8 @@ public class UserProfileBean {
     private UserTransactionController usercontroller;
     @ManagedProperty("#{user}")
     private UserBean user;
-    
+    private UIComponent passwordErrorMsg;
+    private String errorColor;
     private String oldPassword;
     private String newPassword;
     private String preferredCampus;
@@ -38,6 +43,11 @@ public class UserProfileBean {
         this.campusMap.put("Kingston", "Kingston");
         this.campusMap.put("Brockville", "Brockville");
         this.campusMap.put("Cornwall", "Cornwall");
+    }
+    
+    @PostConstruct
+    public void init() {
+        this.preferredCampus = this.user.getPreferredCampus();
     }
     
     
@@ -89,6 +99,24 @@ public class UserProfileBean {
     public void setUser(UserBean user) {
         this.user = user;
     }
+
+    public UIComponent getPasswordErrorMsg() {
+        return passwordErrorMsg;
+    }
+
+    public void setPasswordErrorMsg(UIComponent passwordErrorMsg) {
+        this.passwordErrorMsg = passwordErrorMsg;
+    }
+
+    public String getErrorColor() {
+        return errorColor;
+    }
+
+    public void setErrorColor(String errorColor) {
+        this.errorColor = errorColor;
+    }
+
+  
     
     public void updatePreferredCampus() {
         Users_Entity userEntity = this.usercontroller.getUserEntity(this.user.getUser());
@@ -98,14 +126,25 @@ public class UserProfileBean {
     }
     
     public void updatePassword() {
+        FacesMessage msg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
         try {
             Users_Entity userEntity = this.usercontroller.ValidateUser(this.user.getUserEmail(), oldPassword);
             byte[] password = AuthenticationUtils.hash(this.newPassword.toCharArray(), userEntity.getPasswordSalt());
             userEntity.setPassword(password);
             this.usercontroller.updateUser(userEntity);
+            this.errorColor = "green";
+            msg.setDetail("Successfully changed password!");
+            context.addMessage(this.passwordErrorMsg.getClientId(context), msg);
         } catch (Exception e) {
-            System.out.println(e.toString());
-            System.out.println("Failed to change password");
+            this.errorColor = "red";
+            if (e.getMessage().equals("invalid")) {
+                msg.setSummary("Invalid password.");
+            } else {
+                msg.setSummary("Failed to change password.");
+            }
+            System.out.println(e.getMessage());
+            context.addMessage(this.passwordErrorMsg.getClientId(context), msg);
         }
     }
     

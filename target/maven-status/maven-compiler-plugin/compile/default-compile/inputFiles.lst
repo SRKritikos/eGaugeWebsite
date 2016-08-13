@@ -1,5 +1,6 @@
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\utils\DatabaseUtils.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\UserProfileBean.java
+F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\validators\MatchingPasswordValidator.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\dao\exceptions\PreexistingEntityException.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\NavigationBean.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\SignUpBean.java
@@ -14,6 +15,7 @@ F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\utils\SessionUtils.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\utils\AuthonticationFilter.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\DeviceInformationBean.java
+F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\validators\LoginValidator.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\AdminUserControlBean.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\utils\UserRole.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\utils\AuthenticationUtils.java

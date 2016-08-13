@@ -60,11 +60,11 @@ public class UserTransactionController {
         
         rtVl = usersdao.getUserByEmail(email);
         if (rtVl == null) {
-            throw new Exception("User does not exist");
+            throw new Exception("invalid");
         }
         boolean validPassword = AuthenticationUtils.isExpectedPassword(password.toCharArray(), rtVl.getPasswordSalt(), rtVl.getPassword());
         if (!validPassword) {
-            throw new Exception("Password doesn't match");
+            throw new Exception("invalid");
         }
         System.out.println("VALIDATED PASSWORD");
         
@@ -72,7 +72,7 @@ public class UserTransactionController {
     }
     
     public Users_Entity signUpUser(String email, String password, String prefferedCampus,
-                                    String firstName, String lastName) {
+                                    String firstName, String lastName) throws Exception {
         Users_Entity userEntity = usersdao.getUserByEmail(email);
         Users_Entity rtVl = null;
         if (userEntity == null) {
@@ -102,13 +102,11 @@ public class UserTransactionController {
                 usersdao.create(newUser);
                 rtVl = usersdao.getUserByEmail(newUser.getEmail());
             } catch (RollbackFailureException ex) {
-                Logger.getLogger(UserTransactionController.class.getName()).log(Level.SEVERE, null, ex);
-            
-            } catch (ConstraintViolationException ev) {
-                ev.getConstraintViolations().stream().forEach(violation -> System.out.println("CURRENT VIOLATION : " + violation.toString()));
+                System.out.println(ex.getMessage());
+               throw new Exception("failure");
             } catch (Exception ex) {
-                System.out.println("EXECEPTION IN CONTROLLER");
-                Logger.getLogger(UserTransactionController.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.toString());
+                throw new Exception("failure");
             }
             
         } else {

@@ -14,19 +14,36 @@
                     <h:form id="formSignUp">
                         <div class="form-group">
                             <label for="inputEmail">First Name</label>
-                            <h:inputText class="form-control" id="signUpFirstName" value="#{signupbean.firstName}"/>
+                            <h:inputText class="form-control" id="signUpFirstName" value="#{signupbean.firstName}"
+                                         required="true" requiredMessage="*Please enter your first name">
+                            </h:inputText>
+                            <h:message for="signUpFirstName" style="color:red"/>
                         </div>
                         <div class="form-group">
                             <label for="inputEmail">Last Name</label>
-                            <h:inputText class="form-control" id="signUpLastName" value="#{signupbean.lastName}"/>
+                            <h:inputText class="form-control" id="signUpLastName" value="#{signupbean.lastName}"
+                                         required="true" requiredMessage="*Please enter your last name"/>
+                            <h:message for="signUpLastName" style="color : red"/>
                         </div>
                         <div class="form-group">
                             <label for="inputEmail">E-Mail</label>
-                            <h:inputText class="form-control" id="signUpEmail" value="#{signupbean.email}"/>
+                            <h:inputText class="form-control" id="signUpEmail" value="#{signupbean.email}"
+                                         required="true" requiredMessage="*Please enter your last name"/>
+                            <h:message for="signUpEmail" style="color : red"/>
                         </div>
                         <div class="form-group">
-                            <label for="inputPassword">Password</label>
-                            <h:inputSecret class="form-control" id="signUpPassword" value="#{signupbean.password}"/>
+                            <label for="signUpPassword">Password</label>
+                            <h:inputSecret class="form-control" id="signUpPassword" value="#{signupbean.password}">
+                                <f:validator validatorId="matchingpasswordvalidator"/>
+                                <f:attribute name="confirmPassword" value="#{confirmPassword}"/>
+                            </h:inputSecret>
+                            <h:message for="signUpPassword" style="color : red"/> 
+                        </div>
+                        <div class="form-group">
+                            <label for="signUpConfirmPassword" class="col-form-label">Confirm Password</label>
+                            <h:inputSecret id="signUpConfirmPassword" class="form-control" required="true"
+                                           requiredMessage="*Please enter new password again" binding="#{confirmPassword}"/>
+                            <h:message for="confirmPassword" style="color : red"/>
                         </div>
                         <div class="form-group">
                             <label for="selectPrefCampus" >Preferred Campus</label>

@@ -15,7 +15,8 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 /**
- *
+ * Quatz job to handle updating the device queue 
+ * 
  * @author Steven Kritikos
  */
 public class InstantaneousReadingJob implements Job {
@@ -29,6 +30,7 @@ public class InstantaneousReadingJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         DeviceQueueController dqc = null;
         try {
+            // Use JNDI namespace to get the queue EJB in the applicaton's context.
             dqc = (DeviceQueueController) InitialContext.doLookup("java:global/eGaugeWebsite/DeviceQueueController");
             dqc.updateQueue();
         } catch (NamingException ex) {

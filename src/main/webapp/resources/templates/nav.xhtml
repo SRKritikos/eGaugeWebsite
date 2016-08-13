@@ -91,19 +91,27 @@ File defines the navigation bar on the top of the website.
                     <div class="modal-body">
                         <h:form id="formLogIn">
                             <div class="form-group">
+                                <h:outputText id="loginErrorMsg" binding="#{loginbean.errorMsg}" rendered="#{loginbean.errorThrown}"/>
+                                <h:message for="loginErrorMsg" style="font-size: 1em; color : red"/>
                                 <label for="txtEmail">E-mail</label> 
-                                <h:inputText id="txtEmail" class="form-control" value="#{loginbean.email}"/>
+                                <h:inputText id="txtEmail" class="form-control" value="#{loginbean.email}" 
+                                             required="true" requiredMessage="*Please enter email">
+                                    <f:validator validatorId="loginvalidator"/>
+                                    <f:attribute name="enteredPassword" value="#{enteredPassword}"/>
+                                </h:inputText>
+                                <h:message for="txtEmail" style="color : red"/>
                             </div>
                             <div class="form-group">
                                 <label for="txtPassword">Password</label>
-                                <h:inputSecret id="txtPassword" class="form-control" value="#{loginbean.password}"/>
+                                <h:inputSecret id="txtPassword" class="form-control" value="#{loginbean.password}" required="true"
+                                               requiredMessage="*Please enter password" binding="#{enteredPassword}"/>
+                                <h:message for="txtPassword" style="color : red"/>
+                                
                             </div>
-                            <h:commandButton class="btn btn-success btn-sm" id="btnLogInSubmit"
-                                value="submit" action="#{loginbean.loginUser()}"/>
+                            <h:commandButton action="#{loginbean.loginUser()}" value="Submit" class="btn btn-success btn-md" >
+                                <f:ajax execute="@form" render="@form"/> 
+                            </h:commandButton>
                         </h:form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

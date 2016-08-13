@@ -10,9 +10,12 @@ import com.slc.egaugewebsite.controller.UserTransactionController;
 import com.slc.egaugewebsite.data.entities.Users_Entity;
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -27,6 +30,8 @@ public class LoginBean implements Serializable {
     private UserTransactionController usercontroller;
     private String email;
     private String password;
+    private UIComponent errorMsg;
+    boolean errorThrown;
 
     public String getEmail() {
         return email;
@@ -51,7 +56,30 @@ public class LoginBean implements Serializable {
     public void setUser(UserBean user) {
         this.user = user;
     }
-    
+
+    public UserTransactionController getUsercontroller() {
+        return usercontroller;
+    }
+
+    public void setUsercontroller(UserTransactionController usercontroller) {
+        this.usercontroller = usercontroller;
+    }
+
+    public UIComponent getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(UIComponent errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+
+    public boolean isErrorThrown() {
+        return errorThrown;
+    }
+
+    public void setErrorThrown(boolean errorThrown) {
+        this.errorThrown = errorThrown;
+    }
     
     public String loginUser() {
         try {
@@ -73,12 +101,20 @@ public class LoginBean implements Serializable {
                 this.user.setCharging(false);
             }
         } catch (Exception e) {
-            System.out.println(e.toString());
-            return "index";
+            this.errorThrown = true;
+            FacesMessage msg = new FacesMessage();
+            FacesContext context = FacesContext.getCurrentInstance();
+            
+            if (e.getMessage().equals("invalid")) {
+                msg.setSummary("Username and password don't match");
+            } else {
+                msg.setSummary("Failed to log in. Internal server error");
+            }
+            System.out.println(e.getMessage());
+            context.addMessage(this.errorMsg.getClientId(context), msg);
+            return null;
         }
-        return "index";
+        return "index?faces-redirect=true";
     }
-    
-    
-    
+          
 }
