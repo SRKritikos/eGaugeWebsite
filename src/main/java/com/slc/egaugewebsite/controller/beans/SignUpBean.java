@@ -7,13 +7,17 @@
 package com.slc.egaugewebsite.controller.beans;
 
 import com.slc.egaugewebsite.controller.UserTransactionController;
+import com.slc.egaugewebsite.controller.ValidateCaptchaClient;
 import com.slc.egaugewebsite.data.entities.Users_Entity;
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.validation.ValidationException;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -26,7 +30,9 @@ public class SignUpBean implements Serializable {
     private UserBean user;
     @EJB
     private UserTransactionController usercontroller;
-    
+    @EJB
+    private ValidateCaptchaClient captchaclient;
+    private UIComponent errorMsg;
     private String email;
     private String password;
     private String preferredCampus;
@@ -80,9 +86,15 @@ public class SignUpBean implements Serializable {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    
-    
 
+    public UIComponent getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(UIComponent errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+    
     public UserBean getUser() {
         return user;
     }
@@ -94,9 +106,16 @@ public class SignUpBean implements Serializable {
     
     
     public String signUpUser() {
+        FacesMessage msg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest req = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
         try {
-            Users_Entity userEntity = usercontroller.signUpUser(email, password, preferredCampus, firstName, lastName);
-            if (userEntity != null) {
+            //Validate Captcha
+            String captchaResponse = req.getParameter("g-recaptcha-response");
+            boolean validCaptcha = this.captchaclient.validateCaptcha(captchaResponse);
+            if (validCaptcha) {
+                Users_Entity userEntity = usercontroller.signUpUser(email, password, preferredCampus, firstName, lastName);
+
                 this.user.setPreferredCampus(userEntity.getPreferredCampus());
                 this.user.setUserRole(userEntity.getRoleId().getRoleName());
                 this.user.setUser(userEntity.getUserId());
@@ -105,13 +124,14 @@ public class SignUpBean implements Serializable {
                 this.user.setUserEmail(email);
                 this.user.setInQueue(false);
                 this.user.setCharging(false);
-
             } else {
-                throw new ValidationException("Failed to create user");
-            }   
+                throw new Exception();
+            }
         } catch (Exception e) {
+            msg.setSummary("Failed to create account");
+            context.addMessage(this.errorMsg.getClientId(context), msg);
             System.out.println(e.toString());
-            return "signup";    
+            return null;    
         }
         return "index";
     }

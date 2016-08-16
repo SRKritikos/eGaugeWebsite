@@ -12,9 +12,9 @@ and open the template in the editor.
     height : 350px;
 }
 
-.formInstData\:inst-divs {
+.inst-divs {
     height : 100%;
-    border : 4px solid green;
+    border : 4px solid;
 }
 
 #formInstData\:btnUpdateInstData {

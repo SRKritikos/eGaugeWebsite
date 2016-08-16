@@ -95,6 +95,4 @@ public class InstantaneousDisplayBean implements Serializable {
                 .get()
                 .getInstPower();
     }
-    
-    
 }

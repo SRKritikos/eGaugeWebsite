@@ -73,7 +73,9 @@ public class UsersDAO implements Serializable {
 
     public void edit(Users_Entity users_Entity) throws NonexistentEntityException, RollbackFailureException, Exception {
         try {
+            System.out.println("BEFORE TRANSACTION");
             utx.begin();
+            System.out.println("Transaction Began");
             Users_Entity persistentUsers_Entity = em.find(Users_Entity.class, users_Entity.getUserId());
             Userroles_Entity roleIdOld = persistentUsers_Entity.getRoleId();
             Userroles_Entity roleIdNew = users_Entity.getRoleId();
@@ -105,6 +107,7 @@ public class UsersDAO implements Serializable {
                 deviceIdNew = em.merge(deviceIdNew);
             }
             utx.commit();
+            System.out.println("Transaction Commited");
         } catch (Exception ex) {
             try {
                 utx.rollback();
@@ -195,6 +198,7 @@ public class UsersDAO implements Serializable {
                     .getSingleResult();
         } catch(Exception e) {
             System.out.println(e.toString());
+            e.printStackTrace();
         }
         return rtVl;
     }

@@ -12,6 +12,8 @@
                 <div id="fillergrip" class="col-md-3 col-xs-0"></div>
                 <div class="col-md-6 col-xs-12" id="signup-wrapper" >
                     <h:form id="formSignUp">
+                        <h:outputText id="signUpErrorMsg" binding="#{signupbean.errorMsg}"/>
+                        <h:message for="signUpErrorMsg" style="font-size : 1em; color : red; margin-bottom: 1em"/>
                         <div class="form-group">
                             <label for="inputEmail">First Name</label>
                             <h:inputText class="form-control" id="signUpFirstName" value="#{signupbean.firstName}"
@@ -28,12 +30,16 @@
                         <div class="form-group">
                             <label for="inputEmail">E-Mail</label>
                             <h:inputText class="form-control" id="signUpEmail" value="#{signupbean.email}"
-                                         required="true" requiredMessage="*Please enter your last name"/>
+                                         required="true" requiredMessage="*Please enter your last name"
+                                         validatorMessage="Invalid e-mail address">
+                                    <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                            </h:inputText>
                             <h:message for="signUpEmail" style="color : red"/>
                         </div>
                         <div class="form-group">
                             <label for="signUpPassword">Password</label>
-                            <h:inputSecret class="form-control" id="signUpPassword" value="#{signupbean.password}">
+                            <h:inputSecret class="form-control" id="signUpPassword" value="#{signupbean.password}"
+                                           required="true" requiredMessage="*Please enter password">
                                 <f:validator validatorId="matchingpasswordvalidator"/>
                                 <f:attribute name="confirmPassword" value="#{confirmPassword}"/>
                             </h:inputSecret>
@@ -42,8 +48,8 @@
                         <div class="form-group">
                             <label for="signUpConfirmPassword" class="col-form-label">Confirm Password</label>
                             <h:inputSecret id="signUpConfirmPassword" class="form-control" required="true"
-                                           requiredMessage="*Please enter new password again" binding="#{confirmPassword}"/>
-                            <h:message for="confirmPassword" style="color : red"/>
+                                           requiredMessage="*Please enter password again" binding="#{confirmPassword}"/>
+                            <h:message for="signUpConfirmPassword" style="color : red"/>
                         </div>
                         <div class="form-group">
                             <label for="selectPrefCampus" >Preferred Campus</label>
@@ -53,7 +59,9 @@
                                 <f:selectItem itemValue="Brockville" itemLabel="Brockville"/>
                             </h:selectOneMenu>
                         </div>
-                        <div class="g-recaptcha" data-sitekey="6LfKAycTAAAAADj2JDGf0NQ79CvGXt4NADMGDAOX"></div>
+                        <div class="form-group">
+                            <div class="g-recaptcha" data-sitekey="6LfKAycTAAAAADj2JDGf0NQ79CvGXt4NADMGDAOX"></div>
+                        </div>
                         <h:commandButton id="btnSignUp" value="Submit" action="#{signupbean.signUpUser()}"/>
                     </h:form>
                 </div>

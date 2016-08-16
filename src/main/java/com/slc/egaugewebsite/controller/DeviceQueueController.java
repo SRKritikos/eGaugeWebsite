@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -63,7 +64,7 @@ public class DeviceQueueController {
         Users_Entity usersEntity = usersdao.findUsers_Entity(userId);
             
         try {
-            // Update the user entity with queue info
+            //Update the user entity with queue info
             usersEntity.setDeviceId(deviceEntity);
             usersEntity.setTimeEnteredQueue(new Date());
             usersEntity.setIsActive(false);
@@ -78,12 +79,15 @@ public class DeviceQueueController {
     public List<Users_Entity> getQueueByStation(String campus) {
         String deviceName = DBDeviceNames.getDBName(campus);
         Device_Entity device = devicedao.getDeviceByName(deviceName);
-        // Get the queue for the given station then build a list of table row models for the table;
-        return device.getUsersList();
+        // Get the queue for the given station sorted by the time users entered queue
+        return device.getUsersList().stream()
+                .sorted((prevUser, curUser) -> prevUser.getTimeEnteredQueue().compareTo(curUser.getTimeEnteredQueue()))
+                .collect(Collectors.toList());
     }
     
     public void updateQueue() {
         try { 
+            System.out.println("Updating the queue");
             InstDeviceList devices = ddc.getInstData(new String[0]);
             // Extract individual device dat then update their queue
             if (devices != null) {
@@ -121,7 +125,7 @@ public class DeviceQueueController {
                     // Check if current queued user is done charging
                     if (device.getInstPower().compareTo(BigDecimal.valueOf(100)) == -1 
                             && topOfQueue.getIsActive()) {
-                        //Email telling them they are done/ready for next person,
+                        //TODO Email telling them they are done/ready for next person,
                         removeUserFromQueue(topOfQueue);
                         updateNextInQueue(nextInLine);
                     // else check if next in line is charging
@@ -140,7 +144,6 @@ public class DeviceQueueController {
     public void removeUserFromQueue(Users_Entity user) {
         try {
             // Set all queue related fields to null
-            user.setAvailableEndTime(null);
             user.setAvailableEndTime(null);
             user.setAvailaleStartTime(null);
             user.setExtendIimeTries(0);

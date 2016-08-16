@@ -6,6 +6,7 @@
 
 package com.slc.egaugewebsite.controller.beans;
 
+import com.slc.egaugewebsite.controller.EmailController;
 import com.slc.egaugewebsite.controller.UserTransactionController;
 import com.slc.egaugewebsite.data.entities.Users_Entity;
 import java.io.Serializable;
@@ -28,6 +29,8 @@ public class LoginBean implements Serializable {
     private UserBean user;
     @EJB
     private UserTransactionController usercontroller;
+    @EJB
+    private EmailController emailcontroller;
     private String email;
     private String password;
     private UIComponent errorMsg;
@@ -80,6 +83,16 @@ public class LoginBean implements Serializable {
     public void setErrorThrown(boolean errorThrown) {
         this.errorThrown = errorThrown;
     }
+
+    public EmailController getEmailcontroller() {
+        return emailcontroller;
+    }
+
+    public void setEmailcontroller(EmailController emailcontroller) {
+        this.emailcontroller = emailcontroller;
+    }
+    
+    
     
     public String loginUser() {
         try {
@@ -116,5 +129,14 @@ public class LoginBean implements Serializable {
         }
         return "index?faces-redirect=true";
     }
-          
+    
+    public void forgotPassword() {
+        Users_Entity userEntity = this.usercontroller.getUserByEmail(this.email);
+        if (userEntity != null) {
+            this.emailcontroller.sendPasswordResetEmail(userEntity);
+            //TODO send success message back;
+        } else {
+            // TODO throw error msg NO USER FOUND
+        }
+    }
 }

@@ -78,7 +78,6 @@ public class DeviceDataClient implements Serializable{;
         try {
         resource = resource.path("instdata");
         String jsonResponse = resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(String.class);
-        System.out.println(jsonResponse);
         devices = gson.fromJson(jsonResponse, InstDeviceList.class);
         } catch (Exception e) {
             System.out.println(e.toString());

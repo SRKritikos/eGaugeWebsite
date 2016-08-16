@@ -9,6 +9,7 @@ package com.slc.egaugewebsite.controller.beans;
 import com.slc.egaugewebsite.controller.UserTransactionController;
 import com.slc.egaugewebsite.data.entities.Users_Entity;
 import com.slc.egaugewebsite.utils.AuthenticationUtils;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -26,7 +27,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean(name="userprofilebean")
 @RequestScoped
-public class UserProfileBean {
+public class UserProfileBean implements Serializable {
     @EJB
     private UserTransactionController usercontroller;
     @ManagedProperty("#{user}")

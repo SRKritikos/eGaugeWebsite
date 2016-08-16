@@ -14,12 +14,14 @@ import com.slc.egaugewebsite.data.entities.Users_Entity;
  * @author Steven Kritikos
  */
 public class QueueTableRowModel {
-    String userName;
-    String currentStatus;
+    private String userName;
+    private String userEmail;
+    private String currentStatus;
     
     public QueueTableRowModel(Users_Entity user) {
         this.userName = user.getFirstName() + "  " + user.getLastName().charAt(0) + ".";
         this.currentStatus = user.getIsActive() ? "Charging" : "Waiting";
+        this.userEmail = user.getEmail();
     }
 
     public String getUserName() {
@@ -37,7 +39,13 @@ public class QueueTableRowModel {
     public void setCurrentStatus(String currentStatus) {
         this.currentStatus = currentStatus;
     }
-    
-    
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
     
 }

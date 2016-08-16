@@ -8,6 +8,7 @@ package com.slc.egaugewebsite.controller.beans;
 
 import com.slc.egaugewebsite.controller.UserTransactionController;
 import com.slc.egaugewebsite.data.entities.Users_Entity;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ import javax.faces.bean.RequestScoped;
  */
 @ManagedBean(name = "adminusercontrolbean")
 @RequestScoped
-public class AdminUserControlBean {
+public class AdminUserControlBean implements Serializable{
     @EJB
     private UserTransactionController usercontroller;
     private Map<String, String> adminMap;

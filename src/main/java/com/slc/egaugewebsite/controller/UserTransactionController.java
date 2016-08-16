@@ -26,9 +26,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.transaction.UserTransaction;
-import javax.validation.ConstraintViolationException;
-import javax.validation.ValidationException;
-
 /**
  * Controller class to handle user interactions with the database.
  * provides user transaction and entity manager to DAO class.

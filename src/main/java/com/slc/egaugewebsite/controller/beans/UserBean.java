@@ -6,10 +6,10 @@
 
 package com.slc.egaugewebsite.controller.beans;
 
-import com.slc.egaugewebsite.utils.SessionUtils;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -96,8 +96,7 @@ public class UserBean implements Serializable{
     
     public String logoutUser() {
         try {
-            HttpSession session = SessionUtils.getSession();
-            session.invalidate(); 
+            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         } catch (Exception e) {
             System.out.println("Failed to logout");
         }

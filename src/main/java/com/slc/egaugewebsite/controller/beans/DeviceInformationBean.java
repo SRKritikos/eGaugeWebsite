@@ -6,6 +6,7 @@
 
 package com.slc.egaugewebsite.controller.beans;
 
+import java.io.Serializable;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
@@ -16,12 +17,16 @@ import javax.faces.bean.ManagedBean;
 
 @ManagedBean(name = "deviceinfobean")
 @ApplicationScoped
-public class DeviceInformationBean {
+public class DeviceInformationBean implements Serializable{
     private String kingston1Info;    
     private String kingston2Info;
     private String cornwallInfo;
     private String brockvilleInfo;
     private String mainInfoDiv;
+    private String kingston1BorderColor;
+    private String kingston2BorderColor;
+    private String brockvilleBorderColor;
+    private String cornwallBorderColor;
     
 
     public DeviceInformationBean() {
@@ -30,6 +35,10 @@ public class DeviceInformationBean {
         this.cornwallInfo = "";
         this.kingston2Info = "";
         this.mainInfoDiv = "";  
+        this.kingston1BorderColor = "green";
+        this.kingston2BorderColor = "green";
+        this.cornwallBorderColor = "green";
+        this.brockvilleBorderColor = "green";
     }
     
     public String getkingston1Info() {
@@ -78,6 +87,39 @@ public class DeviceInformationBean {
     public void setMainInfoDiv(String mainInfoDiv) {
         this.mainInfoDiv = mainInfoDiv;
     }
+
+    public String getKingston1BorderColor() {
+        return kingston1BorderColor;
+    }
+
+    public void setKingston1BorderColor(String kingston1BorderColor) {
+        this.kingston1BorderColor = kingston1BorderColor;
+    }
+
+    public String getKingston2BorderColor() {
+        return kingston2BorderColor;
+    }
+
+    public void setKingston2BorderColor(String kingston2BorderColor) {
+        this.kingston2BorderColor = kingston2BorderColor;
+    }
+
+    public String getBrockvilleBorderColor() {
+        return brockvilleBorderColor;
+    }
+
+    public void setBrockvilleBorderColor(String brockvilleBorderColor) {
+        this.brockvilleBorderColor = brockvilleBorderColor;
+    }
+
+    public String getCornwallBorderColor() {
+        return cornwallBorderColor;
+    }
+
+    public void setCornwallBorderColor(String cornwallBorderColor) {
+        this.cornwallBorderColor = cornwallBorderColor;
+    }
+    
     
     
     

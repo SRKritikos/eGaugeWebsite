@@ -13,28 +13,32 @@
             <h:outputScript name="js/view/MainGraph.js" />
             <h:form id="formInstData">
                 <div class="col-xs-12" id="inst-wrapper" >
-                    <div class="col-xs-6 col-md-3 inst-divs text-center" id="kingston1div">
+                    <div class="col-xs-6 col-md-3 inst-divs text-center" id="kingston1div"
+                         style="border-color:#{deviceinfobean.kingston1BorderColor}">
                         <h3>Kingston 1</h3> 
                         <h:outputText id="kingston1out" value="#{instbean.kingston1Power}"/>
                         <p>
                             <h:outputText value="#{deviceinfobean.kingston1Info}"/>
                         </p>
                     </div>
-                    <div class="col-xs-6 col-md-3 inst-divs text-center" id="kingston2div">
+                    <div class="col-xs-6 col-md-3 inst-divs text-center" id="kingston2div"
+                         style="border-color:#{deviceinfobean.kingston2BorderColor}">
                         <h3>Kingston 2</h3>
                         <h:outputText id="kingston2out" value="#{instbean.kingston2Power}"/>
                         <p>
                              <h:outputText value="#{deviceinfobean.kingston2Info}"/>
                         </p>
                     </div>
-                    <div class="col-xs-6 col-md-3 inst-divs text-center" id="brockvillediv">
+                    <div class="col-xs-6 col-md-3 inst-divs text-center" id="brockvillediv"
+                         style="border-color:#{deviceinfobean.brockvilleBorderColor}">
                         <h3>Brockville</h3>
                         <h:outputText id="brockvilleout" value="#{instbean.brockvillePower}"/>
                         <p>
                             <h:outputText value="#{deviceinfobean.brockvilleInfo }"/>
                         </p>  
                     </div>
-                    <div class="col-xs-6 col-md-3 inst-div text-center" id="cornwalldiv">
+                    <div class="col-xs-6 col-md-3 inst-divs text-center" id="cornwalldiv"
+                         style="border-color:#{deviceinfobean.cornwallBorderColor}">
                         <h3>Cornwall</h3>
                         <h:outputText id="cornwallout" value="#{instbean.cornwallPower}"/>
                         <p>

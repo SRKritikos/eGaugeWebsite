@@ -11,18 +11,40 @@
                 <div class="form-group row">
                     <label for="kingston1Info" class="col-xs-2 col-form-label">Kingston 1 Station </label>
                     <h:inputText id="kingston1Info" class="form-control" value="#{deviceinfobean.kingston1Info}"/>
+                    <h:selectOneRadio value="#{deviceinfobean.kingston1BorderColor}">
+                        <div class="radio">
+                            <f:selectItem itemValue="green" itemLabel="Working"/>
+                            <f:selectItem itemValue="yellow" itemLabel="Warning"/>
+                            <f:selectItem itemValue="red" itemLabel="Offline"/>
+                        </div>
+                    </h:selectOneRadio>
                 </div>
                 <div class="form-group row">
                     <label for="kingston2Info" class="col-xs-2 col-form-label">Kingston 2 Station </label>
                     <h:inputText id="kingston2Info" class="form-control" value="#{deviceinfobean.kingston2Info}"/>
+                    <h:selectOneRadio value="#{deviceinfobean.kingston2BorderColor}">
+                        <f:selectItem itemValue="green" itemLabel="Working"/>
+                        <f:selectItem itemValue="yellow" itemLabel="Warning"/>
+                        <f:selectItem itemValue="red" itemLabel="Offline"/>
+                    </h:selectOneRadio>
                 </div>
                 <div class="form-group row">
                     <label for="borckvilleInfo" class="col-xs-2 col-form-label">Brockville Station </label>
                     <h:inputText id="borckvilleInfo" class="form-control" value="#{deviceinfobean.brockvilleInfo}"/>
+                    <h:selectOneRadio value="#{deviceinfobean.brockvilleBorderColor}">
+                        <f:selectItem itemValue="green" itemLabel="Working"/>
+                        <f:selectItem itemValue="yellow" itemLabel="Warning"/>
+                        <f:selectItem itemValue="red" itemLabel="Offline"/>
+                    </h:selectOneRadio>
                 </div>
                 <div class="form-group row">
                     <label for="cornwallInfo" class="col-xs-2 col-form-label">Cornwall Station </label>
                     <h:inputText id="cornwallInfo" class="form-control" value="#{deviceinfobean.cornwallInfo}"/>
+                    <h:selectOneRadio value="#{deviceinfobean.cornwallBorderColor}">
+                        <f:selectItem itemValue="green" itemLabel="Working"/>
+                        <f:selectItem itemValue="yellow" itemLabel="Warning"/>
+                        <f:selectItem itemValue="red" itemLabel="Offline"/>
+                    </h:selectOneRadio>
                 </div>
                 <div class="form-group row">
                     <label for="mainInfo" class="col-xs-2 col-form-label">All Stations</label>
@@ -64,8 +86,6 @@
                             </button>
                     </div>
                 </div>
-
-                
                 <!--MODAL FOR DELETE USER -->
                 <div id="deleteusermodal" class="modal fade" role="dialog">
                     <div class="modal-dialog modal-md">
