@@ -40,13 +40,14 @@ public class ValidateCaptchaClient {
         form.param("secret", this.SECRET_KEY);
         form.param("response", captchaResponse);
         JsonObject jsonObject =  null;
+         boolean rtVl = false;
         try {
             jsonObject = webTarget.request().post(Entity.form(form), JsonObject.class);
+            rtVl = jsonObject.getBoolean("success");
         } catch (Exception  e) {
             System.out.println(e.toString());
             e.printStackTrace();
         }
-        boolean rtVl = jsonObject.getBoolean("success");
         return rtVl;
     }
 }
