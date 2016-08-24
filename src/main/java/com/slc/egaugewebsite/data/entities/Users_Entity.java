@@ -38,7 +38,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Users_Entity.findByAvailaleStartTime", query = "SELECT u FROM Users_Entity u WHERE u.availableStartTime = :availableStartTime"),
     @NamedQuery(name = "Users_Entity.findByAvailableEndTime", query = "SELECT u FROM Users_Entity u WHERE u.availableEndTime = :availableEndTime"),
     @NamedQuery(name = "Users_Entity.findByIsActive", query = "SELECT u FROM Users_Entity u WHERE u.isActive = :isActive"),
-    @NamedQuery(name = "Users_Entity.findByExtendIimeTries", query = "SELECT u FROM Users_Entity u WHERE u.extendIimeTries = :extendIimeTries")})
+    @NamedQuery(name = "Users_Entity.findByExtendIimeTries", query = "SELECT u FROM Users_Entity u WHERE u.extendIimeTries = :extendIimeTries"),
+    @NamedQuery(name = "Users_Entity.getQueue", query = "SELECT u FROM Users_Entity u WHERE u.deviceId = :device ORDER BY u.timeEnteredQueue ASC")})
 public class Users_Entity implements Serializable {
 
     @Basic(optional = false)

@@ -126,7 +126,10 @@ public class DeviceQueueController {
         try {
             Device_Entity deviceEntity = devicedao.getDeviceByName(device.getDeviceName());
             System.out.println(device.getDeviceName() + "  " + device.getInstPower().toString());
-            List<Users_Entity> queue = deviceEntity.getUsersList();
+            List<Users_Entity> queue = usersdao.getQueueByDevice(deviceEntity);
+            for (Users_Entity user : queue) {
+                System.out.println(user.getEmail());
+            }
             if (!queue.isEmpty()) { 
                 Users_Entity topOfQueue = queue.get(0);
                 //  Check if user is finished charging but is still in queue 
@@ -145,7 +148,16 @@ public class DeviceQueueController {
                 // Check if current user is done charging
                 } else if (device.getInstPower().compareTo(BigDecimal.valueOf(100)) == -1 
                             && topOfQueue.getIsActive()) {
-                    this.userFinishedCharing(topOfQueue);
+                    //If top of q is anynomous
+                    System.out.println(topOfQueue.getExtendIimeTries() + "  " + topOfQueue.getFirstName());
+                    if(topOfQueue.getExtendIimeTries() < 0 &&
+                            topOfQueue.getFirstName().equals("Anonymous")) {
+                        System.out.println("Removing anonymous");
+                        usersdao.destroy(topOfQueue.getUserId());
+                        ec.notifyNextInQueueEmail(queue.get(1));
+                    } else {                    
+                        this.userFinishedCharing(topOfQueue);
+                    }
                 }
             } 
         }catch (Exception e) {

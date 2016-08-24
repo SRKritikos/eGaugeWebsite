@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import com.slc.egaugewebsite.data.entities.Userroles_Entity;
 import com.slc.egaugewebsite.data.entities.Device_Entity;
 import com.slc.egaugewebsite.data.entities.Users_Entity;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.EntityManager;
@@ -206,4 +207,18 @@ public class UsersDAO implements Serializable {
         }
         return rtVl;
     }
+     
+     public List<Users_Entity> getQueueByDevice(Device_Entity device) {
+         List<Users_Entity> rtVl = new ArrayList<>();
+         try {
+    
+             rtVl = em.createNamedQuery("Users_Entity.getQueue", Users_Entity.class)
+                     .setParameter("device", device)
+                     .getResultList();
+         } catch (Exception e) {
+             System.out.println(e.toString() + " IN GET QUEUE BY DEVICE FUNCTION");
+         }
+         
+         return rtVl;
+     }
 }
