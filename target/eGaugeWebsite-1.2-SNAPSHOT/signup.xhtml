@@ -15,14 +15,14 @@
                         <h:outputText id="signUpErrorMsg" binding="#{signupbean.errorMsg}"/>
                         <h:message for="signUpErrorMsg" style="font-size : 1em; color : red; margin-bottom: 1em"/>
                         <div class="form-group">
-                            <label for="inputEmail">First Name</label>
+                            <label for="signUpFirstName">First Name</label>
                             <h:inputText class="form-control" id="signUpFirstName" value="#{signupbean.firstName}"
                                          required="true" requiredMessage="*Please enter your first name">
                             </h:inputText>
                             <h:message for="signUpFirstName" style="color:red"/>
                         </div>
                         <div class="form-group">
-                            <label for="inputEmail">Last Name</label>
+                            <label for="signUpLastName">Last Name</label>
                             <h:inputText class="form-control" id="signUpLastName" value="#{signupbean.lastName}"
                                          required="true" requiredMessage="*Please enter your last name"/>
                             <h:message for="signUpLastName" style="color : red"/>
@@ -60,7 +60,7 @@
                             </h:selectOneMenu>
                         </div>
                         <div class="form-group">
-                            <div class="g-recaptcha" data-sitekey="6LfKAycTAAAAADj2JDGf0NQ79CvGXt4NADMGDAOX"></div>
+                            <div class="g-recaptcha" data-sitekey="#{signupbean.SITE_KEY}"></div>
                         </div>
                         <h:commandButton id="btnSignUp" value="Submit" action="#{signupbean.signUpUser()}"/>
                     </h:form>
@@ -69,6 +69,5 @@
                 </div>
             </div>
         </ui:define>
-    </ui:composition>      
-    
+    </ui:composition>          
 </html>

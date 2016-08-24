@@ -90,7 +90,9 @@ public class UserTransactionController {
                 newUser.setRoleId(userRole);
                 newUser.setPreferredCampus(prefferedCampus);
                 newUser.setAvailableEndTime(null);
-                newUser.setAvailaleStartTime(null);
+                newUser.setAvailableStartTime(null);
+                newUser.setTimeStartedCharging(null);
+                newUser.setTimeEndedCharging(null);
                 newUser.setExtendIimeTries(0);
                 newUser.setIsActive(null);
                 newUser.setTimeEnteredQueue(null);

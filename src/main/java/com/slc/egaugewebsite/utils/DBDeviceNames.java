@@ -61,7 +61,7 @@ public enum DBDeviceNames {
     }
     
     /**
-     * Given list of campus names return list of DB device names or null for all DB device names
+     * Given list of campus names return list of DB device names or empty list
      * @param campus
      * @return 
      */

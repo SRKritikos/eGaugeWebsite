@@ -7,7 +7,6 @@
 package com.slc.egaugewebsite.controller.beans;
 
 import com.slc.egaugewebsite.controller.UserTransactionController;
-import com.slc.egaugewebsite.data.entities.Users_Entity;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;

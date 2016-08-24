@@ -9,7 +9,12 @@ package com.slc.egaugewebsite.controller.beans;
 import com.slc.egaugewebsite.controller.UserTransactionController;
 import com.slc.egaugewebsite.controller.ValidateCaptchaClient;
 import com.slc.egaugewebsite.data.entities.Users_Entity;
+import com.slc.egaugewebsite.utils.ApplicationProperties;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -38,7 +43,17 @@ public class SignUpBean implements Serializable {
     private String preferredCampus;
     private String firstName;
     private String lastName;
+    private String SITE_KEY;
 
+    @PostConstruct
+    public void init() {
+        try {
+            this.SITE_KEY = ApplicationProperties.getApplicationProperties().getProperty("captchasitekey");
+        } catch (IOException ex) {
+            Logger.getLogger(SignUpBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public String getEmail() {
         return email;
     }
@@ -102,6 +117,14 @@ public class SignUpBean implements Serializable {
     public void setUser(UserBean user) {
         this.user = user;
     }
+
+    public String getSITE_KEY() {
+        return SITE_KEY;
+    }
+
+    public void setSITE_KEY(String SITE_KEY) {
+        this.SITE_KEY = SITE_KEY;
+    }
     
     
     
@@ -124,6 +147,8 @@ public class SignUpBean implements Serializable {
                 this.user.setUserEmail(email);
                 this.user.setInQueue(false);
                 this.user.setCharging(false);
+                this.user.setExtendedTimeTries(0);
+                this.user.setFinishedCharging(false);
             } else {
                 throw new Exception();
             }

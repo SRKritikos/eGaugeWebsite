@@ -19,7 +19,6 @@ import javax.servlet.http.HttpSession;
 @SessionScoped
 @ManagedBean(name="user")
 public class UserBean implements Serializable{
-    
     private String user;
     private String userRole;
     private String preferredCampus;
@@ -28,6 +27,8 @@ public class UserBean implements Serializable{
     private String firstName;
     private String lastName;
     private String userEmail;
+    private int extendedTimeTries;
+    private boolean finishedCharging;
 
     public String getUser() {
         return user;
@@ -92,7 +93,29 @@ public class UserBean implements Serializable{
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
+
+    public int getExtendedTimeTries() {
+        return extendedTimeTries;
+    }
+
+    public void setExtendedTimeTries(int extendedTimeTries) {
+        this.extendedTimeTries = extendedTimeTries;
+    }
+
+    public boolean isFinishedCharging() {
+        return finishedCharging;
+    }
+
+    public void setFinishedCharging(boolean finishedCharging) {
+        this.finishedCharging = finishedCharging;
+    }
     
+    public void removeFromQueue() {
+        this.setCharging(false);
+        this.setInQueue(false);
+        this.setExtendedTimeTries(0);
+        this.setFinishedCharging(false);
+    }
     
     public String logoutUser() {
         try {

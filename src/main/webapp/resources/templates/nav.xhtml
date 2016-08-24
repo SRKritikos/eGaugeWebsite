@@ -130,10 +130,10 @@ File defines the navigation bar on the top of the website.
                     <div class="modal-body">
                         <h:form id="formForgotPassword">
                             <div class="form-group">
-                                <h:outputText id="passwordChangeErrorMsg" binding="#{loginbean.errorMsg}" rendered="#{loginbean.errorThrown}"/>
-                                <h:message for="passwordChangeErrorMsg" style="font-size: 1em; color : red"/>
+                                <h:outputText id="passwordChangeErrorMsg" binding="#{forgotpasswordbean.errorMsg}"/>
+                                <h:message for="passwordChangeErrorMsg" style="font-size: 1em; color : #{forgotpasswordbean.msgColor}"/>
                                 <label for="txtPasswordChangeEmail">E-mail</label> 
-                                <h:inputText id="txtPasswordChangeEmail" class="form-control" value="#{loginbean.email}" 
+                                <h:inputText id="txtPasswordChangeEmail" class="form-control" value="#{forgotpasswordbean.email}" 
                                              required="true" requiredMessage="*Please enter email"
                                              validatorMessage="*Invalid e-mail address">
                                     <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
@@ -141,7 +141,7 @@ File defines the navigation bar on the top of the website.
                                 <h:message for="txtEmail" style="color : red"/>
                             </div>
                             <h:commandButton value="Submit" class="btn btn-success btn-md"
-                                             action="#{loginbean.forgotPassword()}">
+                                             action="#{forgotpasswordbean.forgotPassword()}">
                                 <f:ajax execute="@form" render="@form"/> 
                             </h:commandButton>
                         </h:form>

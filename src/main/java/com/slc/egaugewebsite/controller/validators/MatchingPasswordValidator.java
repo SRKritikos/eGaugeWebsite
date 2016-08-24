@@ -26,12 +26,9 @@ public class MatchingPasswordValidator implements Validator{
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String newPassword =  value.toString();
         String confirmPassword = (String) ((UIInput) component.getAttributes().get("confirmPassword")).getSubmittedValue();
-        
-        System.out.println(newPassword + "   " + confirmPassword);
         if (!newPassword.equals(confirmPassword)) {
-            throw new ValidatorException(new FacesMessage("New password fields don't match"));
+            throw new ValidatorException(new FacesMessage("Password fields don't match"));
         }
-    
     }
     
 }

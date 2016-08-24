@@ -52,9 +52,14 @@ public class QueueBean implements Serializable{
     public void init() {
         System.out.println(this.user.getInQueue() + " " + this.user.getCharging());
         if (this.user.getInQueue()) {
+            System.out.println(this.usercontroller);
             // get the device the user is queued too by looking them up in the database then get
-            String deviceName = usercontroller.getUserEntity(this.user.getUser()).getDeviceId().getDeviceName();
-            System.out.println(deviceName);
+            Users_Entity userEntity = usercontroller.getUserEntity(this.user.getUser());
+            this.user.setCharging(userEntity.getIsActive());
+            if (userEntity.getTimeEnteredQueue() != null) { 
+                this.user.setFinishedCharging(true);
+            }
+            String deviceName = userEntity.getDeviceId().getDeviceName();
             switch (deviceName) {
                 case "Kingston1_Power":
                 case "Kingsotn2_Power":
@@ -66,8 +71,7 @@ public class QueueBean implements Serializable{
                     this.campus = "Brockville";
                     break;
                 case "Cornwall_Power":
-                    System.out.println("Corn");
-                    this.campus = "Cownwall";
+                    this.campus = "Cornwall";   
                     break;
             }
         } else {
@@ -138,7 +142,7 @@ public class QueueBean implements Serializable{
         try {
             Users_Entity userEntity = usercontroller.getUserEntity(this.user.getUser());
             this.queuecontroller.removeUserFromQueue(userEntity);
-            this.user.setInQueue(false);
+            this.user.removeFromQueue();
             this.updateTable();
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -169,4 +173,17 @@ public class QueueBean implements Serializable{
         return sb.toString();
     }
     
+    public void extendPeriod() {
+        try {
+            Users_Entity userEntity = this.usercontroller.getUserByEmail(this.user.getUserEmail());
+            this.queuecontroller.extendPeriodForUser(userEntity);
+            //update session with extended period
+            this.user.setExtendedTimeTries(userEntity.getExtendIimeTries()+1);
+            this.user.setCharging(false);
+            this.user.setFinishedCharging(false);
+            System.out.println("USER STUFF " + this.user.getExtendedTimeTries() + " " + user.getUserEmail());
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
 }

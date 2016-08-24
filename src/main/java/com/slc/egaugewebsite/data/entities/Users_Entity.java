@@ -35,11 +35,31 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Users_Entity.findByEmail", query = "SELECT u FROM Users_Entity u WHERE u.email = :email"),
     @NamedQuery(name = "Users_Entity.findByPreferredCampus", query = "SELECT u FROM Users_Entity u WHERE u.preferredCampus = :preferredCampus"),
     @NamedQuery(name = "Users_Entity.findByTimeEnteredQueue", query = "SELECT u FROM Users_Entity u WHERE u.timeEnteredQueue = :timeEnteredQueue"),
-    @NamedQuery(name = "Users_Entity.findByAvailaleStartTime", query = "SELECT u FROM Users_Entity u WHERE u.availaleStartTime = :availaleStartTime"),
+    @NamedQuery(name = "Users_Entity.findByAvailaleStartTime", query = "SELECT u FROM Users_Entity u WHERE u.availableStartTime = :availableStartTime"),
     @NamedQuery(name = "Users_Entity.findByAvailableEndTime", query = "SELECT u FROM Users_Entity u WHERE u.availableEndTime = :availableEndTime"),
     @NamedQuery(name = "Users_Entity.findByIsActive", query = "SELECT u FROM Users_Entity u WHERE u.isActive = :isActive"),
     @NamedQuery(name = "Users_Entity.findByExtendIimeTries", query = "SELECT u FROM Users_Entity u WHERE u.extendIimeTries = :extendIimeTries")})
 public class Users_Entity implements Serializable {
+
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "password")
+    private byte[] password;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "passwordSalt")
+    private byte[] passwordSalt;
+    @Column(name = "timeEndedCharging")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timeEndedCharging;
+    @Column(name = "availableStartTime")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date availableStartTime;
+    @Column(name = "timeStartedCharging")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timeStartedCharging;
 
     @Basic(optional = false)
     @NotNull
@@ -51,16 +71,6 @@ public class Users_Entity implements Serializable {
     @Size(min = 1, max = 64)
     @Column(name = "lastName")
     private String lastName;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "password")
-    private byte[] password;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "passwordSalt")
-    private byte[] passwordSalt;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -81,9 +91,6 @@ public class Users_Entity implements Serializable {
     @Column(name = "timeEnteredQueue")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timeEnteredQueue;
-    @Column(name = "availaleStartTime")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date availaleStartTime;
     @Column(name = "availableEndTime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date availableEndTime;
@@ -144,14 +151,6 @@ public class Users_Entity implements Serializable {
 
     public void setTimeEnteredQueue(Date timeEnteredQueue) {
         this.timeEnteredQueue = timeEnteredQueue;
-    }
-
-    public Date getAvailaleStartTime() {
-        return availaleStartTime;
-    }
-
-    public void setAvailaleStartTime(Date availaleStartTime) {
-        this.availaleStartTime = availaleStartTime;
     }
 
     public Date getAvailableEndTime() {
@@ -235,6 +234,24 @@ public class Users_Entity implements Serializable {
         this.lastName = lastName;
     }
 
+
+    public Date getTimeStartedCharging() {
+        return timeStartedCharging;
+    }
+
+    public void setTimeStartedCharging(Date timeStartedCharging) {
+        this.timeStartedCharging = timeStartedCharging;
+    }
+
+
+    public Date getAvailableStartTime() {
+        return availableStartTime;
+    }
+
+    public void setAvailableStartTime(Date availableStartTime) {
+        this.availableStartTime = availableStartTime;
+    }
+
     public byte[] getPassword() {
         return password;
     }
@@ -251,4 +268,11 @@ public class Users_Entity implements Serializable {
         this.passwordSalt = passwordSalt;
     }
 
+    public Date getTimeEndedCharging() {
+        return timeEndedCharging;
+    }
+
+    public void setTimeEndedCharging(Date timeEndedCharging) {
+        this.timeEndedCharging = timeEndedCharging;
+    }
 }

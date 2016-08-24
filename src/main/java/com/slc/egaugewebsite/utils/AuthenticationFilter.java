@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
  * @author Steven Kritikos
  */
 @WebFilter(filterName="AuthFilter", urlPatterns = ("*.xhtml"))
-public class AuthonticationFilter implements Filter{
+public class AuthenticationFilter implements Filter{
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

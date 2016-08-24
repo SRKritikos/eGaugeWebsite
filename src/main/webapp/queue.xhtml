@@ -59,11 +59,10 @@
                 </ui:fragment>
                 <ui:fragment rendered="#{user.charging eq true}">
                     <div class="text-center">
-                        <!--TODO: need to handle this-->
-                        <h:commandButton class="btn btn-danger btn-md" id="btnNotMe" 
-                                         value="This is not me">
-                            <f:ajax execute="@form"  render="@form"/>                     
-                        </h:commandButton>
+                        <button type="button" style="margin-left: 2em" class="btn btn-danger btn-md center-block"
+                                data-toggle='modal' data-target="#notmemodal">
+                                This is not me
+                        </button>
                     </div>
                 </ui:fragment>
             </div>
@@ -109,6 +108,30 @@
                         <div class='modal-footer'>
                             <h:commandLink  class="btn btn-warning" id="btnChangeCampus" 
                                      action="#{queuebean.updateCampusForUser()}" value="Change Campus">
+                            </h:commandLink>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+                        </div>
+                    </div>
+                </div>   
+            </div>
+            <!-- MODAL FOR NOT ME CHOICE -->
+            <div id="notmemodal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content" id="notme-wrapper">
+                        <div class="modal-header modal-header-danger">
+                            <button type="button" class="close" data-dismiss="modal">X</button> 
+                            <h1><span class="modal-title glyphicon glyphicon-warning-sign">Warning</span></h1>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-center">
+                                <span>By accepting you will forfeit your spot at the top of the queue
+                                    and will be placed second. You can only perform this action twice.<br/>
+                                    Are you sure this is not you charging?</span>
+                            </p>
+                        </div>
+                        <div class='modal-footer'>
+                            <h:commandLink  class="btn btn-danger" id="btnNotMe" 
+                                            action="#{queuebean.extendPeriod()}" value="Confirm">
                             </h:commandLink>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
                         </div>

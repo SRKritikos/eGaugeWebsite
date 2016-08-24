@@ -18,8 +18,11 @@ import com.slc.egaugewebsite.data.entities.Userroles_Entity;
 import com.slc.egaugewebsite.data.entities.Device_Entity;
 import com.slc.egaugewebsite.data.entities.Users_Entity;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.transaction.UserTransaction;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 /**
  *
@@ -60,6 +63,10 @@ public class UsersDAO implements Serializable {
             utx.commit();
         } catch (Exception ex) {
             try {
+                if (ex instanceof ConstraintViolationException) {
+                    Set<ConstraintViolation<?>> v = ((ConstraintViolationException) ex).getConstraintViolations();
+                    System.out.println(v.iterator().next().getMessage());
+                }
                 utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
@@ -73,9 +80,7 @@ public class UsersDAO implements Serializable {
 
     public void edit(Users_Entity users_Entity) throws NonexistentEntityException, RollbackFailureException, Exception {
         try {
-            System.out.println("BEFORE TRANSACTION");
             utx.begin();
-            System.out.println("Transaction Began");
             Users_Entity persistentUsers_Entity = em.find(Users_Entity.class, users_Entity.getUserId());
             Userroles_Entity roleIdOld = persistentUsers_Entity.getRoleId();
             Userroles_Entity roleIdNew = users_Entity.getRoleId();
@@ -198,7 +203,6 @@ public class UsersDAO implements Serializable {
                     .getSingleResult();
         } catch(Exception e) {
             System.out.println(e.toString());
-            e.printStackTrace();
         }
         return rtVl;
     }

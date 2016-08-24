@@ -104,15 +104,23 @@ public class LoginBean implements Serializable {
             this.user.setFirstName(userEntity.getFirstName());
             this.user.setLastName(userEntity.getLastName());
             this.user.setUserEmail(userEntity.getEmail());
+            this.user.setExtendedTimeTries(userEntity.getExtendIimeTries());
+            
             
             if (userEntity.getTimeEnteredQueue() != null) {
                 // check if they are in queue depending on if the time they entered queue is not null 
                 this.user.setInQueue(true);
                 this.user.setCharging(userEntity.getIsActive());
+                // make sure user 
+                if (userEntity.getTimeEndedCharging() != null) {
+                    this.user.setFinishedCharging(true);
+                }
             } else {
                 this.user.setInQueue(false);
                 this.user.setCharging(false);
+                this.user.setFinishedCharging(false);
             }
+
         } catch (Exception e) {
             this.errorThrown = true;
             FacesMessage msg = new FacesMessage();
@@ -128,15 +136,5 @@ public class LoginBean implements Serializable {
             return null;
         }
         return "index?faces-redirect=true";
-    }
-    
-    public void forgotPassword() {
-        Users_Entity userEntity = this.usercontroller.getUserByEmail(this.email);
-        if (userEntity != null) {
-            this.emailcontroller.sendPasswordResetEmail(userEntity);
-            //TODO send success message back;
-        } else {
-            // TODO throw error msg NO USER FOUND
-        }
     }
 }

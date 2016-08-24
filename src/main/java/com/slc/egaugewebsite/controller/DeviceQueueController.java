@@ -14,6 +14,7 @@ import com.slc.egaugewebsite.data.entities.Users_Entity;
 import com.slc.egaugewebsite.model.InstDevice;
 import com.slc.egaugewebsite.model.InstDeviceList;
 import com.slc.egaugewebsite.utils.DBDeviceNames;
+import com.slc.egaugewebsite.utils.RandomUserGenerator;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
@@ -36,7 +37,7 @@ import javax.transaction.UserTransaction;
  *
  * @author Steven Kritikos
  */
-@Stateless
+@Stateful
 @TransactionManagement(TransactionManagementType.BEAN)
 public class DeviceQueueController {
     @Resource
@@ -47,6 +48,8 @@ public class DeviceQueueController {
     private DeviceDAO devicedao;
     @EJB
     private DeviceDataClient ddc;
+    @EJB
+    private EmailController ec;
     public DeviceQueueController() {
     }
     
@@ -58,7 +61,6 @@ public class DeviceQueueController {
     }
     
     public void addToQueue(String campus, String userId) {
-        // TODO make sure the user is not in queue -  if they are queueued for another campus ask if they want to queue for a different station.
         String deviceName = DBDeviceNames.getDBName(campus);
         Device_Entity deviceEntity = devicedao.getDeviceByName(deviceName);
         Users_Entity usersEntity = usersdao.findUsers_Entity(userId);
@@ -78,13 +80,17 @@ public class DeviceQueueController {
     
     public List<Users_Entity> getQueueByStation(String campus) {
         String deviceName = DBDeviceNames.getDBName(campus);
+        System.out.println(deviceName);
         Device_Entity device = devicedao.getDeviceByName(deviceName);
+        System.out.println(device.getUsersList().size());
         // Get the queue for the given station sorted by the time users entered queue
         return device.getUsersList().stream()
                 .sorted((prevUser, curUser) -> prevUser.getTimeEnteredQueue().compareTo(curUser.getTimeEnteredQueue()))
                 .collect(Collectors.toList());
     }
-    
+    /**
+     * Function that gets called periodically to update the queue model; 
+     */
     public void updateQueue() {
         try { 
             System.out.println("Updating the queue");
@@ -95,44 +101,51 @@ public class DeviceQueueController {
                        .filter(device-> device.getDeviceName().equals(DBDeviceNames.KINGSTON_1.getEntityName())).findFirst().get();
                InstDevice kingston2 = devices.getDevices().stream()
                        .filter(device-> device.getDeviceName().equals(DBDeviceNames.KINGSTON_2.getEntityName())).findFirst().get();
-               updateKingstonQueue(kingston1, kingston2);
+               updateTopOfKingstonQueue(kingston1, kingston2);
+               InstDevice cornwall = devices.getDevices().stream()
+                       .filter(device -> device.getDeviceName().equals(DBDeviceNames.CORNWALL.getEntityName())).findFirst().get();
+                updateTopOfQueue(cornwall);
+                InstDevice brockville = devices.getDevices().stream()
+                       .filter(device -> device.getDeviceName().equals(DBDeviceNames.BROCKVILLE.getEntityName())).findFirst().get();
+                updateTopOfQueue(brockville);
             }
         } catch (Exception ex) {
             Logger.getLogger(InstantaneousReadingJob.class.getName()).log(Level.SEVERE, null, ex);
         }    
     }
     
-    private void updateKingstonQueue(InstDevice device1, InstDevice device2 ) {
+    private void updateTopOfKingstonQueue(InstDevice device1, InstDevice device2 ) {
 
     }
     
-    private void updateDeviceQueue(InstDevice device) {
-        Device_Entity deviceEntity = devicedao.getDeviceByName(device.getDeviceName());
-        List<Users_Entity> queue = deviceEntity.getUsersList();
+    /**
+     * Update the status of the user at the top of the queue for given device
+     * @param device 
+     */
+    private void updateTopOfQueue(InstDevice device) {
         try {
-            if (queue != null) { 
-
-                if(queue.size() == 1) {
-                    if (device.getInstPower().compareTo(BigDecimal.valueOf(100)) == 1
-                            && !queue.get(0).getIsActive()) {   
-                        userStartedCharging(queue.get(0));
-                    } else {
-                        updateNextInQueue(queue.get(0));
-                    }
+            Device_Entity deviceEntity = devicedao.getDeviceByName(device.getDeviceName());
+            System.out.println(device.getDeviceName() + "  " + device.getInstPower().toString());
+            List<Users_Entity> queue = deviceEntity.getUsersList();
+            if (!queue.isEmpty()) { 
+                Users_Entity topOfQueue = queue.get(0);
+                //  Check if user is finished charging but is still in queue 
+                if (!topOfQueue.getIsActive() && topOfQueue.getTimeEndedCharging() != null) {
+                    //Means the user is done charging - see when they finished -- and deal approprietly
                 } else {
-                    Users_Entity topOfQueue = queue.get(0);
-                    Users_Entity nextInLine = queue.get(1);
-                    // Check if current queued user is done charging
-                    if (device.getInstPower().compareTo(BigDecimal.valueOf(100)) == -1 
+                    //Make sure top queue available end time starts
+                    this.updateUserAvailableTime(topOfQueue); 
+                    this.checkIfTimeExpired(topOfQueue);
+                }
+                
+                // Check if user has started charging
+                if (device.getInstPower().compareTo(BigDecimal.valueOf(100)) == 1
+                            && !topOfQueue.getIsActive()) { 
+                    this.userStartedCharging(topOfQueue);
+                // Check if current user is done charging
+                } else if (device.getInstPower().compareTo(BigDecimal.valueOf(100)) == -1 
                             && topOfQueue.getIsActive()) {
-                        //TODO Email telling them they are done/ready for next person,
-                        removeUserFromQueue(topOfQueue);
-                        updateNextInQueue(nextInLine);
-                    // else check if next in line is charging
-                    } else if (device.getInstPower().compareTo(BigDecimal.valueOf(100)) == 1
-                            && !topOfQueue.getIsActive()) {   
-                        userStartedCharging(topOfQueue);
-                    }
+                    this.userFinishedCharing(topOfQueue);
                 }
             } 
         }catch (Exception e) {
@@ -141,16 +154,21 @@ public class DeviceQueueController {
         
     }
 
+
+    
     public void removeUserFromQueue(Users_Entity user) {
         try {
             // Set all queue related fields to null
             user.setAvailableEndTime(null);
-            user.setAvailaleStartTime(null);
+            user.setAvailableStartTime(null);
+            user.setTimeStartedCharging(null);
+            user.setTimeEndedCharging(null);
             user.setExtendIimeTries(0);
             user.setDeviceId(null);
             user.setIsActive(false);
             user.setTimeEnteredQueue(null);
-            usersdao.edit(user);
+            
+            usersdao.edit(user); 
         } catch (RollbackFailureException ex) {
             Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -158,44 +176,110 @@ public class DeviceQueueController {
         }
     }
 
-    public void updateNextInQueue(Users_Entity user) {   
+    /**
+     * Set users available start and end times
+     * @param user 
+     */
+    public void updateUserAvailableTime(Users_Entity user) {   
         try {
-            boolean edit = true;
-            if (user.getAvailaleStartTime() == null) {
+            if (user.getAvailableStartTime() == null) {
                 // Set the available date times
                 Calendar cal = Calendar.getInstance();
-                user.setAvailaleStartTime(new Date());
+                user.setAvailableStartTime(new Date());
                 cal.setTime(new Date());
                 cal.add(Calendar.HOUR, 1);
                 user.setAvailableEndTime(cal.getTime());
-              // If the user is not active remove them from queue if they have pass their given time
-            } else if (!user.getIsActive()) {
-                Calendar start = Calendar.getInstance();
-                Calendar end = Calendar.getInstance();
-                start.setTime(user.getAvailaleStartTime());
-                end.setTime(user.getAvailableEndTime());
-                if (start.after(end)){
-                    edit = false;
-                }
-            }
-            
-            if (edit) {
                 usersdao.edit(user);
-            } else {
-                removeUserFromQueue(user);
             }
-
         } catch (RollbackFailureException ex) {
             Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     *  Remove user from queue if their time has expired.
+     * @param user 
+     */
+    public void checkIfTimeExpired(Users_Entity user) {
+        if (!user.getIsActive()) {
+               Calendar start = Calendar.getInstance();
+               Calendar end = Calendar.getInstance();
+               start.setTime(user.getAvailableStartTime());
+               end.setTime(user.getAvailableEndTime());
+               if (start.after(end)){
+                   removeUserFromQueue(user);
+            }
         }
     }
 
     private void userStartedCharging(Users_Entity user) {
-        user.setIsActive(true);
-        updateNextInQueue(user);
+        try {
+            System.out.println("Top of q started charging");
+            user.setIsActive(true);
+            user.setTimeStartedCharging(new Date());
+            this.usersdao.edit(user);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
+    public void userFinishedCharing(Users_Entity user) {
+        try {
+            System.out.println("Top of q done emailed them letting them know");
+            user.setIsActive(false);
+            user.setTimeEndedCharging(new Date());
+            this.usersdao.edit(user);
+            ec.sendFinishedChargingEmail(user);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    
+    public void updateNextUserInQueue(Users_Entity userEntity) {
+        try {
+            Device_Entity deviceEntity = userEntity.getDeviceId();
+            if (deviceEntity.getUsersList().size() > 1) {
+                Users_Entity nextInQueue = deviceEntity.getUsersList().get(1);
+                this.updateUserAvailableTime(nextInQueue);
+                System.out.println("NEXT IN QUEUE: " + nextInQueue.getEmail() );
+                ec.notifyNextInQueueEmail(nextInQueue);
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            e.printStackTrace();
+        }
+         
+        
+    }
+
+    public void extendPeriodForUser(Users_Entity userEntity) {
+        try {
+            System.out.println("EXTENDING PERIOD FOR USER");
+            if (userEntity.getExtendIimeTries() < 3) {
+                Users_Entity randUser = new RandomUserGenerator(userEntity).getRandUser();
+                this.usersdao.create(randUser);
+                // Update new user
+                userEntity.setAvailableEndTime(null);
+                userEntity.setAvailableStartTime(null);
+                userEntity.setExtendIimeTries(userEntity.getExtendIimeTries() + 1);
+                userEntity.setIsActive(false);
+                userEntity.setTimeStartedCharging(null);
+                this.usersdao.edit(userEntity);
+            }
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
 
 }
