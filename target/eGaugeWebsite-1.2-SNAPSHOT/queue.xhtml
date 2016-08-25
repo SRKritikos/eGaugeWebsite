@@ -35,7 +35,7 @@
                 </ui:fragment>
             </div>
             <div class="row col-xs-12">
-                <ui:fragment rendered="#{user.inQueue eq false and user.charging eq false}">
+                <ui:fragment rendered="#{user.inQueue eq false and user.charging eq false and user.finishedCharging eq false}">
                     <div class="col-xs-6 col-xs-push-5">
                         <h:commandButton class="btn btn-success btn-md" id="btnAddToQueue" 
                                          action="#{queuebean.addToQueue()}" value="Add Me To Queue">
@@ -43,7 +43,7 @@
                         </h:commandButton>
                     </div>
                 </ui:fragment>
-                <ui:fragment rendered="#{user.inQueue eq true and user.charging eq false}">
+                <ui:fragment rendered="#{user.inQueue eq true and user.charging eq false and user.finishedCharging eq false}">
                     <div class="text-center">
                         <div class="btn-group" role="group" id="btnQueueChanges">
                             <button type="button" class="btn btn-primary btn-md "
@@ -57,12 +57,19 @@
                         </div>
                     </div>
                 </ui:fragment>
-                <ui:fragment rendered="#{user.charging eq true}">
+                <ui:fragment rendered="#{user.charging eq true and user.finishedCharging eq false}">
                     <div class="text-center">
-                        <button type="button" style="margin-left: 2em" class="btn btn-danger btn-md center-block"
-                                data-toggle='modal' data-target="#notmemodal">
-                                This is not me
-                        </button>
+                        <h:commandLink class="btn btn-danger btn-md #{queuebean.extendTimeStyle}"
+                                       onclick="$('#notmemodal').modal('show');" value="This is not me" immediate="true">
+                            <f:ajax execute="@this" render="@this"/>
+                        </h:commandLink>
+                    </div>
+                </ui:fragment>
+                 <ui:fragment rendered="#{user.finishedCharging eq true}">
+                    <div class="text-center">
+                        <h:commandLink class="btn btn-success btn-md" action="#{queuebean.notifyNextInqueue()}"
+                                       value="Notify next in queue">
+                        </h:commandLink>
                     </div>
                 </ui:fragment>
             </div>

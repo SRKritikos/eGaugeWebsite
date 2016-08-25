@@ -46,7 +46,7 @@ public class RemoveFromQueueBean {
         this.user = user;
     }
     
-    public void removeUserFromQueue() {
+    public String removeUserFromQueue() {
         try {
             System.out.println("USERID : " + this.userId);
             Users_Entity userEntity = this.usercontroller.getUserEntity(userId);
@@ -54,11 +54,13 @@ public class RemoveFromQueueBean {
             this.queuecontroller.updateNextUserInQueue(userEntity);
             this.queuecontroller.removeUserFromQueue(userEntity);
             this.user.removeFromQueue();
-    
+            
         } catch (Exception e) {
             System.out.println(e.toString());
             e.printStackTrace();
         }
+        
+        return "/index.xhtml?faces-redirect=true";
     }
     
 }

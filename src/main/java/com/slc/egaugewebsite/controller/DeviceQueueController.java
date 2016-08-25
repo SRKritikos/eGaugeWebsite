@@ -156,7 +156,7 @@ public class DeviceQueueController {
                         usersdao.destroy(topOfQueue.getUserId());
                         ec.notifyNextInQueueEmail(queue.get(1));
                     } else {                    
-                        this.userFinishedCharing(topOfQueue);
+                        this.userFinishedCharging(topOfQueue);
                     }
                 }
             } 
@@ -239,7 +239,7 @@ public class DeviceQueueController {
         }
     }
     
-    public void userFinishedCharing(Users_Entity user) {
+    public void userFinishedCharging(Users_Entity user) {
         try {
             System.out.println("Top of q done emailed them letting them know");
             user.setIsActive(false);
@@ -278,12 +278,13 @@ public class DeviceQueueController {
             if (userEntity.getExtendIimeTries() < 3) {
                 Users_Entity randUser = new RandomUserGenerator(userEntity).getRandUser();
                 this.usersdao.create(randUser);
-                // Update new user
+                // Update user
                 userEntity.setAvailableEndTime(null);
                 userEntity.setAvailableStartTime(null);
                 userEntity.setExtendIimeTries(userEntity.getExtendIimeTries() + 1);
                 userEntity.setIsActive(false);
                 userEntity.setTimeStartedCharging(null);
+                userEntity.setTimeEndedCharging(null);
                 this.usersdao.edit(userEntity);
             }
         } catch (RollbackFailureException ex) {

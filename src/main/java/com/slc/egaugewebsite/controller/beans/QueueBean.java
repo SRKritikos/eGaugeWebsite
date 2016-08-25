@@ -31,6 +31,7 @@ import javax.faces.bean.RequestScoped;
 @ManagedBean(name="queuebean")
 public class QueueBean implements Serializable{
     private String campus;
+    private String extendTimeStyle;
     private List<QueueTableRowModel> tableData;
     private Map<String,String> campusMap;
     @EJB
@@ -50,13 +51,13 @@ public class QueueBean implements Serializable{
 
     @PostConstruct
     public void init() {
-        System.out.println(this.user.getInQueue() + " " + this.user.getCharging());
+        System.out.println(this.user.getInQueue() + "  " + this.user.getCharging() + "  " +  this.user.isFinishedCharging());
         if (this.user.getInQueue()) {
             System.out.println(this.usercontroller);
             // get the device the user is queued too by looking them up in the database then get
             Users_Entity userEntity = usercontroller.getUserEntity(this.user.getUser());
             this.user.setCharging(userEntity.getIsActive());
-            if (userEntity.getTimeEnteredQueue() != null) { 
+            if (userEntity.getTimeEndedCharging()!= null) { 
                 this.user.setFinishedCharging(true);
             }
             String deviceName = userEntity.getDeviceId().getDeviceName();
@@ -111,10 +112,21 @@ public class QueueBean implements Serializable{
     public void setUser(UserBean user) {
         this.user = user;
     }
-    
-    
+
+    public String getExtendTimeStyle() {
+        return extendTimeStyle;
+    }
+
+    public void setExtendTimeStyle(String extendTimeStyle) {
+        this.extendTimeStyle = extendTimeStyle;
+    }
     
     public void updateTable() {
+        if (this.user.getExtendedTimeTries() > 2) {
+            this.extendTimeStyle = "disabled";
+        } else {
+            this.extendTimeStyle = "active";
+        }
         this.tableData = this.queuecontroller.getQueueByStation(campus).stream()
                 .map(user_entity -> new QueueTableRowModel(user_entity))
                 .collect(Collectors.toList());   
@@ -185,5 +197,22 @@ public class QueueBean implements Serializable{
         } catch (Exception e) {
             System.out.println(e.toString());
         }
+    }
+    
+    public String notifyNextInqueue() {
+        try {
+            Users_Entity userEntity = this.usercontroller.getUserEntity(this.user.getUser());
+            System.out.println("removing user " + userEntity.getEmail() + " from queue");
+            this.queuecontroller.updateNextUserInQueue(userEntity);
+            this.queuecontroller.removeUserFromQueue(userEntity);
+            this.user.removeFromQueue();
+            return "/index.xhtml?faces-redirect=true";
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            e.printStackTrace();
+            return null;
+        }
+        
+       
     }
 }
