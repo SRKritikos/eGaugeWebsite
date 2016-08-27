@@ -14,15 +14,18 @@ and open the template in the editor.
     <body>
       <ui:composition> 
         <address>
-           <strong>TODO</strong><br/>
-           ADDRESS<br/>
-           ADDRESS<br/>
-           <abbr title="Phone">P:</abbr>
+           <strong>
+               <h:outputText value="#{contactinfobean.city}"/>
+           </strong><br/>
+           <h:outputText value="#{contactinfobean.address}"/><br/>
+           <h:outputText value="#{contactinfobean.city}, #{contactinfobean.province}"/><br/>
+           <h:outputText value="#{contactinfobean.postalcode}"/><br/>
+            <h:outputText value="#{contactinfobean.phone}"/>
          </address>
-
          <address>
-            <strong>Name</strong><br/>
-           <a href="mailto:#">admin@admin.com</a>
+            <strong>Admin Email</strong><br/>
+            <a href="mailto:#">
+                <h:outputText value="#{contactinfobean.emailaddress}"/></a>
          </address>
       </ui:composition>	
    </body>

@@ -111,6 +111,34 @@
                     </div>   
                 </div>
             </h:form> 
+            <h:form>
+                <div class="form-group row">
+                    <label for="addressinfo">Address</label>
+                    <h:inputText id="addressinfo" class="form-control" value="#{contactinfobean.address}"/>
+                </div>
+                <div class="form-group row">
+                    <label for="emailaddressinfo">Email Address</label>
+                    <h:inputText id="emailaddressinfo" class="form-control" value="#{contactinfobean.emailaddress}"/>
+                </div>
+                <div class="form-group row">
+                    <label for="cityinfo">City</label>
+                    <h:inputText id="cityinfo" class="form-control" value="#{contactinfobean.city}"/>
+                </div>
+                <div class="form-group row">
+                    <label for="provinceinfo">Province</label>
+                    <h:inputText id="provinceinfo" class="form-control" value="#{contactinfobean.province}"/>
+                </div>
+                <div class="form-group row">
+                    <label for="postalcodeinfo">Postal Code</label>
+                    <h:inputText id="postalcodeinfo" class="form-control" value="#{contactinfobean.postalcode}"/>
+                </div>
+                <div class="form-group row">
+                    <label for="phoneinfo">Phone</label>
+                    <h:inputText id="phoneinfo" class="form-control" value="#{contactinfobean.phone}"/>
+                </div>
+                <h:commandLink class="btn btn-primary btn-md" action="#{contactinfobean.updatePropertiesFile()}"
+                               value="Update"/>
+            </h:form>
         </ui:define>
     </ui:composition>      
     

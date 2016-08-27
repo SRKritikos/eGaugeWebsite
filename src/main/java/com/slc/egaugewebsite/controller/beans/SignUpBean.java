@@ -37,6 +37,8 @@ public class SignUpBean implements Serializable {
     private UserTransactionController usercontroller;
     @EJB
     private ValidateCaptchaClient captchaclient;
+    @EJB
+    private ApplicationProperties utilprops;
     private UIComponent errorMsg;
     private String email;
     private String password;
@@ -48,7 +50,7 @@ public class SignUpBean implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            this.SITE_KEY = ApplicationProperties.getApplicationProperties().getProperty("captchasitekey");
+            this.SITE_KEY = this.utilprops.getApplicationProperties().getProperty("captchasitekey");
         } catch (IOException ex) {
             Logger.getLogger(SignUpBean.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -10,6 +10,7 @@ import com.slc.egaugewebsite.controller.EmailController;
 import com.slc.egaugewebsite.controller.UserTransactionController;
 import com.slc.egaugewebsite.data.entities.Users_Entity;
 import com.slc.egaugewebsite.utils.AuthenticationUtils;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -26,7 +27,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean(name = "forgotpasswordbean")
 @RequestScoped
-public class ForgotPasswordBean {
+public class ForgotPasswordBean implements Serializable {
     @ManagedProperty("#{user}")
     private UserBean user;
     @EJB

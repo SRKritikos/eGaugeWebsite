@@ -31,6 +31,53 @@ and open the template in the editor.
     margin: 2.5em;
 }
 
+
+/*
+    Navigation Bar
+*/
+#navigationbar li.nav-link {
+    margin-right: 11px;
+}
+
+#logoimg-wrapper {
+    float: left;
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-bottom: 10px;
+}
+
+#heading-wrapper {
+    font-size: 48px;
+     padding-top: 10px;
+     margin-left: 250px;
+}
+
+
+.navbar-header {
+    width: 100%;
+}
+
+.navbar-default .nav-link a {
+    background-color: darkgreen;
+    text-align: center;
+    width: 111px;
+    height: 59px;
+    font-size: .9em;
+    line-height: .9em;
+    color: white !important;
+    border-bottom-right-radius: 8px;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    background-color: #5a595f;
+    color: white;
+}
+
+
+.nav-link {
+    border-bottom-right-radius: 8px;
+}
+
 /*
     Modal header colors to show danger or warning to users.
 */

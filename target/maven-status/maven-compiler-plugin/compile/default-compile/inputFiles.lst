@@ -20,6 +20,7 @@ F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\utils\AuthenticationFilter.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\utils\AuthenticationUtils.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\utils\RandomUserGenerator.java
+F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\ContactInformationBean.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\InstantaneousReadingJob.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\dao\UsersDAO.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\entities\Device_Entity.java

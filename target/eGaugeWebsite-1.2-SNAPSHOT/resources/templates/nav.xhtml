@@ -13,25 +13,32 @@ File defines the navigation bar on the top of the website.
         <div id="nav-bar">
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
-                    <div class="mavbar-header">
-                        <h1>SLC E.V. Charging Stations</h1>
+                    <div class="row"> 
+                        <div class="navbar-header">
+                            <div id="logoimg-wrapper">
+                                <h:graphicImage class="img-responsive" library="images" name="searclogoimg.png"/>  
+                            </div>
+                            <div id="heading-wrapper">
+                                <b>SLC E.V. Charging Stations</b>
+                            </div>
+                        </div>
                     </div>
                     <h:form>
-                        <ul class="nav navbar-nav" >
-                            <li class="active">
+                        <ul class="nav navbar-nav" id="navigationbar" >
+                            <li class="nav-link">
                                 <h:commandLink action="#{navigationbean.directToPage()}">
                                      Home
                                     <f:param name="pageName" value="index"/>
                                 </h:commandLink>
                             </li>
                             <ui:fragment rendered="#{user.userRole eq 'defaultuser' or user.userRole eq 'admin'}">
-                                <li>
+                                <li class="nav-link">
                                     <h:commandLink action="#{navigationbean.directToPage()}">
                                         Station Queue
                                         <f:param name="pageName" value="queue"/>
                                     </h:commandLink>
                                 </li>
-                                <li>
+                                <li class="nav-link">
                                     <h:commandLink action="#{navigationbean.directToPage()}">
                                         Profile
                                         <f:param name="pageName" value="profile"/>
@@ -40,7 +47,7 @@ File defines the navigation bar on the top of the website.
                                 </li>
                             </ui:fragment>
                             <ui:fragment rendered="#{user.userRole eq 'admin'}"> 
-                                <li>
+                                <li class="nav-link">
                                     <h:commandLink action="#{navigationbean.directToPage()}">
                                         Admin
                                         <f:param name="pageName" value="admin"/>

@@ -7,8 +7,11 @@
 package com.slc.egaugewebsite.utils;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
 import java.util.Properties;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -40,6 +43,5 @@ public class ApplicationProperties {
             throw new FileNotFoundException("Application properties files not found");
         }
         return ApplicationProperties.properties; 
-    }
-    
+    }    
 }

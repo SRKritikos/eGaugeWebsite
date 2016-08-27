@@ -9,6 +9,7 @@ package com.slc.egaugewebsite.controller.beans;
 import com.slc.egaugewebsite.controller.DeviceQueueController;
 import com.slc.egaugewebsite.controller.UserTransactionController;
 import com.slc.egaugewebsite.data.entities.Users_Entity;
+import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -21,7 +22,7 @@ import javax.faces.bean.RequestScoped;
  */
 @ManagedBean(name = "removefromqueuebean")
 @RequestScoped
-public class RemoveFromQueueBean {
+public class RemoveFromQueueBean implements Serializable{
     private String userId;
     @EJB
     private UserTransactionController usercontroller;

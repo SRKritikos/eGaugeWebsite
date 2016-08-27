@@ -14,7 +14,6 @@ import javax.faces.bean.ManagedBean;
  *
  * @author Steven Kritikos
  */
-
 @ManagedBean(name = "deviceinfobean")
 @ApplicationScoped
 public class DeviceInformationBean implements Serializable{
@@ -119,13 +118,5 @@ public class DeviceInformationBean implements Serializable{
     public void setCornwallBorderColor(String cornwallBorderColor) {
         this.cornwallBorderColor = cornwallBorderColor;
     }
-    
-    
-    
-    
-    
-    
-    
-
     
 }
