@@ -63,7 +63,6 @@ public class UserTransactionController {
         if (!validPassword) {
             throw new Exception("invalid");
         }
-        System.out.println("VALIDATED PASSWORD");
         
         return rtVl;
     }
@@ -102,14 +101,14 @@ public class UserTransactionController {
                 rtVl = usersdao.getUserByEmail(newUser.getEmail());
             } catch (RollbackFailureException ex) {
                 System.out.println(ex.getMessage());
-               throw new Exception("failure");
+               throw new Exception("server error");
             } catch (Exception ex) {
                 System.out.println(ex.toString());
-                throw new Exception("failure");
+                throw new Exception("server error");
             }
             
         } else {
-            System.out.println("E-mail Exists");
+           throw new Exception("e-mail already exists");
         }
         return rtVl;
     }

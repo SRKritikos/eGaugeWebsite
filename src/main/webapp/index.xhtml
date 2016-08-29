@@ -10,49 +10,62 @@
             <h:outputScript name="js/controller/LoadIndexController.js" />
             <h:outputScript name="js/controller/GraphRequestController.js" />
             <h:outputScript name="js/Model/GraphPoint.js" />
-            <h:outputScript name="js/view/MainGraph.js" />
-            <h:form id="formInstData">
-                <div class="col-xs-12" id="inst-wrapper" >
-                    <div class="col-xs-6 col-md-3 inst-divs text-center" id="kingston1div"
-                         style="border-color:#{deviceinfobean.kingston1BorderColor}">
+            <h:outputScript name="js/view/MainGraph.js" />            
+            <div class="col-xs-12" id="inst-wrapper">
+                <h:form id="formInstData">
+                    <div id="kingston1div" class="col-xs-6 col-md-3 text-center">
                         <h3>Kingston 1</h3> 
-                        <h:outputText id="kingston1out" value="#{instbean.kingston1Power}"/>
+                        <div class=" instimg-divs" 
+                             style="border-color:#{deviceinfobean.kingston1BorderColor}">
+                            <h:graphicImage class="img-responsive" library="images" name="greenevstation.jpg"/>
+                        </div>
+                        <h:outputText id="kingston1out" value="#{instbean.kingston1Power} kW"/>
                         <p>
                             <h:outputText value="#{deviceinfobean.kingston1Info}"/>
                         </p>
                     </div>
-                    <div class="col-xs-6 col-md-3 inst-divs text-center" id="kingston2div"
-                         style="border-color:#{deviceinfobean.kingston2BorderColor}">
+                    <div id="kingston2div" class="col-xs-6 col-md-3 text-center">
                         <h3>Kingston 2</h3>
-                        <h:outputText id="kingston2out" value="#{instbean.kingston2Power}"/>
+                        <div class=" instimg-divs text-center"
+                             style="border-color:#{deviceinfobean.kingston2BorderColor}">
+                            <h:graphicImage class="img-responsive" library="images" name="greenevstation.jpg"/>  
+                        </div>
+                        <h:outputText id="kingston2out" value="#{instbean.kingston2Power} kW"/>
                         <p>
-                             <h:outputText value="#{deviceinfobean.kingston2Info}"/>
+                            <h:outputText value="#{deviceinfobean.kingston2Info}"/>
                         </p>
                     </div>
-                    <div class="col-xs-6 col-md-3 inst-divs text-center" id="brockvillediv"
-                         style="border-color:#{deviceinfobean.brockvilleBorderColor}">
+                    <div id="brockvillediv" class="col-xs-6 col-md-3 text-center">
                         <h3>Brockville</h3>
-                        <h:outputText id="brockvilleout" value="#{instbean.brockvillePower}"/>
+                        <div class=" instimg-divs text-center"
+                             style="border-color:#{deviceinfobean.brockvilleBorderColor}">
+                            <h:graphicImage class="img-responsive" library="images" name="greenevstation.jpg"/>  
+                        </div>
+                        <h:outputText id="brockvilleout" value="#{instbean.brockvillePower} kW"/>
                         <p>
                             <h:outputText value="#{deviceinfobean.brockvilleInfo }"/>
                         </p>  
                     </div>
-                    <div class="col-xs-6 col-md-3 inst-divs text-center" id="cornwalldiv"
-                         style="border-color:#{deviceinfobean.cornwallBorderColor}">
+                    <div id="cornwalldiv" class="col-xs-6 col-md-3 text-center">
                         <h3>Cornwall</h3>
-                        <h:outputText id="cornwallout" value="#{instbean.cornwallPower}"/>
+                        <div class=" instimg-divs text-center"
+                             style="border-color:#{deviceinfobean.cornwallBorderColor}">
+                            <h:graphicImage class="img-responsive" library="images" name="greenevstation.jpg"/>      
+                        </div>
+                         <h:outputText id="cornwallout" value="#{instbean.cornwallPower} kW"/>
                         <p>
                             <h:outputText value="#{deviceinfobean.cornwallInfo}"/>
                         </p>
                     </div>
+                    <h:commandButton id="btnUpdateInstData" value="submit" action="#{instbean.updateReadings()}" >
+                        <f:ajax execute="@form" render="@form"/> 
+                    </h:commandButton> 
+                </h:form>
+                <div class="text-center" >
+                    <h:outputText value="#{deviceinfobean.mainInfoDiv}"/>
                 </div>
-                <h:commandButton id="btnUpdateInstData" value="submit" action="#{instbean.updateReadings()}" >
-                    <f:ajax execute="@form" render="@form"/> 
-                </h:commandButton> 
-            </h:form>
-            <div class="text-center" >
-                <h:outputText value="#{deviceinfobean.mainInfoDiv}"/>
             </div>
+           
             <div id="graph-wrapper">
                 <div id="graph-holder" border="2px" style="border-color: blue">
                     <svg></svg>                       
@@ -60,14 +73,14 @@
             </div>
             <h:form id="formDeviceData" class="form-horizontal" role="form">
                 <div id="date-wrapper" class="form-group col-xs-12 "> 
-                    <label for="requestStartDate" class="col-xs-offset-3 col-xs-1 lblDates"> Start: </label>
+                    <label for="requestStartDate" class="col-xs-offset-4 col-xs-1 lblDates"> Start: </label>
                     <div class="input-group date col-xs-3" id="startDate">
                         <h:inputText class="form-control"  id="requestStartDate" value="#{devicedatabean.startDate}"  />
                             <div class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </div>
                     </div>
-                    <label for="requestStartDate" class="col-xs-offset-3 col-xs-1 lblDates"> End: </label>
+                    <label for="requestStartDate" class="col-xs-offset-4 col-xs-1 lblDates"> End: </label>
                     <div class="input-group date col-xs-3" id="endDate"> 
                         <h:inputText class="form-control" id="requestEndDate" value="#{devicedatabean.endDate}"/>    
                             <div class="input-group-addon">
@@ -75,7 +88,7 @@
                             </div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-success btn-sm col-xs-offset-5"
+                <button type="button" class="btn btn-md btn-success col-xs-offset-5"
                        id="btnDeviceData" onclick="requestGraph()">
                         Submit
                 </button>

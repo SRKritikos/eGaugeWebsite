@@ -53,8 +53,7 @@ public class QueueBean implements Serializable{
     public void init() {
         System.out.println(this.user.getInQueue() + "  " + this.user.getCharging() + "  " +  this.user.isFinishedCharging());
         if (this.user.getInQueue()) {
-            System.out.println(this.usercontroller);
-            // get the device the user is queued too by looking them up in the database then get
+            // get the device the user is queued too by looking them up in the database
             Users_Entity userEntity = usercontroller.getUserEntity(this.user.getUser());
             this.user.setCharging(userEntity.getIsActive());
             if (userEntity.getTimeEndedCharging()!= null) { 
@@ -62,8 +61,9 @@ public class QueueBean implements Serializable{
             }
             String deviceName = userEntity.getDeviceId().getDeviceName();
             switch (deviceName) {
-                case "Kingston1_Power":
-                case "Kingsotn2_Power":
+                case "Kingston_Wand1_Power":
+                case "Kingston_Wand2_Power":
+                case "Kingston_TotalPower":
                     System.out.println("Kingston");
                     this.campus = "Kingston";
                     break;
@@ -72,6 +72,7 @@ public class QueueBean implements Serializable{
                     this.campus = "Brockville";
                     break;
                 case "Cornwall_Power":
+                    System.out.println("Cornwall");
                     this.campus = "Cornwall";   
                     break;
             }
@@ -127,7 +128,7 @@ public class QueueBean implements Serializable{
         } else {
             this.extendTimeStyle = "active";
         }
-        this.tableData = this.queuecontroller.getQueueByStation(campus).stream()
+        this.tableData = this.queuecontroller.getQueueByStation(this.campus).stream()
                 .map(user_entity -> new QueueTableRowModel(user_entity))
                 .collect(Collectors.toList());   
     }
@@ -185,6 +186,9 @@ public class QueueBean implements Serializable{
         return sb.toString();
     }
     
+    /**
+     * Extend period for user once the this is not me button or extend time is clicked
+     */
     public void extendPeriod() {
         try {
             Users_Entity userEntity = this.usercontroller.getUserByEmail(this.user.getUserEmail());
@@ -199,11 +203,15 @@ public class QueueBean implements Serializable{
         }
     }
     
+    /**
+     * Function called when user removes themselves from queue.
+     * @return 
+     */
     public String notifyNextInqueue() {
         try {
             Users_Entity userEntity = this.usercontroller.getUserEntity(this.user.getUser());
             System.out.println("removing user " + userEntity.getEmail() + " from queue");
-            this.queuecontroller.updateNextUserInQueue(userEntity);
+            this.queuecontroller.notifyNextUserInQueue(userEntity);
             this.queuecontroller.removeUserFromQueue(userEntity);
             this.user.removeFromQueue();
             return "/index.xhtml?faces-redirect=true";

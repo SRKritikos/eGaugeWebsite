@@ -152,10 +152,12 @@ public class SignUpBean implements Serializable {
                 this.user.setExtendedTimeTries(0);
                 this.user.setFinishedCharging(false);
             } else {
-                throw new Exception();
+                msg.setSummary("Invalid Capcha");
+                context.addMessage(this.errorMsg.getClientId(context), msg);
+                return null;    
             }
         } catch (Exception e) {
-            msg.setSummary("Failed to create account");
+            msg.setSummary("Failed to create account, " + e.getMessage());
             context.addMessage(this.errorMsg.getClientId(context), msg);
             System.out.println(e.toString());
             return null;    

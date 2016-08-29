@@ -86,7 +86,6 @@ File defines the navigation bar on the top of the website.
                 </div>
             </nav>
         </div>
-       
         <!-- Login modal-->
         <div id="loginmodal" class="modal fade" role="dialog"> 
             <div class="modal-dialog modal-sm">
@@ -139,6 +138,7 @@ File defines the navigation bar on the top of the website.
                             <div class="form-group">
                                 <h:outputText id="passwordChangeErrorMsg" binding="#{forgotpasswordbean.errorMsg}"/>
                                 <h:message for="passwordChangeErrorMsg" style="font-size: 1em; color : #{forgotpasswordbean.msgColor}"/>
+                                <br/>
                                 <label for="txtPasswordChangeEmail">E-mail</label> 
                                 <h:inputText id="txtPasswordChangeEmail" class="form-control" value="#{forgotpasswordbean.email}" 
                                              required="true" requiredMessage="*Please enter email"

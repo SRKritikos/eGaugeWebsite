@@ -211,7 +211,6 @@ public class UsersDAO implements Serializable {
      public List<Users_Entity> getQueueByDevice(Device_Entity device) {
          List<Users_Entity> rtVl = new ArrayList<>();
          try {
-    
              rtVl = em.createNamedQuery("Users_Entity.getQueue", Users_Entity.class)
                      .setParameter("device", device)
                      .getResultList();

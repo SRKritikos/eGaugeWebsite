@@ -32,9 +32,14 @@ and open the template in the editor.
 }
 
 
+
 /*
     Navigation Bar
 */
+.navbar-default {
+    background-color: #fff;
+}
+
 #navigationbar li.nav-link {
     margin-right: 11px;
 }
@@ -48,8 +53,8 @@ and open the template in the editor.
 
 #heading-wrapper {
     font-size: 48px;
-     padding-top: 10px;
-     margin-left: 250px;
+    padding-top: 10px;
+    margin-left: 250px;
 }
 
 
@@ -58,24 +63,31 @@ and open the template in the editor.
 }
 
 .navbar-default .nav-link a {
-    background-color: darkgreen;
+    background-color: #357D18;
     text-align: center;
     width: 111px;
     height: 59px;
-    font-size: .9em;
-    line-height: .9em;
+    font-size: 1.1em;
+    line-height: 1.1em;
     color: white !important;
     border-bottom-right-radius: 8px;
 }
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-    background-color: #5a595f;
+    background-color: #539618;
     color: white;
 }
 
 
 .nav-link {
     border-bottom-right-radius: 8px;
+}
+
+/*
+    Modal css
+*/
+.modal-body {
+    font-size: 16px;
 }
 
 /*
@@ -105,4 +117,15 @@ and open the template in the editor.
     -moz-border-radius-topright: 5px;
      border-top-left-radius: 5px;
      border-top-right-radius: 5px;
+}
+
+
+/*
+    Footer
+*/
+#footer-wrapper {
+    background-color : #fff;
+    border-color: #e7e7e7;
+    border: 1px solid transparent;
+    margin-top: 1em;
 }

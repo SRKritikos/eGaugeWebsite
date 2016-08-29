@@ -106,8 +106,18 @@ public class ForgotPasswordBean implements Serializable {
                 this.user.setFirstName(userEntity.getFirstName());
                 this.user.setLastName(userEntity.getLastName());
                 this.user.setUserEmail(email);
-                this.user.setInQueue(false);
-                this.user.setCharging(false);
+                this.user.setCharging(userEntity.getIsActive());
+                if(userEntity.getTimeEnteredQueue() !=  null) {
+                    this.user.setInQueue(true);
+                    if (userEntity.getTimeEndedCharging() != null) {
+                        this.user.setFinishedCharging(true);
+                    }
+                } else {
+                    this.user.setInQueue(false);
+                }
+                
+                
+                
             } else {
                 this.msgColor = "red";
                 msg.setSummary("Invalid email.");
@@ -129,7 +139,7 @@ public class ForgotPasswordBean implements Serializable {
     }
     
      public void forgotPassword() {
-         FacesMessage msg = new FacesMessage();
+        FacesMessage msg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         Users_Entity userEntity = this.usercontroller.getUserByEmail(this.email);
         if (userEntity != null) {

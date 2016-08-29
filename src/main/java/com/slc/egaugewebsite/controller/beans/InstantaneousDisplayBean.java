@@ -74,25 +74,29 @@ public class InstantaneousDisplayBean implements Serializable {
      */
     public void updateReadings() {
         InstDeviceList devices = ddc.getInstData(new String[0]);
-        this.kingston1Power = devices.getDevices().stream()
+        BigDecimal tempPower = devices.getDevices().stream()
                 .filter(device -> device.getDeviceName().equals(DBDeviceNames.KINGSTON_1.getEntityName()))
                 .findFirst()
                 .get()
                 .getInstPower();
-        this.kingston2Power = devices.getDevices().stream()
+        this.kingston1Power = tempPower.compareTo(BigDecimal.valueOf(100)) == 1 ? tempPower : BigDecimal.ZERO;
+        tempPower = devices.getDevices().stream()
                 .filter(device -> device.getDeviceName().equals(DBDeviceNames.KINGSTON_2.getEntityName()))
                 .findFirst()
                 .get()
                 .getInstPower();
-        this.brockvillePower = devices.getDevices().stream()
+        this.kingston2Power = tempPower.compareTo(BigDecimal.valueOf(100)) == 1 ? tempPower : BigDecimal.ZERO;
+        tempPower = devices.getDevices().stream()
                 .filter(device -> device.getDeviceName().equals(DBDeviceNames.BROCKVILLE.getEntityName()))
                 .findFirst()
                 .get()
                 .getInstPower();
-        this.cornwallPower = devices.getDevices().stream()
+        this.brockvillePower = tempPower.compareTo(BigDecimal.valueOf(100)) == 1 ? tempPower : BigDecimal.ZERO;
+        tempPower = devices.getDevices().stream()
                 .filter(device -> device.getDeviceName().equals(DBDeviceNames.CORNWALL.getEntityName()))
                 .findFirst()
                 .get()
                 .getInstPower();
+        this.cornwallPower = tempPower.compareTo(BigDecimal.valueOf(100)) == 1 ? tempPower : BigDecimal.ZERO;
     }
 }

@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * Enum to handle returning database stored device names for queries.
  * 
- * 
  * @author Steven
  */
 public enum DBDeviceNames {
@@ -21,7 +20,7 @@ public enum DBDeviceNames {
     CORNWALL("Cornwall_Power"),
     BROCKVILLE("Brockville_Power");
     
-    private String entityName;
+    private final String entityName;
     private DBDeviceNames(String name) {
         this.entityName = name;
     }

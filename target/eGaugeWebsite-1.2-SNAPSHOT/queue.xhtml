@@ -21,7 +21,7 @@
                     <h:dataTable class="table table-bordered" id="queueTable" value="#{queuebean.tableData}"
                                  var="data" rowClasses="#{queuebean.rowClasses}}">
                         <h:column class="col-xs-8" >
-                            <f:facet name="header" class="text-centered">Name</f:facet>
+                            <f:facet name="header">Name</f:facet>
                             #{data.userName}
                         </h:column>
                         <h:column class="col-xs-4 #{user.inQueue}">

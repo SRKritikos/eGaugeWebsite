@@ -52,10 +52,12 @@ public class RemoveFromQueueBean implements Serializable{
             System.out.println("USERID : " + this.userId);
             Users_Entity userEntity = this.usercontroller.getUserEntity(userId);
             System.out.println("removing user " + userEntity.getEmail() + " from queue");
-            this.queuecontroller.updateNextUserInQueue(userEntity);
             this.queuecontroller.removeUserFromQueue(userEntity);
-            this.user.removeFromQueue();
             
+            this.queuecontroller.notifyNextUserInQueue(userEntity);
+            
+            this.user.removeFromQueue();
+     
         } catch (Exception e) {
             System.out.println(e.toString());
             e.printStackTrace();
