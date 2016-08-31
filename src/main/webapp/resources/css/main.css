@@ -27,12 +27,6 @@ and open the template in the editor.
     min-height: 550px;
 }
 
-#footer-wrapper {
-    margin: 2.5em;
-}
-
-
-
 /*
     Navigation Bar
 */
@@ -44,17 +38,17 @@ and open the template in the editor.
     margin-right: 11px;
 }
 
-#logoimg-wrapper {
+/*#logoimg-wrapper {
     float: left;
     padding-top: 15px;
     padding-left: 15px;
     padding-bottom: 10px;
-}
+}*/
 
 #heading-wrapper {
     font-size: 48px;
     padding-top: 10px;
-    margin-left: 250px;
+    /* margin-left: 250px;*/
 }
 
 
@@ -125,7 +119,10 @@ and open the template in the editor.
 */
 #footer-wrapper {
     background-color : #fff;
+    border: 1px;
+    border-style: solid;
     border-color: #e7e7e7;
-    border: 1px solid transparent;
-    margin-top: 1em;
+    margin: 2.5em;
+    padding: 15px;
+    border-radius: 4px;
 }
