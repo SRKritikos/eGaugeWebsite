@@ -12,12 +12,14 @@
                     <label for="kingston1Info" class="col-xs-2 col-form-label">Kingston 1 Station </label>
                     <h:inputText id="kingston1Info" class="form-control" value="#{deviceinfobean.kingston1Info}"/>
                     <h:selectOneRadio value="#{deviceinfobean.kingston1BorderColor}">
-                        <div class="radio">
-                            <f:selectItem itemValue="green" itemLabel="Working"/>
-                            <f:selectItem itemValue="yellow" itemLabel="Warning"/>
-                            <f:selectItem itemValue="red" itemLabel="Offline"/>
-                        </div>
+                        <f:selectItem itemValue="green" itemLabel="Working"/>
+                        <f:selectItem itemValue="yellow" itemLabel="Warning"/>
+                        <f:selectItem itemValue="red" itemLabel="Offline"/>
                     </h:selectOneRadio>
+                    <h:commandButton class="btn btn-sm btn-danger" value="Clear Queue" 
+                                     actionListener="#{deviceinfobean.clearQueueListener}">
+                        <f:attribute name="campus" value="Kingston_Wand1_Power"/>
+                    </h:commandButton>
                 </div>
                 <div class="form-group row">
                     <label for="kingston2Info" class="col-xs-2 col-form-label">Kingston 2 Station </label>
@@ -27,6 +29,10 @@
                         <f:selectItem itemValue="yellow" itemLabel="Warning"/>
                         <f:selectItem itemValue="red" itemLabel="Offline"/>
                     </h:selectOneRadio>
+                    <h:commandButton class="btn btn-sm btn-danger" value="Clear Queue" 
+                                     actionListener="#{deviceinfobean.clearQueueListener}">
+                        <f:attribute name="campus" value="Kingston_Wand2_Power"/>
+                    </h:commandButton>
                 </div>
                 <div class="form-group row">
                     <label for="brockvilleInfo" class="col-xs-2 col-form-label">Brockville Station </label>
@@ -36,6 +42,10 @@
                         <f:selectItem itemValue="yellow" itemLabel="Warning"/>
                         <f:selectItem itemValue="red" itemLabel="Offline"/>
                     </h:selectOneRadio>
+                    <h:commandButton class="btn btn-sm btn-danger" value="Clear Queue" 
+                                     actionListener="#{deviceinfobean.clearQueueListener}">
+                        <f:attribute name="campus" value="Brockville_Power"/>
+                    </h:commandButton>
                 </div>
                 <div class="form-group row">
                     <label for="cornwallInfo" class="col-xs-2 col-form-label">Cornwall Station </label>
@@ -45,6 +55,10 @@
                         <f:selectItem itemValue="yellow" itemLabel="Warning"/>
                         <f:selectItem itemValue="red" itemLabel="Offline"/>
                     </h:selectOneRadio>
+                    <h:commandButton class="btn btn-sm btn-danger" value="Clear Queue" 
+                                     actionListener="#{deviceinfobean.clearQueueListener}">
+                        <f:attribute name="campus" value="Cornwall_Power"/>
+                    </h:commandButton>
                 </div>
                 <div class="form-group row">
                     <label for="mainInfo" class="col-xs-2 col-form-label">All Stations</label>

@@ -199,7 +199,6 @@ public class DeviceQueueController {
                 this.updateUserAvailableTime(topOfQueue); 
                 this.checkIfTimeExpired(topOfQueue);
             }
-
             //Check if user has started charging
             if (reading.compareTo(BigDecimal.valueOf(100)) == 1
                         && !topOfQueue.getIsActive()) { 
@@ -362,5 +361,15 @@ public class DeviceQueueController {
         } catch (Exception ex) {
             Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
         }   
+    }
+    
+    /**
+     * Remove each user from the queue for given campus
+     * @param campus 
+     */
+    public void clearQueueForCampus(String campus) {
+        Device_Entity device = devicedao.getDeviceByName(campus);
+        List<Users_Entity> queue = usersdao.getQueueByDevice(device);
+        queue.stream().forEach(user -> this.removeUserFromQueue(user));
     }
 }

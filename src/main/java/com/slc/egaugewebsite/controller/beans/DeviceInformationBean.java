@@ -6,9 +6,12 @@
 
 package com.slc.egaugewebsite.controller.beans;
 
+import com.slc.egaugewebsite.controller.DeviceQueueController;
 import java.io.Serializable;
+import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.event.ActionEvent;
 
 /**
  *
@@ -17,6 +20,9 @@ import javax.faces.bean.ManagedBean;
 @ManagedBean(name = "deviceinfobean")
 @ApplicationScoped
 public class DeviceInformationBean implements Serializable{
+    @EJB
+    DeviceQueueController queuecontroller;
+    
     private String kingston1Info;    
     private String kingston2Info;
     private String cornwallInfo;
@@ -26,6 +32,8 @@ public class DeviceInformationBean implements Serializable{
     private String kingston2BorderColor;
     private String brockvilleBorderColor;
     private String cornwallBorderColor;
+    
+    private String campusToClear;
     
 
     public DeviceInformationBean() {
@@ -118,5 +126,21 @@ public class DeviceInformationBean implements Serializable{
     public void setCornwallBorderColor(String cornwallBorderColor) {
         this.cornwallBorderColor = cornwallBorderColor;
     }
-    
+
+    public String getCampusToClear() {
+        return campusToClear;
+    }
+
+    public void setCampusToClear(String campusToClear) {
+        this.campusToClear = campusToClear;
+    }
+
+    /**
+     * Event triggered when a button to clear a specific queue is clicked.
+     */
+    public void clearQueueListener(ActionEvent e) {
+        this.campusToClear =(String)e.getComponent().getAttributes().get("campus");
+        System.out.println("THIS IS THE CAMPUS YOU ARE CLEARING "+ this.campusToClear);
+        this.queuecontroller.clearQueueForCampus(this.campusToClear);
+    }
 }

@@ -32,6 +32,7 @@ import javax.faces.bean.RequestScoped;
 public class QueueBean implements Serializable{
     private String campus;
     private String extendTimeStyle;
+    private String addToQueueStyle;
     private List<QueueTableRowModel> tableData;
     private Map<String,String> campusMap;
     @EJB
@@ -40,7 +41,6 @@ public class QueueBean implements Serializable{
     private UserTransactionController usercontroller;
     @ManagedProperty("#{user}")
     private UserBean user;
-    
 
     public QueueBean() {
         this.campusMap = new HashMap<>();
@@ -52,9 +52,11 @@ public class QueueBean implements Serializable{
     @PostConstruct
     public void init() {
         System.out.println(this.user.getInQueue() + "  " + this.user.getCharging() + "  " +  this.user.isFinishedCharging());
-        if (this.user.getInQueue()) {
+        Users_Entity userEntity = usercontroller.getUserEntity(this.user.getUser());
+        if (userEntity.getTimeEnteredQueue() != null) {
+            System.out.println("User in queue");
             // get the device the user is queued too by looking them up in the database
-            Users_Entity userEntity = usercontroller.getUserEntity(this.user.getUser());
+            
             this.user.setCharging(userEntity.getIsActive());
             if (userEntity.getTimeEndedCharging()!= null) { 
                 this.user.setFinishedCharging(true);
@@ -78,6 +80,7 @@ public class QueueBean implements Serializable{
             }
         } else {
             this.campus = this.user.getPreferredCampus();
+            this.user.removeFromQueue();
         }
         this.updateTable();
     }
@@ -123,11 +126,15 @@ public class QueueBean implements Serializable{
     }
     
     public void updateTable() {
+        
+        // Check if user can extended their time.
         if (this.user.getExtendedTimeTries() > 2) {
             this.extendTimeStyle = "disabled";
         } else {
             this.extendTimeStyle = "active";
         }
+        //Check if the device is is offline.
+        
         this.tableData = this.queuecontroller.getQueueByStation(this.campus).stream()
                 .map(user_entity -> new QueueTableRowModel(user_entity))
                 .collect(Collectors.toList());   
