@@ -22,11 +22,16 @@ and open the template in the editor.
            <h:outputText value="#{contactinfobean.postalcode}"/><br/>
             <h:outputText value="#{contactinfobean.phone}"/>
          </address>
-         <address>
-            <strong>Admin Email</strong><br/>
-            <a href="mailto:#">
-                <h:outputText value="#{contactinfobean.emailaddress}"/></a>
-         </address>
+        <div>
+            <ui:component rendered='#{user.user ne null}'>
+                <h:form>
+                    <h:commandButton class="btn btn-primary btn-md" action="#{contactusbean.contactUs()}"
+                                     value="Contact Us">
+                    </h:commandButton>
+                </h:form>  
+            </ui:component>
+        </div>
+          
       </ui:composition>	
    </body>
 </body>

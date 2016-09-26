@@ -37,8 +37,9 @@
             <div class="row col-xs-12">
                 <ui:fragment rendered="#{user.inQueue eq false and user.charging eq false and user.finishedCharging eq false}">
                     <div class="col-xs-6 col-xs-push-5">
-                        <h:commandButton class="btn btn-success btn-md" id="btnAddToQueue" 
-                                         action="#{queuebean.addToQueue()}" value="Add Me To Queue">
+                        <h:commandButton class="btn btn-success btn-md #{queuebean.addToQueueStyle}" id="btnAddToQueue" 
+                                         action="#{queuebean.addToQueue()}" value="Add Me To Queue"
+                                         onclick="if ($(this).is(':disabled')) { return false; }">
                             <f:ajax execute="@form"  render="@form"/>                     
                         </h:commandButton>
                     </div>
@@ -60,7 +61,7 @@
                 <ui:fragment rendered="#{user.charging eq true and user.finishedCharging eq false}">
                     <div class="text-center">
                         <h:commandLink class="btn btn-danger btn-md #{queuebean.extendTimeStyle}"
-                                       onclick="$('#notmemodal').modal('show');" value="This is not me" immediate="true">
+                                       onclick="if ($(this).is(':disabled')) { return false; } $('#notmemodal').modal('show');" value="This is not me" immediate="true">
                             <f:ajax execute="@this" render="@this"/>
                         </h:commandLink>
                     </div>

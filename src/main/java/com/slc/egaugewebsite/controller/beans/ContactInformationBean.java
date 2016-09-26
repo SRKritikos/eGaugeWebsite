@@ -6,14 +6,18 @@
 
 package com.slc.egaugewebsite.controller.beans;
 
+import com.slc.egaugewebsite.controller.UserTransactionController;
+import com.slc.egaugewebsite.data.entities.Users_Entity;
 import com.slc.egaugewebsite.utils.ApplicationProperties;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 
 /**
  *
@@ -31,9 +35,10 @@ public class ContactInformationBean {
     private String province;
     private String postalcode;
     private String phone;
-
+    
+    private String adminEmailAddress;
     public ContactInformationBean() {
-        
+        this.adminEmailAddress ="stevenrkritikos@outlook.com";
         try {
             this.properties = ApplicationProperties.getApplicationProperties();
         } catch (IOException ex) {
@@ -54,7 +59,7 @@ public class ContactInformationBean {
             this.address = "";
             this.city = "";
             this.emailaddress = "";
-            this.phone = "";
+            this.phone = ""; 
             this.postalcode = "";
             this.province = "";
         }
@@ -121,10 +126,13 @@ public class ContactInformationBean {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    
+
+    public String getAdminEmailAddress() {
+        return adminEmailAddress;
+    }    
     
     public void updatePropertiesFile() {
-        //TODO
+        //TODO - not sure how you get access to save the file - all I can find is how to create - does this mean that recreating the file will just over ride old values? 
         System.out.println("UPDATING THE PROP FILE");
 //        try {
 //            ApplicationProperties.updateProperty("address", this.address);

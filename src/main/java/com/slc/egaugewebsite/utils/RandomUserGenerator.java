@@ -36,7 +36,7 @@ public class RandomUserGenerator {
         randUser.setDeviceId(user.getDeviceId());
         randUser.setIsActive(user.getIsActive());
         // Set exteded tris to -1 -  this is used to check if the user is Unonymous
-        randUser.setExtendIimeTries(-1);
+        randUser.setExtendTimeTries(-1);
         randUser.setFirstName("Anonymous");
         randUser.setLastName("User");
         randUser.setPreferredCampus(user.getPreferredCampus());

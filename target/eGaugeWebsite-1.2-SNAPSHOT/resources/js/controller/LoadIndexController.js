@@ -40,6 +40,7 @@ $('document').ready(function() {
             $("#formInstData\\:btnUpdateInstData").click();
         }, 60000);
     }
+    
     instDataDisplay();
     loadDateTimePiokers();
     loadTheGraph();

@@ -2,6 +2,7 @@ F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\validators\MatchingPasswordValidator.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\dao\exceptions\PreexistingEntityException.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\EmailController.java
+F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\EmailMessageBean.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\NavigationBean.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\SignUpBean.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\data\entities\Users_Entity.java
@@ -17,6 +18,7 @@ F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\validators\LoginValidator.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\AdminUserControlBean.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\utils\UserRole.java
+F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\controller\beans\ContactUsBean.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\utils\AuthenticationFilter.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\utils\AuthenticationUtils.java
 F:\School\eGaugeWebService2.0\eGaugeWebsite\src\main\java\com\slc\egaugewebsite\utils\RandomUserGenerator.java

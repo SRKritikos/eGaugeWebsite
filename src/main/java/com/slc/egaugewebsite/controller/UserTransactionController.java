@@ -92,7 +92,7 @@ public class UserTransactionController {
                 newUser.setAvailableStartTime(null);
                 newUser.setTimeStartedCharging(null);
                 newUser.setTimeEndedCharging(null);
-                newUser.setExtendIimeTries(0);
+                newUser.setExtendTimeTries(0);
                 newUser.setIsActive(null);
                 newUser.setTimeEnteredQueue(null);
                 newUser.setDeviceId(null);

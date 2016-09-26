@@ -207,8 +207,8 @@ public class DeviceQueueController {
             } else if (reading.compareTo(BigDecimal.valueOf(100)) == -1 
                         && topOfQueue.getIsActive()) {
                 //If top of q is anonymous
-                System.out.println(topOfQueue.getExtendIimeTries() + "  " + topOfQueue.getFirstName());
-                if(topOfQueue.getExtendIimeTries() < 0 &&
+                System.out.println(topOfQueue.getExtendTimeTries() + "  " + topOfQueue.getFirstName());
+                if(topOfQueue.getExtendTimeTries() < 0 &&
                         topOfQueue.getFirstName().equals("Anonymous")) {
                     System.out.println("Removing anonymous for station" + topOfQueue.getDeviceId().getDeviceName());
                     usersdao.destroy(topOfQueue.getUserId());
@@ -232,7 +232,7 @@ public class DeviceQueueController {
             user.setAvailableStartTime(null);
             user.setTimeStartedCharging(null);
             user.setTimeEndedCharging(null);
-            user.setExtendIimeTries(0);
+            user.setExtendTimeTries(0);
             user.setDeviceId(null);
             user.setIsActive(false);
             user.setTimeEnteredQueue(null);
@@ -340,13 +340,13 @@ public class DeviceQueueController {
     public void extendPeriodForUser(Users_Entity userEntity) {
         try {
             System.out.println("EXTENDING PERIOD FOR USER");
-            if (userEntity.getExtendIimeTries() < 3) {
+            if (userEntity.getExtendTimeTries() < 3) {
                 Users_Entity randUser = new RandomUserGenerator(userEntity).getRandUser();
                 this.usersdao.create(randUser);
                 // Update user
                 userEntity.setAvailableEndTime(null);
                 userEntity.setAvailableStartTime(null);
-                userEntity.setExtendIimeTries(userEntity.getExtendIimeTries() + 1);
+                userEntity.setExtendTimeTries(userEntity.getExtendTimeTries() + 1);
                 userEntity.setIsActive(false);
                 userEntity.setTimeStartedCharging(null);
                 userEntity.setTimeEndedCharging(null);
@@ -371,5 +371,17 @@ public class DeviceQueueController {
         Device_Entity device = devicedao.getDeviceByName(campus);
         List<Users_Entity> queue = usersdao.getQueueByDevice(device);
         queue.stream().forEach(user -> this.removeUserFromQueue(user));
+    }
+    
+    public void setStationOffline(String deviceName) {
+        try {
+            Device_Entity device = this.devicedao.getDeviceByName(deviceName);
+            device.setIsOnline(false);
+            this.devicedao.edit(device);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

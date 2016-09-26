@@ -34,7 +34,7 @@ public class QueueTableRowModel {
             this.currentStatus = "Waiting";
         }
         // See if the user is anonymous
-        if (user.getExtendIimeTries() < 0 && user.getFirstName().equals("Anonymous")) {
+        if (user.getExtendTimeTries() < 0 && user.getFirstName().equals("Anonymous")) {
             this.userName = "Anonymous User";
         } else {
             this.userName = user.getFirstName() + "  " + user.getLastName().charAt(0) + ".";

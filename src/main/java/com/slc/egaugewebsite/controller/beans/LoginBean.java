@@ -104,7 +104,7 @@ public class LoginBean implements Serializable {
             this.user.setFirstName(userEntity.getFirstName());
             this.user.setLastName(userEntity.getLastName());
             this.user.setUserEmail(userEntity.getEmail());
-            this.user.setExtendedTimeTries(userEntity.getExtendIimeTries());          
+            this.user.setExtendedTimeTries(userEntity.getExtendTimeTries());          
              
             if (userEntity.getTimeEnteredQueue() != null) {
                 // check if they are in queue depending on if the time they entered queue is not null 

@@ -38,7 +38,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Users_Entity.findByAvailaleStartTime", query = "SELECT u FROM Users_Entity u WHERE u.availableStartTime = :availableStartTime"),
     @NamedQuery(name = "Users_Entity.findByAvailableEndTime", query = "SELECT u FROM Users_Entity u WHERE u.availableEndTime = :availableEndTime"),
     @NamedQuery(name = "Users_Entity.findByIsActive", query = "SELECT u FROM Users_Entity u WHERE u.isActive = :isActive"),
-    @NamedQuery(name = "Users_Entity.findByExtendIimeTries", query = "SELECT u FROM Users_Entity u WHERE u.extendIimeTries = :extendIimeTries"),
+    @NamedQuery(name = "Users_Entity.findByExtendIimeTries", query = "SELECT u FROM Users_Entity u WHERE u.extendTimeTries = :extendTimeTries"),
     @NamedQuery(name = "Users_Entity.getQueue", query = "SELECT u FROM Users_Entity u WHERE u.deviceId = :device ORDER BY u.timeEnteredQueue ASC")})
 public class Users_Entity implements Serializable {
 
@@ -97,8 +97,8 @@ public class Users_Entity implements Serializable {
     private Date availableEndTime;
     @Column(name = "isActive")
     private Boolean isActive;
-    @Column(name = "extendIimeTries")
-    private Integer extendIimeTries;
+    @Column(name = "extendTimeTries")
+    private Integer extendTimeTries;
     @JoinColumn(name = "roleId", referencedColumnName = "roleId")
     @ManyToOne
     private Userroles_Entity roleId;
@@ -170,12 +170,12 @@ public class Users_Entity implements Serializable {
         this.isActive = isActive;
     }
 
-    public Integer getExtendIimeTries() {
-        return extendIimeTries;
+    public Integer getExtendTimeTries() {
+        return extendTimeTries;
     }
 
-    public void setExtendIimeTries(Integer extendIimeTries) {
-        this.extendIimeTries = extendIimeTries;
+    public void setExtendTimeTries(Integer extendTimeTries) {
+        this.extendTimeTries = extendTimeTries;
     }
 
     public Userroles_Entity getRoleId() {

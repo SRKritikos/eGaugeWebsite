@@ -7,13 +7,13 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-09-07T06:10:33")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-09-25T20:34:30")
 @StaticMetamodel(Users_Entity.class)
 public class Users_Entity_ { 
 
     public static volatile SingularAttribute<Users_Entity, String> lastName;
-    public static volatile SingularAttribute<Users_Entity, Integer> extendIimeTries;
     public static volatile SingularAttribute<Users_Entity, Date> timeEndedCharging;
+    public static volatile SingularAttribute<Users_Entity, Integer> extendTimeTries;
     public static volatile SingularAttribute<Users_Entity, Userroles_Entity> roleId;
     public static volatile SingularAttribute<Users_Entity, String> preferredCampus;
     public static volatile SingularAttribute<Users_Entity, Boolean> isActive;

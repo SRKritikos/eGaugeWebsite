@@ -6,11 +6,12 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-09-07T06:10:33")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-09-25T20:34:30")
 @StaticMetamodel(Device_Entity.class)
 public class Device_Entity_ { 
 
     public static volatile ListAttribute<Device_Entity, Users_Entity> usersList;
+    public static volatile SingularAttribute<Device_Entity, Boolean> isOnline;
     public static volatile SingularAttribute<Device_Entity, String> deviceId;
     public static volatile SingularAttribute<Device_Entity, String> deviceName;
 

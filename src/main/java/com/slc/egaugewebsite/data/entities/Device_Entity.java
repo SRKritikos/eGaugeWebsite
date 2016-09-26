@@ -32,6 +32,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Device_Entity.findByDeviceName", query = "SELECT d FROM Device_Entity d WHERE d.deviceName = :deviceName")})
 public class Device_Entity implements Serializable {
 
+    @Column(name = "isOnline")
+    private Boolean isOnline;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -99,6 +102,14 @@ public class Device_Entity implements Serializable {
     @Override
     public String toString() {
         return "com.slc.egaugewebsite.data.entities.Device[ deviceId=" + deviceId + " ]";
+    }
+
+    public Boolean getIsOnline() {
+        return isOnline;
+    }
+
+    public void setIsOnline(Boolean isOnline) {
+        this.isOnline = isOnline;
     }
 
 }

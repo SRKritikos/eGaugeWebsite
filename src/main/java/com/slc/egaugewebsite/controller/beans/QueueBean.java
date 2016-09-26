@@ -41,6 +41,8 @@ public class QueueBean implements Serializable{
     private UserTransactionController usercontroller;
     @ManagedProperty("#{user}")
     private UserBean user;
+    @ManagedProperty("#{deviceinfobean}")
+    private DeviceInformationBean deviceinfobean;
 
     public QueueBean() {
         this.campusMap = new HashMap<>();
@@ -125,16 +127,48 @@ public class QueueBean implements Serializable{
         this.extendTimeStyle = extendTimeStyle;
     }
     
+    public String getAddToQueueStyle() {
+        return addToQueueStyle;
+    }
+
+    public void setAddToQueueStyle(String addToQueueStyle) {
+        this.addToQueueStyle = addToQueueStyle;
+    }
+
+    public DeviceInformationBean getDeviceinfobean() {
+        return deviceinfobean;
+    }
+
+    public void setDeviceinfobean(DeviceInformationBean deviceinfobean) {
+        this.deviceinfobean = deviceinfobean;
+    }
+    
+    
+    
     public void updateTable() {
         
         // Check if user can extended their time.
         if (this.user.getExtendedTimeTries() > 2) {
             this.extendTimeStyle = "disabled";
         } else {
-            this.extendTimeStyle = "active";
+            this.extendTimeStyle = "enabled";
         }
         //Check if the device is is offline.
+        if (this.campus.equals("Kingston")
+                && (this.deviceinfobean.getKingston1BorderColor().equals("red") 
+                && this.deviceinfobean.getKingston2BorderColor().equals("red"))) {
+                this.addToQueueStyle = "disabled";
+        } else if (this.campus.equals("Brockville") && this.deviceinfobean.getBrockvilleBorderColor().equals("red")) {
+            this.addToQueueStyle = "disabled";
+        } else if (this.campus.equals("Cornwall") && this.deviceinfobean.getCornwallBorderColor().equals("red")) {
+            this.addToQueueStyle = "disabled";
+        } else {
+            this.addToQueueStyle = "enabled";
+        }
         
+        
+         
+            
         this.tableData = this.queuecontroller.getQueueByStation(this.campus).stream()
                 .map(user_entity -> new QueueTableRowModel(user_entity))
                 .collect(Collectors.toList());   
@@ -201,7 +235,7 @@ public class QueueBean implements Serializable{
             Users_Entity userEntity = this.usercontroller.getUserByEmail(this.user.getUserEmail());
             this.queuecontroller.extendPeriodForUser(userEntity);
             //update session with extended period
-            this.user.setExtendedTimeTries(userEntity.getExtendIimeTries()+1);
+            this.user.setExtendedTimeTries(userEntity.getExtendTimeTries()+1);
             this.user.setCharging(false);
             this.user.setFinishedCharging(false);
             System.out.println("USER STUFF " + this.user.getExtendedTimeTries() + " " + user.getUserEmail());

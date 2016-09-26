@@ -7,6 +7,7 @@
 package com.slc.egaugewebsite.controller.beans;
 
 import com.slc.egaugewebsite.controller.DeviceQueueController;
+import com.slc.egaugewebsite.utils.DBDeviceNames;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
@@ -22,7 +23,6 @@ import javax.faces.event.ActionEvent;
 public class DeviceInformationBean implements Serializable{
     @EJB
     DeviceQueueController queuecontroller;
-    
     private String kingston1Info;    
     private String kingston2Info;
     private String cornwallInfo;
@@ -142,5 +142,23 @@ public class DeviceInformationBean implements Serializable{
         this.campusToClear =(String)e.getComponent().getAttributes().get("campus");
         System.out.println("THIS IS THE CAMPUS YOU ARE CLEARING "+ this.campusToClear);
         this.queuecontroller.clearQueueForCampus(this.campusToClear);
+    }
+    
+    /**
+     * Update the status of a station to offline if the admin chose a red border color.
+     */
+    public void upadateStationstatus() {
+        if (this.brockvilleBorderColor.equals("red")) {
+            this.queuecontroller.setStationOffline(DBDeviceNames.BROCKVILLE.getEntityName());
+        }
+        if (this.cornwallBorderColor.equals("red")) {
+            this.queuecontroller.setStationOffline(DBDeviceNames.CORNWALL.getEntityName());
+        }
+        if (this.kingston1BorderColor.equals("red")) {
+            this.queuecontroller.setStationOffline(DBDeviceNames.KINGSTON_1.getEntityName());
+        }
+        if (this.kingston2BorderColor.equals("red")) {
+            this.queuecontroller.setStationOffline(DBDeviceNames.KINGSTON_2.getEntityName());            
+        }
     }
 }
