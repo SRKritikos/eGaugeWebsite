@@ -29,45 +29,18 @@ import javax.faces.bean.ManagedProperty;
 @ApplicationScoped
 public class ContactInformationBean {
     private Properties properties;
-    private String address;
-    private String emailaddress;
-    private String city;
-    private String province;
-    private String postalcode;
-    private String phone;
-    
-    private String adminEmailAddress;
+    private String adminEmail;
+    private String adminName;
     public ContactInformationBean() {
-        this.adminEmailAddress ="stevenrkritikos@outlook.com";
-        try {
-            this.properties = ApplicationProperties.getApplicationProperties();
-        } catch (IOException ex) {
-            System.out.println("Failed to initialize Contact Information");
-            System.out.println(ex.toString());
-        }
-        System.out.println("INFO BEAN: " + this.properties);
-        if (this.properties != null) {
-            System.out.println("Updating properties");
-            this.address = this.properties.getProperty("address");
-            this.emailaddress = this.properties.getProperty("emailaddress");
-            this.city = this.properties.getProperty("city");
-            this.postalcode = this.properties.getProperty("postalcode");
-            this.province =  this.properties.getProperty("province");
-            this.phone = this.getProperties().getProperty("phone");
-        } else {
-            System.out.println("#######INFO BEAN STARTING###########");
-            this.address = "";
-            this.city = "";
-            this.emailaddress = "";
-            this.phone = ""; 
-            this.postalcode = "";
-            this.province = "";
-        }
+
+       
+
     }
     
     @PostConstruct
     public void init() {
-        
+        this.adminEmail = "slcegauge@gmail.com";
+        this.adminName = "Admin Name";
     }
     
     
@@ -79,57 +52,23 @@ public class ContactInformationBean {
         this.properties = properties;
     }
 
-    public String getAddress() {
-        return address;
+    public String getAdminEmail() {
+        return adminEmail;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAdminEmail(String adminEmail) {
+        this.adminEmail = adminEmail;
     }
 
-    public String getEmailaddress() {
-        return emailaddress;
+    public String getAdminName() {
+        return adminName;
     }
 
-    public void setEmailaddress(String emailaddress) {
-        this.emailaddress = emailaddress;
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
     }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getPostalcode() {
-        return postalcode;
-    }
-
-    public void setPostalcode(String postalcode) {
-        this.postalcode = postalcode;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAdminEmailAddress() {
-        return adminEmailAddress;
-    }    
+    
+    
     
     public void updatePropertiesFile() {
         //TODO - not sure how you get access to save the file - all I can find is how to create - does this mean that recreating the file will just over ride old values? 

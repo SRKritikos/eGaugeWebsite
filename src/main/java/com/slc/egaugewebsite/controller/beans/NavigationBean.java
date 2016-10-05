@@ -34,6 +34,10 @@ public class NavigationBean implements Serializable{
                 return "/profile.xhtml?faces-redirect=true";
             case "ADMIN": 
                 return "/admin.xhtml?faces-redirect=true";
+            case "MAP":
+                return "/map.xhtml?faces-redirect=true";
+            case "SPONSORS":
+                return "sponsors.xhtml?faces-redirect=true";
         }
         return "/index.xhtml?faces-redirect=true";
     }

@@ -45,10 +45,11 @@ public class ContactUsBean {
     
     public String contactUs() {
         try {
-            System.out.println(this.contactinfo.getAdminEmailAddress());
-            Users_Entity admin = this.usercontroller.getUserByEmail(this.contactinfo.getAdminEmailAddress());
-            System.out.println("Now Redirecting to email msg to " + admin.getEmail() + " from " + this.user.getUserEmail());
-            return "/emailmessage.xhtml?toId="+ admin.getUserId()+ "&fromId="+ this.user.getUser() +"&faces-redirect=true";
+            Users_Entity admin = this.usercontroller.getUserByEmail(this.contactinfo.getAdminEmail());
+            String from = this.user.getUser() == null ? admin.getUserId() : this.user.getUser();
+            return "/emailmessage.xhtml?toId="+ admin.getUserId()+ "&fromId="
+                    + from
+                    +"&faces-redirect=true";
         } catch (Exception e) {
             System.out.println(e.toString());
             return "/index.xhtml?faces-redirect=true";

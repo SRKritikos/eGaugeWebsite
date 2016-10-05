@@ -49,6 +49,7 @@ public class EmailController {
     private EntityManager em;
     private UsersDAO usersdao;
     private Properties appproperties;
+    private final String BASE_URL = "http://localhost:8080/eGaugeWebsite/views/";
     
     public EmailController() {
     }
@@ -110,7 +111,7 @@ public class EmailController {
         String subject = "Password Reset";
         String body = "Dear " + user.getFirstName() + " " + user.getLastName() + ",<br/><br/><br/>"
                 + "Your new password is " + newPassword + ".<br/>"
-                + "<a href='http://localhost:8080/eGaugeWebsite/views/passwordreset.xhtml'>Click Here</a>"
+                + "<a href=" + this.BASE_URL + "'passwordreset.xhtml'>Click Here</a>"
                 + " to reset your password";
         
         try {
@@ -127,14 +128,19 @@ public class EmailController {
         }  
     }
     
-    public void sendFinishedChargingEmail(Users_Entity user) {
-        String subject = "Your vehicle is finished charging";
-        String body = "Dear " + user.getFirstName() + " " + user.getLastName() + ",<br/><br/><br/>"
-                + "You're car has finished charging and is ready to be picked up.<br/>"
-                + "Please <a href='http://localhost:8080/eGaugeWebsite/views/remove.xhtml?id=" + user.getUserId() + "'>click here</a> "
-                + "to notify the next person in queue that the station is now available.";
+    public void sendFinishedChargingEmail(Users_Entity topOfQueue, Users_Entity nextInQueue) {
+        String subject = "Vehicle finished charging";
+        String body = "Dear " + topOfQueue.getFirstName() + " " + topOfQueue.getLastName() + ",<br/><br/><br/>"
+                + "Your car has finished charging and is ready to be picked up.<br/>"
+                + "Please <a href='" + this.BASE_URL + "views/remove.xhtml?id=" + topOfQueue.getUserId() + "'>click here</a> "
+                + " to remove yourself from the queue and to notify the next person in queue that the station is now available.";
+                if (nextInQueue != null) {
+                    body += "<br/><a href='" + this.BASE_URL + "views/emailmessage.xhtml?toId=" + 
+                    nextInQueue.getUserId() + "&fromId=" + topOfQueue.getUserId() + "'>Click here</a>"
+                    + " if you would like to send the user that's next in queue a message.";
+                }
         try {
-            this.sendEmail(this.HOST_EMAIL, user.getEmail(), subject, body);
+            this.sendEmail(this.HOST_EMAIL, topOfQueue.getEmail(), subject, body);
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -142,7 +148,7 @@ public class EmailController {
     }
     
     public void notifyNextInQueueEmail(Users_Entity user) {
-        String subject = "Available charging station";
+        String subject = "Charging station now available";
         String body = "Dear " + user.getFirstName() + " " + user.getLastName() + ",<br/><br/><br/>"
                 + "The electric vehicle station you queued for is now avaible.<br/>"
                 + "You have one hour to start charging or you will forfeit your spot.";
@@ -154,4 +160,18 @@ public class EmailController {
         }
     }
     
+    public void notifyNextInQueueStationIsDoneCharging(Users_Entity topOfQueue, Users_Entity nextInQueue) {
+        String subject = "Charging station finished charging";
+        String body = "Dear " + nextInQueue.getFirstName() + " " + nextInQueue.getLastName() + ",<br/><br/><br/>"
+                + "The user ahead of you has finished charging their vehicle.<br/>"
+                + "You will be notified when the station becomes available.<br/>"
+                + "<a href='" + this.BASE_URL + "views/emailmessage.xhtml?toId=" + 
+                topOfQueue.getUserId() + "&fromId=" + nextInQueue.getUserId() + "'>click here</a>"
+                + " if you would like to send the user ahead of you a message.";
+        try {
+            this.sendEmail(this.HOST_EMAIL, nextInQueue.getEmail(), subject, body);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        } 
+    }
 }

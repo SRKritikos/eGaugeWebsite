@@ -35,8 +35,6 @@ public class EmailMessageBean {
     
     @PostConstruct
     private void init() {
-        System.out.println("Post Contruct of emial msg");
-        System.out.println(this.toId + "        " + this.fromId);
     }
     
     public String getMessage() {
@@ -64,6 +62,8 @@ public class EmailMessageBean {
     }
 
     public String getToName() {
+        Users_Entity toUser = this.usercontroller.getUserEntity(toId);
+        this.toName = "  " + toUser.getFirstName();
         return toName;
     }
 
@@ -71,10 +71,11 @@ public class EmailMessageBean {
         this.toName = toName;
     }
         
-    public void sendMessage() {
+    public String sendMessage() {
         System.out.println(this.message + this.fromId + this.toId);
         Users_Entity from = this.usercontroller.getUserEntity(this.fromId);
         Users_Entity to = this.usercontroller.getUserEntity(this.toId);
         this.emailcontroller.sendEmail(from.getEmail(), to.getEmail(), "Message regarding slc E.V. station" + from.getFirstName(), this.message);
+        return "/index.xhtml?faces-redirect=true";
     }
 }

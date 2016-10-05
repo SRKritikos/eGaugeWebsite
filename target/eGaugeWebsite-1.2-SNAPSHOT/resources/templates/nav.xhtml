@@ -31,6 +31,18 @@ File defines the navigation bar on the top of the website.
                                     <f:param name="pageName" value="index"/>
                                 </h:commandLink>
                             </li>
+                            <li class="nav-link">
+                                <h:commandLink action="#{navigationbean.directToPage()}">
+                                     Our Sponsors
+                                    <f:param name="pageName" value="sponsors"/>
+                                </h:commandLink>
+                            </li>
+                            <li class="nav-link">
+                                <h:commandLink action="#{navigationbean.directToPage()}">
+                                    Map
+                                    <f:param name="pageName" value="map"/>
+                                </h:commandLink>
+                            </li>
                             <ui:fragment rendered="#{user.userRole eq 'defaultuser' or user.userRole eq 'admin'}">
                                 <li class="nav-link">
                                     <h:commandLink action="#{navigationbean.directToPage()}">

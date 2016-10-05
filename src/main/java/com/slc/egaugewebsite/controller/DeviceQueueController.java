@@ -299,14 +299,20 @@ public class DeviceQueueController {
             Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    /**
+     * For given user update their status in database and notify them.
+     * Also notify the next in queue for the station.
+     * @param user 
+     */
     public void userFinishedCharging(Users_Entity user) {
         try {
             System.out.println("Top of q done emailed them letting them know for station" + user.getDeviceId().getDeviceName());
             user.setIsActive(false);
             user.setTimeEndedCharging(new Date());
             this.usersdao.edit(user);
-            ec.sendFinishedChargingEmail(user);
+            Users_Entity nextInQueue = this.getNextInQueue(user.getDeviceId());
+            ec.sendFinishedChargingEmail(user, nextInQueue);
+            ec.notifyNextInQueueStationIsDoneCharging(user, nextInQueue);
         } catch (RollbackFailureException ex) {
             Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -321,16 +327,13 @@ public class DeviceQueueController {
     public void notifyNextUserInQueue(Users_Entity userEntity) {
         try {
             Device_Entity deviceEntity = userEntity.getDeviceId();
-            if (deviceEntity.getUsersList().size() > 1) {
-                List<Users_Entity> queue = usersdao.getQueueByDevice(deviceEntity);
-                Users_Entity nextInQueue = queue.get(0);
-                if (nextInQueue.getAvailableStartTime() != null) {
-                    nextInQueue = queue.get(1);
-                }
+            Users_Entity nextInQueue = this.getNextInQueue(deviceEntity);
+            if (nextInQueue != null) {
                 this.updateUserAvailableTime(nextInQueue);
                 System.out.println("Letting next in queue know for station " + nextInQueue.getDeviceId().getDeviceName());
                 ec.notifyNextInQueueEmail(nextInQueue);
             }
+
         } catch (Exception e) {
             System.out.println(e.toString());
             e.printStackTrace();
@@ -376,12 +379,25 @@ public class DeviceQueueController {
     public void setStationOffline(String deviceName) {
         try {
             Device_Entity device = this.devicedao.getDeviceByName(deviceName);
-            device.setIsOnline(false);
+            device.setIsOnline(true);
             this.devicedao.edit(device);
         } catch (RollbackFailureException ex) {
             Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void setStationOnline(String deviceName) {
+        //TODO
+    }
+    
+    public Users_Entity getNextInQueue(Device_Entity device) {
+        Users_Entity nextInQueue = null;
+        if (device.getUsersList().size() > 1) {
+            List<Users_Entity> queue = usersdao.getQueueByDevice(device);
+            nextInQueue = queue.get(1);
+        }
+        return nextInQueue;
     }
 }

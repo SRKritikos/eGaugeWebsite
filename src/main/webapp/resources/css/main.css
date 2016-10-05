@@ -101,7 +101,7 @@ and open the template in the editor.
 }
 
 .modal-header-warning {
-	color:#fff;
+    color:#fff;
     padding:9px 15px;
     border-bottom:1px solid #eee;
     background-color: #f0ad4e;
@@ -125,4 +125,9 @@ and open the template in the editor.
     margin: 2.5em;
     padding: 15px;
     border-radius: 4px;
+}
+
+#contactUsForm\:btnContactUs {
+    margin-left: 56px;
+    margin-top: 15px;
 }
