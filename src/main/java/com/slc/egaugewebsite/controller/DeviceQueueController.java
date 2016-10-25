@@ -130,7 +130,7 @@ public class DeviceQueueController {
                        .filter(device -> device.getDeviceName().equals(DBDeviceNames.CORNWALL.getEntityName())).findFirst().get();
                 Device_Entity cornwallEntity = devicedao.getDeviceByName(cornwall.getDeviceName());
                 List<Users_Entity> cornwallQueue = usersdao.getQueueByDevice(cornwallEntity);
-               if (!cornwallQueue.isEmpty()) {
+               if (!cornwallQueue.isEmpty() && cornwallEntity.getIsOnline()) {
                   updateTopOfQueue(cornwall.getInstPower(), cornwallQueue.get(0));
                }
                 
@@ -139,7 +139,7 @@ public class DeviceQueueController {
                        .filter(device -> device.getDeviceName().equals(DBDeviceNames.BROCKVILLE.getEntityName())).findFirst().get();
                 Device_Entity brockvilleEntity = devicedao.getDeviceByName(brockville.getDeviceName());
                 List<Users_Entity> brockvilleQueue = usersdao.getQueueByDevice(brockvilleEntity);
-                if (!brockvilleQueue.isEmpty()) {
+                if (!brockvilleQueue.isEmpty() && brockvilleEntity.getIsOnline()) {
                     updateTopOfQueue(brockville.getInstPower(), brockvilleQueue.get(0));
                 }
             }
@@ -149,7 +149,7 @@ public class DeviceQueueController {
     }
     
     /**
-     * Function called to add assign a user to a Kingston device
+     * Function called to assign a user to a Kingston device
      * then updating that users information.
      * @param kingstonTotal
      * @param kingstonDevice 
@@ -158,29 +158,31 @@ public class DeviceQueueController {
         Device_Entity kingstonTotalEntity = devicedao.getDeviceByName(kingstonTotal.getDeviceName());
         Device_Entity kingstonEntity = devicedao.getDeviceByName(kingstonDevice.getDeviceName());
         System.out.println("UPDATING KINGSTON QUEUE FOR DEIVCE" + kingstonDevice.getDeviceName());
-        // Make sure people exist in kingston queue or are assigned a station
-        if (!kingstonTotalEntity.getUsersList().isEmpty() || !kingstonEntity.getUsersList().isEmpty()) {
-            // if the device does have an assigned user - assign it a user
-            if (kingstonEntity.getUsersList().isEmpty()) {
-                System.out.println("KINGSTON ENTITY WAS EMPTY" );
-                Users_Entity topOfQueue = usersdao.getQueueByDevice(kingstonTotalEntity).get(0);
-                topOfQueue.setDeviceId(kingstonEntity);
-                try {
-                    usersdao.edit(topOfQueue);
-                    this.updateTopOfQueue(kingstonDevice.getInstPower(), topOfQueue);
-                    kingstonEntity.getUsersList().add(topOfQueue);
-                } catch (RollbackFailureException ex) {
-                    System.out.println(ex.toString());
-                    System.out.println("Failed add user to a Kingston device");
-                } catch (Exception ex) {
-                    System.out.println(ex.toString());
-                    System.out.println("Failed add user to a Kingston device");
-                } 
+        
+        if (kingstonEntity.getIsOnline()) {
+            // Make sure people exist in kingston queue or are assigned a station
+            if (!kingstonTotalEntity.getUsersList().isEmpty() || !kingstonEntity.getUsersList().isEmpty()) {
+                // if the device does have an assigned user - assign it a user
+                if (kingstonEntity.getUsersList().isEmpty()) {
+                    System.out.println("KINGSTON ENTITY WAS EMPTY" );
+                    Users_Entity topOfQueue = usersdao.getQueueByDevice(kingstonTotalEntity).get(0);
+                    topOfQueue.setDeviceId(kingstonEntity);
+                    try {
+                        usersdao.edit(topOfQueue);
+                        this.updateTopOfQueue(kingstonDevice.getInstPower(), topOfQueue);
+                        kingstonEntity.getUsersList().add(topOfQueue);
+                    } catch (RollbackFailureException ex) {
+                        System.out.println(ex.toString());
+                        System.out.println("Failed add user to a Kingston device");
+                    } catch (Exception ex) {
+                        System.out.println(ex.toString());
+                        System.out.println("Failed add user to a Kingston device");
+                    } 
+                }
+
+                this.updateTopOfQueue(kingstonDevice.getInstPower(), kingstonEntity.getUsersList().get(0));
             }
-        
-            this.updateTopOfQueue(kingstonDevice.getInstPower(), kingstonEntity.getUsersList().get(0));
         }
-        
         
     }
     
@@ -379,7 +381,7 @@ public class DeviceQueueController {
     public void setStationOffline(String deviceName) {
         try {
             Device_Entity device = this.devicedao.getDeviceByName(deviceName);
-            device.setIsOnline(true);
+            device.setIsOnline(false);
             this.devicedao.edit(device);
         } catch (RollbackFailureException ex) {
             Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
@@ -389,7 +391,15 @@ public class DeviceQueueController {
     }
     
     public void setStationOnline(String deviceName) {
-        //TODO
+        try {
+            Device_Entity device = this.devicedao.getDeviceByName(deviceName);
+            device.setIsOnline(true);
+            this.devicedao.edit(device);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(DeviceQueueController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public Users_Entity getNextInQueue(Device_Entity device) {

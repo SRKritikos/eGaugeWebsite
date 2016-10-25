@@ -146,19 +146,32 @@ public class DeviceInformationBean implements Serializable{
     
     /**
      * Update the status of a station to offline if the admin chose a red border color.
+     * Or online if they they choose green border color.
      */
     public void upadateStationstatus() {
+        //Brockville
         if (this.brockvilleBorderColor.equals("red")) {
             this.queuecontroller.setStationOffline(DBDeviceNames.BROCKVILLE.getEntityName());
+        } else if (this.brockvilleBorderColor.equals("green") || this.brockvilleBorderColor.equals("yellow")) {
+            this.queuecontroller.setStationOnline(DBDeviceNames.BROCKVILLE.getEntityName());
         }
+        //Cornwall
         if (this.cornwallBorderColor.equals("red")) {
             this.queuecontroller.setStationOffline(DBDeviceNames.CORNWALL.getEntityName());
+        } else if (this.cornwallBorderColor.equals("green") || this.cornwallBorderColor.equals("yellow")) {
+            this.queuecontroller.setStationOnline(DBDeviceNames.CORNWALL.getEntityName());
         }
+        //Kingston1
         if (this.kingston1BorderColor.equals("red")) {
             this.queuecontroller.setStationOffline(DBDeviceNames.KINGSTON_1.getEntityName());
+        } else if (this.kingston1BorderColor.equals("green") || this.kingston1BorderColor.equals("yellow")) {
+            this.queuecontroller.setStationOnline(DBDeviceNames.KINGSTON_1.getEntityName());
         }
+        //Kingston2
         if (this.kingston2BorderColor.equals("red")) {
             this.queuecontroller.setStationOffline(DBDeviceNames.KINGSTON_2.getEntityName());            
+        } else if (this.kingston2BorderColor.equals("green") || this.kingston2BorderColor.equals("yellow")) {
+            this.queuecontroller.setStationOnline(DBDeviceNames.KINGSTON_2.getEntityName());
         }
     }
 }

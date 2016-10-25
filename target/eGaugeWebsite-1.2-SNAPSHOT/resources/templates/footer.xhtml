@@ -47,20 +47,22 @@ and open the template in the editor.
                    <h:outputText value="Phone: 613-544-5400"/>
                  </address>
             </div>
-            <div class="col-sm-3 text-center">
-                <h:form id="contactUsForm">
-                    <div class="col-sm-12">
-                        <strong>
-                            <h:outputText value="See a problem?"/>
-                        </strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <h:commandButton id="btnContactUs" class="btn btn-primary btn-sm" action="#{contactusbean.contactUs()}"
-                                         value="Contact Us">
-                        </h:commandButton>
-                    </div>
-                </h:form>  
-            </div>
+            <ui:fragment rendered="#{user.userRole eq 'defaultuser' or user.userRole eq 'admin'}">
+                <div class="col-sm-3 text-center">
+                    <h:form id="contactUsForm">
+                        <div class="col-sm-12">
+                            <strong>
+                                <h:outputText value="See a problem?"/>
+                            </strong>
+                        </div>
+                        <div class="col-sm-4">
+                            <h:commandButton id="btnContactUs" class="btn btn-primary btn-sm" action="#{contactusbean.contactUs()}"
+                                             value="Contact Us">
+                            </h:commandButton>
+                        </div>
+                    </h:form>  
+                </div>
+            </ui:fragment>
         </div>   
       </ui:composition>	
    </body>
