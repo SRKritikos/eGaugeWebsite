@@ -21,12 +21,24 @@
                     <h:dataTable class="table table-bordered" id="queueTable" value="#{queuebean.tableData}"
                                  var="data" rowClasses="#{queuebean.rowClasses}}">
                         <h:column class="col-xs-8" >
-                            <f:facet name="header">Name</f:facet>
+                            <div class="text-center">
+                                <f:facet name="header">Name</f:facet>
+                            </div>
                             #{data.userName}
                         </h:column>
                         <h:column class="col-xs-4 #{user.inQueue}">
-                            <f:facet name="header">Status</f:facet>
-                            #{data.currentStatus}
+                            <div class="text-center">
+                                <f:facet name="header">Status</f:facet>
+                            </div>
+                            <div class="col-xs-6">#{data.currentStatus}</div>
+                            <ui:fragment rendered="#{user.charging eq true and user.finishedCharging eq false}">
+                                <div class="text-center col-xs-6">
+                                    <h:commandLink class="btn btn-danger btn-md #{queuebean.extendTimeStyle}"
+                                                   onclick="if ($(this).is(':disabled')) { return false; } $('#notmemodal').modal('show');" value="This is not me" immediate="true">
+                                        <f:ajax execute="@this" render="@this"/>
+                                    </h:commandLink>
+                                </div>
+                            </ui:fragment>
                         </h:column>
                 </h:dataTable>  
                 </ui:fragment>
@@ -56,14 +68,6 @@
                                     Change Campus
                             </button>
                         </div>
-                    </div>
-                </ui:fragment>
-                <ui:fragment rendered="#{user.charging eq true and user.finishedCharging eq false}">
-                    <div class="text-center">
-                        <h:commandLink class="btn btn-danger btn-md #{queuebean.extendTimeStyle}"
-                                       onclick="if ($(this).is(':disabled')) { return false; } $('#notmemodal').modal('show');" value="This is not me" immediate="true">
-                            <f:ajax execute="@this" render="@this"/>
-                        </h:commandLink>
                     </div>
                 </ui:fragment>
                  <ui:fragment rendered="#{user.finishedCharging eq true}">

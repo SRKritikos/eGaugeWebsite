@@ -25,7 +25,11 @@ public class MatchingPasswordValidator implements Validator{
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String newPassword =  value.toString();
+        if (newPassword.length() < 6) {
+            throw new ValidatorException(new FacesMessage("Password must be 6 or more characters"));
+        } 
         String confirmPassword = (String) ((UIInput) component.getAttributes().get("confirmPassword")).getSubmittedValue();
+       
         if (!newPassword.equals(confirmPassword)) {
             throw new ValidatorException(new FacesMessage("Password fields don't match"));
         }

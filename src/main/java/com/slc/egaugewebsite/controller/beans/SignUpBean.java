@@ -131,6 +131,8 @@ public class SignUpBean implements Serializable {
     
     
     public String signUpUser() {
+        this.email = this.email.trim();
+        this.email = this.email.trim();
         FacesMessage msg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest req = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();

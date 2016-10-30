@@ -21,4 +21,12 @@
     <welcome-file-list>
         <welcome-file>views/index.xhtml</welcome-file>
     </welcome-file-list>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/views/errorDisplay.xhtml</location> 
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/views/error.xhtml</location>
+    </error-page>
 </web-app>

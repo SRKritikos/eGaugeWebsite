@@ -95,6 +95,8 @@ public class LoginBean implements Serializable {
     
     
     public String loginUser() {
+        this.email = this.email.trim();
+        this.password = this.password.trim();
         try {
             Users_Entity userEntity = usercontroller.ValidateUser(this.email, this.password);
             // build user session

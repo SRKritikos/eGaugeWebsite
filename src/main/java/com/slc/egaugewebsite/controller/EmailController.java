@@ -49,7 +49,7 @@ public class EmailController {
     private EntityManager em;
     private UsersDAO usersdao;
     private Properties appproperties;
-    private final String BASE_URL = "http://localhost:8080/eGaugeWebsite/views/";
+    private final String BASE_URL = "http://localhost:8080/egauge/views/";
     
     public EmailController() {
     }
@@ -132,7 +132,7 @@ public class EmailController {
         String subject = "Vehicle finished charging";
         String body = "Dear " + topOfQueue.getFirstName() + " " + topOfQueue.getLastName() + ",<br/><br/><br/>"
                 + "Your car has finished charging and is ready to be picked up.<br/>"
-                + "Please <a href='" + this.BASE_URL + "views/remove.xhtml?id=" + topOfQueue.getUserId() + "'>click here</a> "
+                + "Please <a href='" + this.BASE_URL + "remove.xhtml?id=" + topOfQueue.getUserId() + "'>click here</a> "
                 + " to remove yourself from the queue and to notify the next person in queue that the station is now available.";
                 if (nextInQueue != null) {
                     body += "<br/><a href='" + this.BASE_URL + "views/emailmessage.xhtml?toId=" + 
@@ -165,7 +165,7 @@ public class EmailController {
         String body = "Dear " + nextInQueue.getFirstName() + " " + nextInQueue.getLastName() + ",<br/><br/><br/>"
                 + "The user ahead of you has finished charging their vehicle.<br/>"
                 + "You will be notified when the station becomes available.<br/>"
-                + "<a href='" + this.BASE_URL + "views/emailmessage.xhtml?toId=" + 
+                + "<a href='" + this.BASE_URL + "emailmessage.xhtml?toId=" + 
                 topOfQueue.getUserId() + "&fromId=" + nextInQueue.getUserId() + "'>click here</a>"
                 + " if you would like to send the user ahead of you a message.";
         try {
