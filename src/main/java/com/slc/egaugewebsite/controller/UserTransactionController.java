@@ -54,7 +54,6 @@ public class UserTransactionController {
     
     public Users_Entity ValidateUser(String email, String password) throws Exception {
         Users_Entity rtVl = null;
-        
         rtVl = usersdao.getUserByEmail(email);
         if (rtVl == null) {
             throw new Exception("invalid");

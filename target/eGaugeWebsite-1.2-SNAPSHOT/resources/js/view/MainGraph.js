@@ -67,19 +67,21 @@ function generateGraph(graphData) {
                 .showYAxis(true)        
                 .showXAxis(true)
                 .height(500)
-                .width(850);
+                .width(950);
 
       chart.xAxis
+              .axisLabel("Date")
           .tickFormat( function(date) {
               return d3.time.format("%x")(new Date(date));
       });
       
-            chart.x2Axis.tickFormat( function(date) {
+        chart.x2Axis.tickFormat( function(date) {
               return d3.time.format("%x")(new Date(date));
       });
       
       chart.yDomain([0,10]);
       chart.yAxis
+            .axisLabel("kW")
           .tickFormat(d3.format(',.3f'));
 
       chart.y2Axis

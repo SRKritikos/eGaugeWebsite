@@ -107,7 +107,6 @@ public class LoginBean implements Serializable {
             this.user.setLastName(userEntity.getLastName());
             this.user.setUserEmail(userEntity.getEmail());
             this.user.setExtendedTimeTries(userEntity.getExtendTimeTries());          
-             
             if (userEntity.getTimeEnteredQueue() != null) {
                 // check if they are in queue depending on if the time they entered queue is not null 
                 this.user.setInQueue(true);
@@ -121,7 +120,6 @@ public class LoginBean implements Serializable {
                 this.user.setCharging(false);
                 this.user.setFinishedCharging(false);
             }
-
         } catch (Exception e) {
             this.errorThrown = true;
             FacesMessage msg = new FacesMessage();

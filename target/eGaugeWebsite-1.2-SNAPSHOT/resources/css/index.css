@@ -39,6 +39,10 @@ and open the template in the editor.
     margin-top : .5em;
 }
 
+.nv-axislabel{
+  font-size: 1.2em !important;
+  fill: black;
+}
 
 
 

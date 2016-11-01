@@ -140,7 +140,6 @@ public class DeviceInformationBean implements Serializable{
      */
     public void clearQueueListener(ActionEvent e) {
         this.campusToClear =(String)e.getComponent().getAttributes().get("campus");
-        System.out.println("THIS IS THE CAMPUS YOU ARE CLEARING "+ this.campusToClear);
         this.queuecontroller.clearQueueForCampus(this.campusToClear);
     }
     

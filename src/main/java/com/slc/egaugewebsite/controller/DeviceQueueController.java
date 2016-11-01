@@ -55,7 +55,6 @@ public class DeviceQueueController {
     }
     
     public void addToQueue(String campus, String userId) {
-        System.out.println(campus);
         String deviceName = DBDeviceNames.getDBName(campus);
         Device_Entity deviceEntity = devicedao.getDeviceByName(deviceName);
         Users_Entity usersEntity = usersdao.findUsers_Entity(userId);
@@ -76,7 +75,6 @@ public class DeviceQueueController {
     public List<Users_Entity> getQueueByStation(String campus) {
         List<Users_Entity> rtVl;
         String deviceName = DBDeviceNames.getDBName(campus);
-        System.out.println(deviceName);
         try {
             Device_Entity device = devicedao.getDeviceByName(deviceName);
             // If the campus is Kingston get the kingston queue then add the actual users of the queue for the top;
@@ -85,14 +83,11 @@ public class DeviceQueueController {
                 Device_Entity kingston2 = devicedao.getDeviceByName(DBDeviceNames.getDBName("Kingston2"));
                 List<Users_Entity> kingstonQueue = usersdao.getQueueByDevice(device);
                 if (!kingston1.getUsersList().isEmpty()) {
-                    System.out.println("THE KINGSTON 1 QUEUE WASNT EMPTY");
                     kingstonQueue.add(0, kingston1.getUsersList().get(0));
                 }
                 if (!kingston2.getUsersList().isEmpty()) {
-                    System.out.println("THE KINGSTON 2 QUEUE WASNT EMPTY");
                     kingstonQueue.add(0, kingston2.getUsersList().get(0));
                 }
-                System.out.println("NOW PRINTING KINGSTON QUEUE");
                 for (Users_Entity user : kingstonQueue) {
                     System.out.println(user.getEmail());
                 }
@@ -157,14 +152,12 @@ public class DeviceQueueController {
     private void updateTopOfKingstonQueue(InstDevice kingstonTotal, InstDevice kingstonDevice) {
         Device_Entity kingstonTotalEntity = devicedao.getDeviceByName(kingstonTotal.getDeviceName());
         Device_Entity kingstonEntity = devicedao.getDeviceByName(kingstonDevice.getDeviceName());
-        System.out.println("UPDATING KINGSTON QUEUE FOR DEIVCE" + kingstonDevice.getDeviceName());
         
         if (kingstonEntity.getIsOnline()) {
             // Make sure people exist in kingston queue or are assigned a station
             if (!kingstonTotalEntity.getUsersList().isEmpty() || !kingstonEntity.getUsersList().isEmpty()) {
                 // if the device does have an assigned user - assign it a user
                 if (kingstonEntity.getUsersList().isEmpty()) {
-                    System.out.println("KINGSTON ENTITY WAS EMPTY" );
                     Users_Entity topOfQueue = usersdao.getQueueByDevice(kingstonTotalEntity).get(0);
                     topOfQueue.setDeviceId(kingstonEntity);
                     try {
@@ -192,7 +185,6 @@ public class DeviceQueueController {
      */
     private void updateTopOfQueue(BigDecimal reading, Users_Entity topOfQueue) {
         try {
-            System.out.println("UPDATING TOP OF QUEUE FOR " + topOfQueue.getEmail() + " with power" + reading.toString());
             //Check if user is finished charging but is still in queue 
             if (!topOfQueue.getIsActive() && topOfQueue.getTimeEndedCharging() != null) {
                 //Means the user is done charging - see when they finished -- and deal approprietly
@@ -209,7 +201,6 @@ public class DeviceQueueController {
             } else if (reading.compareTo(BigDecimal.valueOf(100)) == -1 
                         && topOfQueue.getIsActive()) {
                 //If top of q is anonymous
-                System.out.println(topOfQueue.getExtendTimeTries() + "  " + topOfQueue.getFirstName());
                 if(topOfQueue.getExtendTimeTries() < 0 &&
                         topOfQueue.getFirstName().equals("Anonymous")) {
                     System.out.println("Removing anonymous for station" + topOfQueue.getDeviceId().getDeviceName());
@@ -291,7 +282,6 @@ public class DeviceQueueController {
      */
     private void userStartedCharging(Users_Entity user) {
         try {
-            System.out.println("Top of q started charging for station" + user.getDeviceId().getDeviceName());
             user.setIsActive(true);
             user.setTimeStartedCharging(new Date());
             this.usersdao.edit(user);
@@ -308,7 +298,7 @@ public class DeviceQueueController {
      */
     public void userFinishedCharging(Users_Entity user) {
         try {
-            System.out.println("Top of q done emailed them letting them know for station" + user.getDeviceId().getDeviceName());
+            System.out.println("Top of queue done, emailed them letting them know");
             user.setIsActive(false);
             user.setTimeEndedCharging(new Date());
             this.usersdao.edit(user);
@@ -332,7 +322,6 @@ public class DeviceQueueController {
             Users_Entity nextInQueue = this.getNextInQueue(deviceEntity);
             if (nextInQueue != null) {
                 this.updateUserAvailableTime(nextInQueue);
-                System.out.println("Letting next in queue know for station " + nextInQueue.getDeviceId().getDeviceName());
                 ec.notifyNextInQueueEmail(nextInQueue);
             }
 
@@ -344,7 +333,6 @@ public class DeviceQueueController {
 
     public void extendPeriodForUser(Users_Entity userEntity) {
         try {
-            System.out.println("EXTENDING PERIOD FOR USER");
             if (userEntity.getExtendTimeTries() < 3) {
                 Users_Entity randUser = new RandomUserGenerator(userEntity).getRandUser();
                 this.usersdao.create(randUser);

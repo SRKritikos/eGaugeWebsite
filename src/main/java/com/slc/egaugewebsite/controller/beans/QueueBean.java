@@ -53,12 +53,10 @@ public class QueueBean implements Serializable{
 
     @PostConstruct
     public void init() {
-        System.out.println(this.user.getInQueue() + "  " + this.user.getCharging() + "  " +  this.user.isFinishedCharging());
         Users_Entity userEntity = usercontroller.getUserEntity(this.user.getUser());
         if (userEntity.getTimeEnteredQueue() != null) {
             System.out.println("User in queue");
             // get the device the user is queued too by looking them up in the database
-            
             this.user.setCharging(userEntity.getIsActive());
             if (userEntity.getTimeEndedCharging()!= null) { 
                 this.user.setFinishedCharging(true);
@@ -68,15 +66,12 @@ public class QueueBean implements Serializable{
                 case "Kingston_Wand1_Power":
                 case "Kingston_Wand2_Power":
                 case "Kingston_TotalPower":
-                    System.out.println("Kingston");
                     this.campus = "Kingston";
                     break;
                 case "Brockville_Power":
-                    System.out.println("Brock");
                     this.campus = "Brockville";
                     break;
                 case "Cornwall_Power":
-                    System.out.println("Cornwall");
                     this.campus = "Cornwall";   
                     break;
             }
@@ -164,11 +159,7 @@ public class QueueBean implements Serializable{
             this.addToQueueStyle = "disabled";
         } else {
             this.addToQueueStyle = "enabled";
-        }
-        
-        
-         
-            
+        } 
         this.tableData = this.queuecontroller.getQueueByStation(this.campus).stream()
                 .map(user_entity -> new QueueTableRowModel(user_entity))
                 .collect(Collectors.toList());   

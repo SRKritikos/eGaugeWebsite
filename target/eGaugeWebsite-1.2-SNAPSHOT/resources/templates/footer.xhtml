@@ -14,7 +14,7 @@ and open the template in the editor.
     <body>
       <ui:composition> 
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-xs-3">
                 <address>
                    <strong>
                        <h:outputText value="Brockville"/>
@@ -25,7 +25,7 @@ and open the template in the editor.
                    <h:outputText value="Phone: 613-345-0660"/>
                  </address>
             </div>
-            <div class="col-sm-3">
+            <div class="col-xs-3">
                 <address>
                    <strong>
                        <h:outputText value="Cornwall"/>
@@ -36,7 +36,7 @@ and open the template in the editor.
                    <h:outputText value="Phone: 613-345-6080"/>
                  </address>
             </div>
-            <div class="col-sm-3">
+            <div class="col-xs-3">
                 <address>
                    <strong>
                        <h:outputText value="Kingston"/>
@@ -48,7 +48,7 @@ and open the template in the editor.
                  </address>
             </div>
             <ui:fragment rendered="#{user.userRole eq 'defaultuser' or user.userRole eq 'admin'}">
-                <div class="col-sm-3 text-center">
+                <div class="col-xs-3 text-center">
                     <h:form id="contactUsForm">
                         <div class="col-sm-12">
                             <strong>

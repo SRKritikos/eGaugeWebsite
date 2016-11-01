@@ -72,7 +72,6 @@ public class EmailMessageBean {
     }
         
     public String sendMessage() {
-        System.out.println(this.message + this.fromId + this.toId);
         Users_Entity from = this.usercontroller.getUserEntity(this.fromId);
         Users_Entity to = this.usercontroller.getUserEntity(this.toId);
         this.emailcontroller.sendEmail(from.getEmail(), to.getEmail(), "Message regarding slc E.V. station" + from.getFirstName(), this.message);

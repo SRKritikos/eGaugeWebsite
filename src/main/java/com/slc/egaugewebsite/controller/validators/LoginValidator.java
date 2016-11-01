@@ -31,7 +31,6 @@ public class LoginValidator implements Validator{
         String enteredEmail = value.toString();
         // Get the UIInput of enteredPassword to then get the entered password
         String enteredPassword = (String) ((UIInput) component.getAttributes().get("enteredPassword")).getSubmittedValue();
-        System.out.println(enteredEmail + "  " + enteredPassword);
         
         if (enteredEmail == null || enteredEmail.isEmpty() || enteredPassword == null || enteredPassword.isEmpty() ) {
             return;
