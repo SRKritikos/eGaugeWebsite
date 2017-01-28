@@ -203,7 +203,6 @@ public class DeviceQueueController {
                 //If top of q is anonymous
                 if(topOfQueue.getExtendTimeTries() < 0 &&
                         topOfQueue.getFirstName().equals("Anonymous")) {
-                    System.out.println("Removing anonymous for station" + topOfQueue.getDeviceId().getDeviceName());
                     usersdao.destroy(topOfQueue.getUserId());
                     this.notifyNextUserInQueue(topOfQueue);
                 } else {                    
