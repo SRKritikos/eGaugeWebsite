@@ -99,10 +99,10 @@ public class UserTransactionController {
                 usersdao.create(newUser);
                 rtVl = usersdao.getUserByEmail(newUser.getEmail());
             } catch (RollbackFailureException ex) {
-                System.out.println(ex.getMessage());
+               ex.printStackTrace();
                throw new Exception("server error");
             } catch (Exception ex) {
-                System.out.println(ex.toString());
+                ex.printStackTrace();
                 throw new Exception("server error");
             }
             
@@ -127,9 +127,9 @@ public class UserTransactionController {
             }
             this.usersdao.edit(userEntity);
         } catch (RollbackFailureException ex) {
-            Logger.getLogger(UserTransactionController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         } catch (Exception ex) {
-            Logger.getLogger(UserTransactionController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
     
@@ -137,9 +137,9 @@ public class UserTransactionController {
         try {
             this.usersdao.edit(user);
         } catch (RollbackFailureException ex) {
-            Logger.getLogger(UserTransactionController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         } catch (Exception ex) {
-            Logger.getLogger(UserTransactionController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
     
@@ -172,7 +172,5 @@ public class UserTransactionController {
     
     public Users_Entity getUserEntity(String userid) {
         return usersdao.findUsers_Entity(userid);
-    }
-    
-    
+    } 
 }

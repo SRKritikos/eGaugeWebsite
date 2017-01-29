@@ -49,7 +49,7 @@ public class EmailController {
     private EntityManager em;
     private UsersDAO usersdao;
     private Properties appproperties;
-    private final String BASE_URL = "http://localhost:8080/egauge/views/";
+    private String BASE_URL;
     
     public EmailController() {
     }
@@ -61,6 +61,7 @@ public class EmailController {
             this.appproperties = ApplicationProperties.getApplicationProperties();
             this.HOST_EMAIL = this.appproperties.getProperty("hostemail");
             this.HOST_PASSWORD = this.appproperties.getProperty("hostpassword");
+            this.BASE_URL = this.appproperties.getProperty("baseurl") + "/slcegauge/views/";
             this.props = new Properties();
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.ssl.trust", this.appproperties.getProperty("smtphost"));
@@ -99,7 +100,7 @@ public class EmailController {
             this.emailMessage.setContent(bodyText, "text/html; charset=utf-8");
             Transport.send(this.emailMessage);
         } catch (MessagingException ex) {
-            Logger.getLogger(EmailController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         
     }
@@ -120,10 +121,10 @@ public class EmailController {
             this.usersdao.edit(user);
             this.sendEmail(this.HOST_EMAIL, user.getEmail(), subject, body);
         } catch (RollbackFailureException ex) {
-            Logger.getLogger(EmailController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
             throw new Exception("failure");
         } catch (Exception ex) {
-            Logger.getLogger(EmailController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
             throw new Exception("failure");
         }  
     }
@@ -142,7 +143,7 @@ public class EmailController {
         try {
             this.sendEmail(this.HOST_EMAIL, topOfQueue.getEmail(), subject, body);
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
                 
     }

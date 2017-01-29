@@ -9,9 +9,14 @@ package com.slc.egaugewebsite.controller;
 import com.google.gson.Gson;
 import com.slc.egaugewebsite.data.entities.Device_Entity;
 import com.slc.egaugewebsite.model.InstDeviceList;
+import com.slc.egaugewebsite.utils.ApplicationProperties;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.ws.rs.ClientErrorException;
@@ -37,12 +42,19 @@ import javax.ws.rs.client.WebTarget;
 public class DeviceDataClient implements Serializable{;
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/eGaugeWebService/web";
+    private String BASE_URI;
     private DateFormat requestdf = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
+    private Properties appProperties;
 
     public DeviceDataClient() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("data");
+      try {
+        this.appProperties = ApplicationProperties.getApplicationProperties();
+        this.BASE_URI = appProperties.getProperty("baseurl") + "slcegaugeapi/api";
+      } catch (IOException ex) {
+        ex.printStackTrace();
+      }
+        webTarget = client.target(BASE_URI).path("devices");
     }
 
     public void putJson(Object requestEntity) throws ClientErrorException {
@@ -80,7 +92,7 @@ public class DeviceDataClient implements Serializable{;
         String jsonResponse = resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(String.class);
         devices = gson.fromJson(jsonResponse, InstDeviceList.class);
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
         return devices;
     }
