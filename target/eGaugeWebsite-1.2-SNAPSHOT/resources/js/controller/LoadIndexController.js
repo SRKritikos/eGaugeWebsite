@@ -5,8 +5,13 @@
  */
 
 $('document').ready(function() { 
+
+    instDataDisplay();
+    loadDateTimePiokers();
+    loadTheGraph();
+});
+
     function loadTheGraph() {
-        console.log("loading the graph");
         // Build graph on page load.        
         requestGraph();
     }
@@ -36,13 +41,6 @@ $('document').ready(function() {
     function instDataDisplay() {
         $("#formInstData\\:btnUpdateInstData").click();
         setInterval(function(){
-            console.log("Clicking button");
             $("#formInstData\\:btnUpdateInstData").click();
         }, 60000);
     }
-    
-    instDataDisplay();
-    loadDateTimePiokers();
-    loadTheGraph();
-});
-

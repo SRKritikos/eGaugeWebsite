@@ -1,20 +1,15 @@
 /* 
 This is the view!
  */
-// TODO: Create request to end point for one days worth of data 
-//       Once we have data we want to create a graph that shows the data interms of watzH / DATE
 
 function buildGraph(data) {
-    console.log(data);
     var  names = data.devices.map(function(obj) {
         return obj.deviceName;
     });
-    console.log(names);
     var data = data.devices.map(function(obj){
         return obj.deviceData;
     });
 
-    console.log(data);
     var graphData = getGraphData(data, names);
     generateGraph(graphData);
     
@@ -59,7 +54,6 @@ function buildGraphData(graphPoints, names) {
  * graphData - the data objects to plot the points on the graph
  */
 function generateGraph(graphData) {
-  console.log(graphData);
   nv.addGraph(function() {
     var chart = nv.models.lineWithFocusChart()
                 .margin({left: 100})  

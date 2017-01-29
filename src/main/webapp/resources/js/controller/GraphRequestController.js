@@ -6,13 +6,12 @@
 
 
 function requestGraph() {
-    var urlPath = "http://localhost:8080/eGaugeWebService/web/data/data"
+    var urlPath = "/slcegaugeapi/api/devices/data"
     var rstartDate = $("#formDeviceData\\:requestStartDate").val();
     var rendDate = $("#formDeviceData\\:requestEndDate").val();
     
     var startDate = formatToRequestDate(new Date(rstartDate));
     var endDate = formatToRequestDate(new Date(rendDate));
-    console.log(startDate, endDate);
     
     $.ajax({
         url : urlPath,
