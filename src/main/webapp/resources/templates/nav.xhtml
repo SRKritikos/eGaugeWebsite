@@ -110,7 +110,7 @@ File defines the navigation bar on the top of the website.
                         <h:form id="formLogIn">
                             <div class="form-group">
                                 <h:outputText id="loginErrorMsg" binding="#{loginbean.errorMsg}" rendered="#{loginbean.errorThrown}"/>
-                                <h:message for="loginErrorMsg" style="font-size: 1em; color : red"/>
+                                <h:message id="loginFailureMsg" for="loginErrorMsg" style="font-size: 1em; color : red"/>
                                 <label for="txtEmail">E-mail</label> 
                                 <h:inputText id="txtEmail" class="form-control" value="#{loginbean.email}" 
                                              required="true" requiredMessage="*Please enter email"
